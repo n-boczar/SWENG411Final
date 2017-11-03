@@ -28,4 +28,14 @@ public class Card {
         
         System.out.println(this.rank + ", " + this.suit + ", " + this.value);
     }
+    
+    public int getvalue() {
+        return value;
+    }
+    public String getRank() {
+        return rank;
+    }
+    public String getSuit() {
+        return suit;
+    }
 }
