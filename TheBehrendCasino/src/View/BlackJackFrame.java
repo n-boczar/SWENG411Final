@@ -33,18 +33,110 @@ public class BlackJackFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        DealerPanel = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        ButtonPanel = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jSlider1 = new javax.swing.JSlider();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        DealerPanel.setMinimumSize(new java.awt.Dimension(100, 50));
+        DealerPanel.setPreferredSize(new java.awt.Dimension(556, 30));
+
+        jLabel2.setText("Dealer Total:");
+        DealerPanel.add(jLabel2);
+
+        jTextField2.setPreferredSize(new java.awt.Dimension(20, 20));
+        DealerPanel.add(jTextField2);
+
+        getContentPane().add(DealerPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 599, -1));
+
+        ButtonPanel.setMinimumSize(new java.awt.Dimension(100, 50));
+        ButtonPanel.setPreferredSize(new java.awt.Dimension(556, 50));
+
+        jButton1.setText("jButton1");
+        ButtonPanel.add(jButton1);
+
+        jButton2.setText("jButton2");
+        ButtonPanel.add(jButton2);
+
+        jButton3.setText("jButton3");
+        ButtonPanel.add(jButton3);
+        ButtonPanel.add(jSlider1);
+
+        jLabel1.setText("Chips:");
+        ButtonPanel.add(jLabel1);
+
+        jTextField1.setMinimumSize(new java.awt.Dimension(20, 20));
+        jTextField1.setPreferredSize(new java.awt.Dimension(20, 20));
+        ButtonPanel.add(jTextField1);
+
+        getContentPane().add(ButtonPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 374, 599, -1));
+
+        jPanel2.setBackground(new java.awt.Color(0, 204, 51));
+        jPanel2.setPreferredSize(new java.awt.Dimension(600, 150));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 140, Short.MAX_VALUE)
         );
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 600, 140));
+
+        jPanel1.setBackground(new java.awt.Color(0, 204, 0));
+        jPanel1.setPreferredSize(new java.awt.Dimension(600, 150));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 600, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 140, Short.MAX_VALUE)
+        );
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 600, 140));
+
+        jPanel4.setPreferredSize(new java.awt.Dimension(600, 30));
+
+        jLabel3.setText("Player Total:");
+        jPanel4.add(jLabel3);
+
+        jTextField3.setPreferredSize(new java.awt.Dimension(20, 20));
+        jPanel4.add(jTextField3);
+
+        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 600, 60));
+
+        jMenu1.setText("File");
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -85,5 +177,23 @@ public class BlackJackFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel ButtonPanel;
+    private javax.swing.JPanel DealerPanel;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JSlider jSlider1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }
