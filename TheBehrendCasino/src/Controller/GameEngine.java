@@ -4,23 +4,35 @@
  * and open the template in the editor.
  */
 package Controller;
-
 import Model.*;
 /**
  *
- * @author fernandocarrillo
+ * @author Perry
  */
-public class GameEngine {
+public abstract class GameEngine {
+    private static int deckAmt = 52;
+    private boolean placedBet;
+    private int betAmount;
     
-    public int deckAmount = 52; 
-    public boolean placedBet = false; 
-    public String[] suits = {"Hearts", "Clubs", "Dimonds", "Spades"}; 
-  //  public char[] cardValue = {'A','2','3','4','5','6','7','8','9','10','J','Q','K'};
     
-    public void deal(int cardNum){
+    
+    // Methods without implementation
+    public void deal(Deck deck) {};
+    public void determineWinner(Deck deck) {};
+    public void compareHands() {};
+    public void shuffle() {};
+    public void payBuyInAmount() {};
+    public void placeBet(int bet) {};
+    public void createDeck() {};
+    public void terminateGameSession() {};
+
+    public static int getDeckAmt() {
         
+        // This is a test to see if I can see changes on Github
+        
+        return deckAmt;
     }
     
     
-    
+   
 }
