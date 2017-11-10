@@ -9,6 +9,28 @@ package Controller;
  *
  * @author fernandocarrillo
  */
-public class FiveCardPokerEngine {
+public class FiveCardPokerEngine extends GameEngine{
     
+    int initialDeal; 
+    double buyInAmount; 
+    boolean playerTurn; 
+    boolean playerWon; 
+    
+    public void showCardValues(){
+        
+    }
+    
+    public void deal(){
+        
+    }
+    
+    public void discard(int cards){
+        
+    }
+    
+    public boolean compareHands(){
+        
+        // Place holder
+        return false; 
+    }
 }
