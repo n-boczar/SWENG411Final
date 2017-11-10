@@ -5,8 +5,7 @@
  */
 package Controller;
 
-import Model*; 
-
+import Model.*;
 /**
  *
  * @author fernandocarrillo
