@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 package Controller;
-import Model.*;
+import Model.Deck;
+import Model.Card;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.Vector;
