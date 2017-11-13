@@ -5,37 +5,47 @@
  */
 package Model;
 
-import View.GameSelectionFrame;
-import java.awt.Image;
+import java.awt.BorderLayout;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  *
  * @author Natalie
  */
 public class Card {
+    private String face;
+    private String suit;
+    private int value;
+    private BufferedImage img;
     
-    String rank;
-    String suit;
-    int value;
-    Image img;
-    
-    public Card(String rank, String suit, int value, Image img){
-        //creates card obj
-        this.rank = rank;
+    public Card(String face, String suit, int value, BufferedImage img){
+        this.face = face;
         this.suit = suit;
         this.value = value;
         this.img = img;
-        
-        System.out.println(this.rank + ", " + this.suit + ", " + this.value);
     }
     
-    public int getvalue() {
+    public void setCardValue(int v){
+        value = v;
+    }
+    
+    public int getCardValue(){
         return value;
     }
-    public String getRank() {
-        return rank;
+    
+    public BufferedImage getCardImage()
+    {
+        return img;
     }
-    public String getSuit() {
-        return suit;
+    
+    public String toString(){
+        return face + " of " + suit;
     }
 }

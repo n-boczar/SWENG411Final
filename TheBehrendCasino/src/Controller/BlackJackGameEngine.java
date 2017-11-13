@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+// hi
 package Controller;
 import Model.*;
 import java.io.IOException;
@@ -62,7 +63,7 @@ public class BlackJackGameEngine extends GameEngine {
     
     public static void main(String[] args) throws IOException{
         
-        Deck d = new Deck();
+        BlackJackDeck d = new BlackJackDeck();
         Vector<Card> playerHand = new Vector<Card>();
         Vector<Card> dealerHand = new Vector<Card>();
         BlackJackGameEngine ge = new BlackJackGameEngine();

@@ -28,9 +28,9 @@ public class FiveCardPokerEngine extends GameEngine{
         
     }
     
-    public boolean compareHands(){
+   // public boolean compareHands(){
         
         // Place holder
-        return false; 
-    }
+    //    return false; 
+    //}
 }
