@@ -3,26 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package texas_hold_.em;
-
+package controller;
+import Model.Deck;
+import Model.Card;
+import java.awt.image.BufferedImage;
 /**
  *
  * @author Ian
  */
-public class Texas_Hold_Em {
+public class TexasHoldem {
 
     //MAKE THE DECK
     public static void makeDeck(Card[] deck){ 
         
         //Initial Value and Suit
-        int initNum = 2;
+        int value = 2;
+        String face = "2";
         String initSuit = "Diamonds";
+        BufferedImage img;
         
         //Give values to all cards in the deck
         for(int i = 0; i < deck.length; i++){
-            deck[i]= new Card(initNum, initSuit);
+            deck[i]= new Card(face, initSuit, value, img);
             //increment initNum
-            initNum++;
+            ++;
             //check to see if the next suit should be made
             if(initNum == 15){
                 //set the initial number back to 2

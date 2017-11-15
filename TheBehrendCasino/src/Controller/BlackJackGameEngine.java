@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+// hi
 package Controller;
-import Model.Deck;
-import Model.Card;
+import Model.*;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.Vector;
@@ -63,7 +63,7 @@ public class BlackJackGameEngine extends GameEngine {
     
     public static void main(String[] args) throws IOException{
         
-        Deck d = new Deck();
+        BlackJackDeck d = new BlackJackDeck();
         Vector<Card> playerHand = new Vector<Card>();
         Vector<Card> dealerHand = new Vector<Card>();
         BlackJackGameEngine ge = new BlackJackGameEngine();
