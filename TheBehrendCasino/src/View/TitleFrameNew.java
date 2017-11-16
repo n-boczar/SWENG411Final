@@ -5,26 +5,43 @@
  */
 package View;
 
-import java.awt.Graphics2D;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 /**
  *
  * @author Natalie
  */
-public class CurrencyAssignmentFrame extends javax.swing.JFrame {
-
+public class TitleFrameNew extends javax.swing.JFrame {
+    //Latest title frame
     /**
-     * Creates new form CurrencyAssignmentFrame
+     * Creates new form TitleFrameNew
      */
-    public CurrencyAssignmentFrame() throws IOException {
-        this.bi = ImageIO.read(f);
+    public TitleFrameNew() {
         initComponents();
+    }
+    
+    public void paint(Graphics g){
+        super.paint(g);
+        BufferedImage bi = null;
+        try {
+            bi = ImageIO.read(new File("BCLogo.png"));
+            Icon i = new ImageIcon(bi);
+            JLabel titleLogo = new JLabel(i);
+            jPanel2.add(titleLogo);
+        } catch (IOException ex) {
+            Logger.getLogger(GameSelectionFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+//        ImageIcon i = new ImageIcon(new File("AceIcon.png"));
+        //JLabel aceImg = new JLabel(new File("AceIcon.png"));
     }
 
     /**
@@ -38,15 +55,18 @@ public class CurrencyAssignmentFrame extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(277, 133));
+        setMinimumSize(new java.awt.Dimension(600, 500));
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(26, 31, 96));
+        jPanel1.setPreferredSize(new java.awt.Dimension(400, 40));
 
-        jButton1.setText("SPIN!");
+        jButton1.setText("NEW GAME");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -54,37 +74,44 @@ public class CurrencyAssignmentFrame extends javax.swing.JFrame {
         });
         jPanel1.add(jButton1);
 
+        jButton2.setText("QUIT");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton2);
+
+        jButton3.setText("SETTINGS");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton3);
+
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/MoneyWheel.png"))); // NOI18N
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
+        jPanel2.setLayout(new java.awt.GridLayout(1, 0));
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    File f = new File("C:\\Users\\Natalie\\Downloads\\TheBehrendCasino\\src\\View\\MoneyWheel.png");
-    BufferedImage bi;
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        Graphics2D g2d = (Graphics2D) jPanel2.getGraphics();
-        g2d.rotate(Math.PI / 4, bi.getWidth() / 2, bi.getHeight() / 2);
-        g2d.drawImage(bi, 0, 0, null);
+        CAssignFrameNew.main(null);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -103,31 +130,28 @@ public class CurrencyAssignmentFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CurrencyAssignmentFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TitleFrameNew.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CurrencyAssignmentFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TitleFrameNew.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CurrencyAssignmentFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TitleFrameNew.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CurrencyAssignmentFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TitleFrameNew.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    new CurrencyAssignmentFrame().setVisible(true);
-                } catch (IOException ex) {
-                    Logger.getLogger(CurrencyAssignmentFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                new TitleFrameNew().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables

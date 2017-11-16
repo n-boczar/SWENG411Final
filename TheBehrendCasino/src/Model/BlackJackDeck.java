@@ -44,8 +44,14 @@ public class BlackJackDeck extends Deck {
             for(int j = 0; j < 13; j++){
                 //extract
                 temp = master.getSubimage(j*width, i*height, width, height);
-                //deck[j + i*13] = new Card(suits[i], cards[j], j+1, temp);
-                deck[j + i*13] = new Card(cards[j], suits[i], j+1, temp);
+                deck[j + i*13] = new Card(suits[i], cards[j], j+1, temp);
+                if(deck[j+ i*13].toString().contains("Jack") || deck[j+ i*13].toString().contains("Queen") || deck[j+ i*13].toString().contains("King"))
+                {
+                    deck[j + i*13] = new Card(cards[j], suits[i], 10, temp);
+                }
+                else{
+                    deck[j + i*13] = new Card(cards[j], suits[i], j+1, temp);
+                }
             }
         }
     }

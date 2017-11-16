@@ -20,14 +20,17 @@ public class TexasHoldem {
         int value = 2;
         String face = "2";
         String initSuit = "Diamonds";
-        BufferedImage img;
+        BufferedImage img = null;
         
         //Give values to all cards in the deck
         for(int i = 0; i < deck.length; i++){
-            deck[i]= new Card(face, initSuit, value, img);
+            deck[i]= new Card(face, initSuit, value,);
             //increment initNum
-            ++;
+           // ++;
             //check to see if the next suit should be made
+            
+            /*
+            
             if(initNum == 15){
                 //set the initial number back to 2
                 initNum = 2;
@@ -40,7 +43,9 @@ public class TexasHoldem {
                 
                 else if(initSuit == "Hearts")
                     initSuit = "Spades";
-            }      
+            }
+            
+            */
         }  
     }
     
@@ -83,10 +88,10 @@ public class TexasHoldem {
             System.out.println(deck[i].toString()); 
         }
         
-        Player player1 = new Player(deck[1], deck[2]);
-        player1.printHand(player1);
-        Player player2 = new Player(deck[3], deck[4]);
-        player2.printHand(player2);
+       // Player player1 = new Player(deck[1], deck[2]);
+       // player1.printHand(player1);
+        //Player player2 = new Player(deck[3], deck[4]);
+        //player2.printHand(player2);
     }
     
 }

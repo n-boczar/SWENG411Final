@@ -5,7 +5,16 @@
  */
 package View;
 
+import Model.BlackJackDeck;
+import Model.Card;
+import Model.Player;
 import java.awt.Graphics;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,16 +22,18 @@ import java.awt.Graphics;
  */
 public class BlackJackFrame extends javax.swing.JFrame {
 
+    public static int currency;
     /**
      * Creates new form BlackJackFrame
      */
     public BlackJackFrame() {
         initComponents();
+        JOptionPane.showMessageDialog(null, "Please ANTE UP 25 chips to start playing.", "Ante Up", JOptionPane.OK_OPTION);
+
     }
 
     public void paint(Graphics g){
         super.paint(g);
-        g.drawOval(5, 5, 70, 68);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -50,6 +61,7 @@ public class BlackJackFrame extends javax.swing.JFrame {
         jTextField3 = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -61,7 +73,7 @@ public class BlackJackFrame extends javax.swing.JFrame {
         jLabel2.setText("Dealer Total:");
         DealerPanel.add(jLabel2);
 
-        jTextField2.setPreferredSize(new java.awt.Dimension(20, 20));
+        jTextField2.setPreferredSize(new java.awt.Dimension(50, 30));
         DealerPanel.add(jTextField2);
 
         getContentPane().add(DealerPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 599, -1));
@@ -69,68 +81,76 @@ public class BlackJackFrame extends javax.swing.JFrame {
         ButtonPanel.setMinimumSize(new java.awt.Dimension(100, 50));
         ButtonPanel.setPreferredSize(new java.awt.Dimension(556, 50));
 
-        jButton1.setText("jButton1");
+        jButton1.setText("Hit");
         ButtonPanel.add(jButton1);
 
-        jButton2.setText("jButton2");
+        jButton2.setText("Stay");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         ButtonPanel.add(jButton2);
 
-        jButton3.setText("jButton3");
+        jButton3.setText("Bet");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         ButtonPanel.add(jButton3);
+
+        jSlider1.setMajorTickSpacing(25);
+        jSlider1.setMaximum(500);
+        jSlider1.setPaintTicks(true);
+        jSlider1.setSnapToTicks(true);
+        jSlider1.setValue(0);
+        jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSlider1StateChanged(evt);
+            }
+        });
         ButtonPanel.add(jSlider1);
 
         jLabel1.setText("Chips:");
         ButtonPanel.add(jLabel1);
 
+        jTextField1.setText("0");
         jTextField1.setMinimumSize(new java.awt.Dimension(20, 20));
-        jTextField1.setPreferredSize(new java.awt.Dimension(20, 20));
+        jTextField1.setPreferredSize(new java.awt.Dimension(50, 30));
         ButtonPanel.add(jTextField1);
 
         getContentPane().add(ButtonPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 374, 599, -1));
 
         jPanel2.setBackground(new java.awt.Color(0, 204, 51));
         jPanel2.setPreferredSize(new java.awt.Dimension(600, 150));
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 140, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 600, 140));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 600, 130));
 
         jPanel1.setBackground(new java.awt.Color(0, 204, 0));
         jPanel1.setPreferredSize(new java.awt.Dimension(600, 150));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 140, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 600, 140));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 600, 130));
 
         jPanel4.setPreferredSize(new java.awt.Dimension(600, 30));
 
         jLabel3.setText("Player Total:");
         jPanel4.add(jLabel3);
 
-        jTextField3.setPreferredSize(new java.awt.Dimension(20, 20));
+        jTextField3.setPreferredSize(new java.awt.Dimension(50, 30));
         jPanel4.add(jTextField3);
 
         getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 600, 60));
 
         jMenu1.setText("File");
+
+        jMenuItem1.setText("Start Playing");
+        jMenuItem1.setEnabled(false);
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -140,6 +160,72 @@ public class BlackJackFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    
+    public void beginPlay() throws IOException{
+    
+        System.out.println("CURRENCY IS " + currency);
+        Card[] dealerHand = new Card[5];
+        Card[] playerHand = new Card[5];
+        
+        BlackJackDeck deck = null;
+        try {
+            deck = new BlackJackDeck();
+        } catch (IOException ex) {
+            Logger.getLogger(BlackJackFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        deck.shuffle();
+        for(int i = 0; i < 2; i++){
+            dealerHand[i] = deck.deal();
+        }
+        
+        for(int i = 0; i < 2; i++){
+            playerHand[i] = deck.deal();
+        }
+        
+        //JLabel dealerCard1 = new JLabel(new ImageIcon(dealerHand[0].getCardImage()));
+        JLabel dealerCard1 = new JLabel(new ImageIcon(Card.getFlippedCardImage()));
+        JLabel dealerCard2 = new JLabel(new ImageIcon(dealerHand[1].getCardImage()));
+        
+        JLabel playerCard1 = new JLabel(new ImageIcon(playerHand[0].getCardImage()));
+        JLabel playerCard2 = new JLabel(new ImageIcon(playerHand[1].getCardImage()));
+        
+        jPanel2.add(dealerCard1);
+        jPanel2.add(dealerCard2);
+        jPanel1.add(playerCard1);
+        jPanel1.add(playerCard2);
+        
+        jTextField2.setText(String.valueOf(dealerHand[1].getCardValue()));
+        jTextField3.setText(String.valueOf(playerHand[0].getCardValue() + playerHand[1].getCardValue()));
+    }
+    
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        try {
+            // TODO add your handling code here:
+            beginPlay();
+        } catch (IOException ex) {
+            Logger.getLogger(BlackJackFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
+        // TODO add your handling code here:
+        jTextField1.setText(String.valueOf(jSlider1.getValue()));
+    }//GEN-LAST:event_jSlider1StateChanged
+
+    int userBet;
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        userBet = jSlider1.getValue();
+        if(userBet >= 25)
+            jMenuItem1.setEnabled(true);
+        System.out.println(currency);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
 
     /**
      * @param args the command line arguments
@@ -174,6 +260,7 @@ public class BlackJackFrame extends javax.swing.JFrame {
                 new BlackJackFrame().setVisible(true);
             }
         });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -188,6 +275,7 @@ public class BlackJackFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;

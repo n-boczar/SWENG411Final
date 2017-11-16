@@ -5,13 +5,19 @@
  */
 package Model;
 
+import View.CAssignFrameNew;
+
 /**
  *
  * @author PKC5102
  */
 public class Player {
-    String name;
+    public String name;
+    public int currency;
     
+    public int getCurrency(){
+        return currency;
+    }
    // public void betAmount(amount) {
         
    // }
