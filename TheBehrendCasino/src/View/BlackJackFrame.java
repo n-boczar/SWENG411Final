@@ -23,6 +23,11 @@ import javax.swing.JOptionPane;
 public class BlackJackFrame extends javax.swing.JFrame {
 
     public static int currency;
+
+    static void startIt(Player player) {
+        System.out.println("FROM BLACKJACK FRAME : " + Player.currency);
+        BlackJackFrame.main(null);
+    }
     /**
      * Creates new form BlackJackFrame
      */
@@ -197,6 +202,10 @@ public class BlackJackFrame extends javax.swing.JFrame {
         
         jTextField2.setText(String.valueOf(dealerHand[1].getCardValue()));
         jTextField3.setText(String.valueOf(playerHand[0].getCardValue() + playerHand[1].getCardValue()));
+
+        
+        
+        repaint();
     }
     
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
