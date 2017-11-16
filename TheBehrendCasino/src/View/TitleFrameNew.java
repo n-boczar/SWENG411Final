@@ -5,6 +5,17 @@
  */
 package View;
 
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
 /**
  *
  * @author Natalie
@@ -16,6 +27,21 @@ public class TitleFrameNew extends javax.swing.JFrame {
      */
     public TitleFrameNew() {
         initComponents();
+    }
+    
+    public void paint(Graphics g){
+        super.paint(g);
+        BufferedImage bi = null;
+        try {
+            bi = ImageIO.read(new File("BCLogo.png"));
+            Icon i = new ImageIcon(bi);
+            JLabel titleLogo = new JLabel(i);
+            jPanel2.add(titleLogo);
+        } catch (IOException ex) {
+            Logger.getLogger(GameSelectionFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+//        ImageIcon i = new ImageIcon(new File("AceIcon.png"));
+        //JLabel aceImg = new JLabel(new File("AceIcon.png"));
     }
 
     /**
@@ -32,7 +58,6 @@ public class TitleFrameNew extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(600, 500));
@@ -69,12 +94,6 @@ public class TitleFrameNew extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new java.awt.GridLayout(1, 0));
-
-        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Natalie\\Desktop\\BehrendCasino\\BCLogo.png")); // NOI18N
-        jPanel2.add(jLabel1);
-
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
         pack();
@@ -133,7 +152,6 @@ public class TitleFrameNew extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
