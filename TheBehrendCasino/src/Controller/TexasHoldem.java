@@ -24,7 +24,7 @@ public class TexasHoldem {
         
         //Give values to all cards in the deck
         for(int i = 0; i < deck.length; i++){
-            deck[i]= new Card(face, initSuit, value, img);
+            deck[i]= new Card(face, initSuit, value,);
             //increment initNum
            // ++;
             //check to see if the next suit should be made
