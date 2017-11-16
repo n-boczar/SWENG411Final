@@ -5,6 +5,7 @@
  */
 package View;
 
+import Model.Player;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -22,6 +23,7 @@ import javax.swing.JLabel;
  */
 public class GameSelectionFrame extends javax.swing.JFrame {
 
+    public static int currency;
     /**
      * Creates new form GameSelectionFrame
      */
@@ -72,6 +74,11 @@ public class GameSelectionFrame extends javax.swing.JFrame {
         jButton3.setMaximumSize(new java.awt.Dimension(275, 100));
         jButton3.setMinimumSize(new java.awt.Dimension(275, 100));
         jButton3.setPreferredSize(new java.awt.Dimension(275, 100));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Play 5 CARD DRAW POKER");
         jButton4.setMaximumSize(new java.awt.Dimension(275, 100));
@@ -127,6 +134,16 @@ public class GameSelectionFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+//        String[] s = new String[1];
+//        s[0] = String.valueOf(currency);
+        BlackJackFrame.main(null);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    public static void setCurrency(String s){
+        System.out.println(s);
+    }
     /**
      * @param args the command line arguments
      */
@@ -155,6 +172,10 @@ public class GameSelectionFrame extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+
+        String s = args[0];
+        
+        setCurrency(s);
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

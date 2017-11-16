@@ -5,6 +5,7 @@
  */
 package View;
 
+import Model.Player;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -19,7 +20,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -30,10 +30,13 @@ import javax.swing.JPanel;
  */
 public class CAssignFrameNew extends JPanel{
     //The new assignment frame
-    private int currency;
+    private static int currency;
     static boolean s = false;
     //static int clickCount = 0;
     static JFrame f;
+    
+    Player p = new Player();
+    
     public static void main(String[] args){
 
         f = new JFrame();
@@ -87,7 +90,6 @@ public class CAssignFrameNew extends JPanel{
         at.rotate(Math.toRadians(i++), wheel.getWidth()/2, wheel.getHeight()/2);
 
         g2d.drawImage(wheel, at, null);
-        System.out.println(spinUntil+","+spinUntil/30);
         
         if(i<spinUntil)
             repaint();
@@ -96,9 +98,10 @@ public class CAssignFrameNew extends JPanel{
             setCurrency(i);
         }
     }
-    
+
     public void setCurrency(int c){
         currency = c;
+        
         Object[] options = {"Accept"};
         int n = JOptionPane.showOptionDialog(null,
         "You have " + currency + " chips to start",
@@ -110,11 +113,14 @@ public class CAssignFrameNew extends JPanel{
         options[0]);
         if(n == 0){
             f.dispose();
-            GameSelectionFrame.main(null);
+            String currencyString = String.valueOf(currency);
+            String[] s = new String[1];
+            s[0] = currencyString;
+            GameSelectionFrame.main(s);
         }
     }
     
-    public int getCurrency(){
+    public static int getCurrency(){
         return currency;
     }
     

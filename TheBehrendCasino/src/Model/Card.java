@@ -48,4 +48,16 @@ public class Card {
     public String toString(){
         return face + " of " + suit;
     }
+    
+    public static BufferedImage getFlippedCardImage() throws IOException{
+        final int width = 79;
+        final int height = 123;
+        
+        BufferedImage master = ImageIO.read(new File("CardSet.png"));
+        BufferedImage temp;
+
+        temp = master.getSubimage(2*width, 4*height, width, height);
+        
+        return temp;
+    }
 }
