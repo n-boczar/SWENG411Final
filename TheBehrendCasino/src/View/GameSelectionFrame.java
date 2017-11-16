@@ -5,6 +5,17 @@
  */
 package View;
 
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
 /**
  *
  * @author Natalie
@@ -18,6 +29,20 @@ public class GameSelectionFrame extends javax.swing.JFrame {
         initComponents();
     }
 
+    public void paint(Graphics g){
+        super.paint(g);
+        BufferedImage bi = null;
+        try {
+            bi = ImageIO.read(new File("AceIcon.png"));
+            Icon i = new ImageIcon(bi);
+            JLabel aceIcon = new JLabel(i);
+            jPanel2.add(aceIcon);
+        } catch (IOException ex) {
+            Logger.getLogger(GameSelectionFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+//        ImageIcon i = new ImageIcon(new File("AceIcon.png"));
+        //JLabel aceImg = new JLabel(new File("AceIcon.png"));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,7 +58,6 @@ public class GameSelectionFrame extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(600, 500));
@@ -98,11 +122,6 @@ public class GameSelectionFrame extends javax.swing.JFrame {
         jPanel2.setMinimumSize(new java.awt.Dimension(300, 500));
         jPanel2.setPreferredSize(new java.awt.Dimension(300, 500));
         jPanel2.setLayout(new java.awt.GridLayout(1, 0));
-
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/AceIcon.png"))); // NOI18N
-        jPanel2.add(jLabel1);
-
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
         pack();
@@ -150,7 +169,6 @@ public class GameSelectionFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
