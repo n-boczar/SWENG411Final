@@ -138,6 +138,7 @@ public class BlackJackGameEngine extends GameEngine {
                 }
 
             } // end betting loop
+            
             if (playerAmount > 21) {
                 System.out.println("Hand value over 21. Dealer wins.");
             } else if (playerAmount < 21 && playerHand.size() <= 5) {
@@ -147,12 +148,14 @@ public class BlackJackGameEngine extends GameEngine {
 
             System.out.println("Play again? Yes(1) No(2) ");
             gameChoice = scnr.nextInt();
+            
             if (gameChoice == 0) {
                 playerHand.clear();
                 dealerHand.clear();
                 playerAmount = 0;
                 dealerAmount = 0;
             }
+            
         } while (gameChoice != 0);
     }
 
