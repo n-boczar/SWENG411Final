@@ -22,8 +22,14 @@ import javax.swing.JLabel;
  * @author Natalie
  */
 public class GameSelectionFrame extends javax.swing.JFrame {
-
-    public static int currency;
+    
+    static Player player;
+    
+    public static void startIt(Player p) {
+        player = p;
+        System.out.println(Player.getCurrency());
+        GameSelectionFrame.main(null);
+    }
     /**
      * Creates new form GameSelectionFrame
      */
@@ -138,12 +144,14 @@ public class GameSelectionFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
 //        String[] s = new String[1];
 //        s[0] = String.valueOf(currency);
-        BlackJackFrame.main(null);
+        //BlackJackFrame.main(null);
+        BlackJackFrame.startIt(player);
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    public static void setCurrency(String s){
-        System.out.println(s);
-    }
+//    public static void setCurrency(String s){
+//        System.out.println(s);
+//    }
     /**
      * @param args the command line arguments
      */
@@ -172,10 +180,6 @@ public class GameSelectionFrame extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-
-        String s = args[0];
-        
-        setCurrency(s);
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

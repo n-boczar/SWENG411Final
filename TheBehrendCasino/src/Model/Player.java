@@ -12,13 +12,14 @@ import View.CAssignFrameNew;
  * @author PKC5102
  */
 public class Player {
-    public String name;
-    public int currency;
+
+    public static int currency;
     
-    public int getCurrency(){
+    public static int getCurrency(){
         return currency;
     }
-   // public void betAmount(amount) {
-        
-   // }
+    
+    public static void setCurrency(int c){
+        currency = c;
+    }
 }
