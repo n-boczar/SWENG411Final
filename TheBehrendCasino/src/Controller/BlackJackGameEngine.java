@@ -18,10 +18,39 @@ import java.util.Vector;
 public class BlackJackGameEngine extends GameEngine {
 
     private int initialDeal;
-    private double buyInAmount;
+    private int buyInAmount;
     private boolean playerTurn;
     private boolean playerWon;
+    private boolean anteUp = false;
 
+    public void didAnteUp(boolean choice){
+        anteUp = true;
+    }
+    
+    public Card[][] beginPlay() throws IOException{
+        Card[][] hands = new Card[2][5];
+        if (anteUp == true){
+            BlackJackDeck d = new BlackJackDeck();
+            d.shuffle();
+            
+            Vector<Card> playerHand = new Vector<Card>();
+            Vector<Card> dealerHand = new Vector<Card>();
+            
+            playerHand.add(d.deal());
+            playerHand.add(d.deal());
+
+            dealerHand.add(d.deal());
+            dealerHand.add(d.deal());
+
+            hands[0][0] = dealerHand.elementAt(0);
+            hands[0][1] = dealerHand.elementAt(1);
+            hands[1][0] = playerHand.elementAt(0);
+            hands[1][1] = playerHand.elementAt(1);
+            
+        }
+        return hands;
+    }
+    
     // Setters and getters
     public int getInitialDeal() {
         return initialDeal;
@@ -35,7 +64,7 @@ public class BlackJackGameEngine extends GameEngine {
         return buyInAmount;
     }
 
-    public void setBuyInAmount(double buyInAmount) {
+    public void setBuyInAmount(int buyInAmount) {
         this.buyInAmount = buyInAmount;
     }
 
@@ -93,6 +122,9 @@ public class BlackJackGameEngine extends GameEngine {
                 System.out.print(playerHand.elementAt(i) + " , ");
                 playerAmount += playerHand.elementAt(i).getCardValue();
             }
+            
+            
+            
             System.out.println("\n" + "Player's hand value: " + playerAmount);
 
             System.out.print("\n" + "Dealer Hand:  ");
