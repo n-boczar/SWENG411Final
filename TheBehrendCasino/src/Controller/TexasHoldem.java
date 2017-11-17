@@ -4,94 +4,98 @@
  * and open the template in the editor.
  */
 package controller;
-import Model.Deck;
+import Model.PokerDeck;
 import Model.Card;
+import Model.Player;
+import java.awt.List;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Ian
  */
 public class TexasHoldem {
-
-    //MAKE THE DECK
-    public static void makeDeck(Card[] deck){ 
-        
-        //Initial Value and Suit
-        int value = 2;
-        String face = "2";
-        String initSuit = "Diamonds";
-        BufferedImage img = null;
-        
-        //Give values to all cards in the deck
-        for(int i = 0; i < deck.length; i++){
-            deck[i]= new Card(face, initSuit, value,);
-            //increment initNum
-           // ++;
-            //check to see if the next suit should be made
-            
-            /*
-            
-            if(initNum == 15){
-                //set the initial number back to 2
-                initNum = 2;
-                //change suit before rolling over the process
-                if(initSuit == "Diamonds")
-                    initSuit = "Clubs";
-                
-                else if(initSuit == "Clubs")
-                    initSuit = "Hearts";
-                
-                else if(initSuit == "Hearts")
-                    initSuit = "Spades";
-            }
-            
-            */
-        }  
-    }
-    
-    //SHUFFLE THE DECK
-    public static void Shuffle(Card[] deck){
-        for(int i = 0; i < 200; i++){
-            //generate 2 random numbers to switch in the deck
-            int rand1 = (int)(Math.random() * 51);
-            int rand2 = (int)(Math.random() * 51);
-            //placeholder for first card
-            Card temp = deck[rand1];
-            //swap cards
-            deck[rand1] = deck[rand2];
-            deck[rand2] = temp;
-        }
-    }
-    
-    
     public static void main(String[] args) {
         
-        //Card example = new Card(4, "Spades");
-        //Initialize 52 card deck with array
-        Card deck[] = new Card[52];
-        
-        //Give the 52 cards their values and suits
-        makeDeck(deck);
-        
-        //Display the deck
-        for(int i = 0; i < deck.length; i++){
-            System.out.println(deck[i].toString()); 
+        //Create the deck for the poker game
+        PokerDeck deck = null;
+        try {
+            deck = new PokerDeck();
+        } catch (IOException ex) {
+            Logger.getLogger(PokerDeck.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         //Shuffle the deck
-        Shuffle(deck);
+        deck.shuffle();
         
-        //Seperate the displays
-        System.out.println("################################");
+        //Initialize user and computer players
+        Player user = new Player();
+        Player computer1 = new Player();
+        Player computer2 = new Player();
+        Player computer3 = new Player();
+        Player computer4 = new Player();
+        Player computer5 = new Player();
         
-        //Display the deck again
-        for(int i = 0; i < deck.length; i++){
-            System.out.println(deck[i].toString()); 
+        // create array of players to make bet checking easier
+        Player[] playerArray = {user, computer1, computer2, computer3, computer4, computer5};
+        // MAY NOT NEED create list of players to make bet checking easier
+	//List<Player> playerList = new ArrayList<Player>();
+ 
+		// add 4 different values to list
+		//crunchifyList.add("eBay");
+		//crunchifyList.add("Paypal");
+		//crunchifyList.add("Google");
+		//crunchifyList.add("Yahoo");
+        
+        /*
+        for loop to check whic players bet. If the player bet, set active to 
+        true and deal them cards.
+        */
+        for(int i=0; i<6; i++){
+            if(playerArray[i].getBet() != 0){
+                playerArray[i].active = true;
+                for(int x = 0; x < 2; x++){
+                    playerArray[i].texasHand[x] = deck.deal();
+                }
+            }
         }
         
-       // Player player1 = new Player(deck[1], deck[2]);
-       // player1.printHand(player1);
-        //Player player2 = new Player(deck[3], deck[4]);
-        //player2.printHand(player2);
+        //Card[] comp1Hand = new Card[2];
+        //Card[] comp2Hand = new Card[2];
+        //Card[] comp3Hand = new Card[2];
+        //Card[] comp4Hand = new Card[2];
+        //Card[] comp5Hand = new Card[2];
+        /*
+        for(int i = 0; i < 2; i++){
+            playerHand[i] = deck.deal();
+        }
+        for(int i = 0; i < 2; i++){
+            comp1Hand[i] = deck.deal();
+        }
+        for(int i = 0; i < 2; i++){
+            comp2Hand[i] = deck.deal();
+        }
+        for(int i = 0; i < 2; i++){
+            comp3Hand[i] = deck.deal();
+        }
+        for(int i = 0; i < 2; i++){
+            comp4Hand[i] = deck.deal();
+        }
+        for(int i = 0; i < 2; i++){
+            comp5Hand[i] = deck.deal();
+        }
+        */
+        
+        
+        
+    
+        
+        
+        
+        
     }
     
 }
