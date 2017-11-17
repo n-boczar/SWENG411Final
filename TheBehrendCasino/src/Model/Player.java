@@ -39,7 +39,7 @@ public class Player {
     }
     
     //set the players Bet
-    public static void setB(int b){
+    public static void setBet(int b){
         bet = b;
     }
 }
