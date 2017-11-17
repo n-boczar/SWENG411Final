@@ -73,7 +73,7 @@ public class BlackJackGameEngine extends GameEngine {
         Vector<Card> dealerHand = new Vector<Card>();
         BlackJackGameEngine ge = new BlackJackGameEngine();
         Scanner scnr = new Scanner(System.in);
-        int choice;
+        int choice = 1;
         int gameChoice = 1;
         int playerAmount = 0;
         int dealerAmount = 0;
@@ -115,25 +115,29 @@ public class BlackJackGameEngine extends GameEngine {
                     System.out.println("Updated player hand: ");
                     // Display updated hand
                     for (int i = 0; i < playerHand.size(); i++) {
-                        System.out.print(playerHand.elementAt(i) + " ");
-                        playerAmount += playerHand.elementAt(i).getCardValue();
+                        System.out.print(playerHand.elementAt(i) + " ");   
                     }
+                    playerAmount += playerHand.elementAt(2).getCardValue();
                     System.out.println("\n");
-
+                    
+                    // Add a 3rd card for dealer
+                    if (dealerAmount < 15) {
+                        dealerHand.add(d.deal());
+                    }
+                    
                     // print both of the dealers cards
                     System.out.println("Updated Dealer hand");
                     for (int j = 0; j < dealerHand.size(); j++) {
                         System.out.print(dealerHand.elementAt(j) + " , ");
-                        dealerAmount += dealerHand.elementAt(j).getCardValue();
                     }
+                    dealerAmount += dealerHand.elementAt(2).getCardValue();
+                    
                     System.out.println("\n" + "Dealer's hand value: " + dealerAmount);
                     System.out.println("\n" + "Player's hand value: " + playerAmount);
 
                 } else if (choice == 2) {
                     // stay
                     ge.determineWinner(playerAmount, dealerAmount);
-
-                    //output winner, assign currency and ask to play again  
                     break;
                 }
 
@@ -144,17 +148,28 @@ public class BlackJackGameEngine extends GameEngine {
             } else if (playerAmount < 21 && playerHand.size() <= 5) {
                 // call compare hand function
                 ge.determineWinner(playerAmount, dealerAmount);
+            } else if (playerHand.size() == 5) {
+                System.out.println("Player wins. 5 cards.");
+            } else if (dealerAmount > 21) {
+                System.out.println("Dealer hand value over 21. Player wins.");
+            } else if (dealerAmount < 21 && dealerHand.size() <= 5) {
+                ge.determineWinner(playerAmount, dealerAmount);
+            } else if (dealerHand.size() == 5) {
+                System.out.println("Dealer wins. 5 cards.");
             }
+            
 
             System.out.println("Play again? Yes(1) No(2) ");
             gameChoice = scnr.nextInt();
             
-            if (gameChoice == 0) {
+            if (gameChoice == 1) {
                 playerHand.clear();
                 dealerHand.clear();
                 playerAmount = 0;
                 dealerAmount = 0;
             }
+            else
+                break;
             
         } while (gameChoice != 0);
     }
