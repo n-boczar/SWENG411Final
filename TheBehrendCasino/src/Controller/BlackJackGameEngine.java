@@ -63,17 +63,13 @@ public class BlackJackGameEngine extends GameEngine {
         return dealerHand;
     }
     
-    public void dealInitialCards() {
-        
+    public void dealInitialCards() { 
         d.shuffle();
         playerHand.add(d.deal());
         playerHand.add(d.deal());
 
         dealerHand.add(d.deal());
         dealerHand.add(d.deal());
-    }
-    public void display() {
-    
     }
     public void playerHit() {
         playerHand.add(d.deal());
