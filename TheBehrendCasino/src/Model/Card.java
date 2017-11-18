@@ -40,6 +40,10 @@ public class Card {
         return value;
     }
     
+    public String getCardSuit(){
+        return suit; 
+    }
+    
     public BufferedImage getCardImage()
     {
         return img;

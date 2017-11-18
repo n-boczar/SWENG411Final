@@ -60,7 +60,7 @@ public class PokerDeck extends Deck {
             System.out.println(card);
             if(card.toString().contains("Jack") || card.toString().contains("Queen") || card.toString().contains("King")){
                 card.setCardValue(10);
-            }
+            }  
             System.out.println(card.getCardValue());
         }
         
