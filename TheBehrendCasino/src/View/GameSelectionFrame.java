@@ -27,7 +27,7 @@ public class GameSelectionFrame extends javax.swing.JFrame {
     
     public static void startIt(Player p) {
         player = p;
-        System.out.println(Player.getCurrency());
+        //System.out.println(Player.getCurrency());
         GameSelectionFrame.main(null);
     }
     /**

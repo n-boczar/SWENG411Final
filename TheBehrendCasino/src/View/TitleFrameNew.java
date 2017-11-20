@@ -37,7 +37,7 @@ public class TitleFrameNew extends javax.swing.JFrame {
             Icon i = new ImageIcon(bi);
             JLabel titleLogo = new JLabel(i);
             jPanel1.add(titleLogo);
-            System.out.println("Showing Behrend Logo");
+            //System.out.println("Showing Behrend Logo");
         } catch (IOException ex) {
             Logger.getLogger(GameSelectionFrame.class.getName()).log(Level.SEVERE, null, ex);
         }

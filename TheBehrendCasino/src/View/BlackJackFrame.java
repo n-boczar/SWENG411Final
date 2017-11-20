@@ -4,10 +4,7 @@
  * and open the template in the editor.
  */
 package View;
-<<<<<<< HEAD
 
-=======
->>>>>>> aaaa87a6dda7bd3244e527c2c6befaa441e6e656
 import Controller.BlackJackGameEngine;
 import Model.BlackJackDeck;
 import Model.Card;
@@ -30,20 +27,24 @@ public class BlackJackFrame extends javax.swing.JFrame {
     BlackJackGameEngine e;
     public int c = currency;
     
-    static void startIt(Player player) {
-//        System.out.println("FROM BLACKJACK FRAME : " + Player.currency);
+    public static void startIt(Player player) {
+       
         BlackJackFrame.main(null);
+            
     }
     /**
      * Creates new form BlackJackFrame
      */
-    public BlackJackFrame() {
+    public BlackJackFrame() throws IOException {
         initComponents();
         JOptionPane.showMessageDialog(null, "Please ANTE UP 25 chips to start playing.", "Ante Up", JOptionPane.OK_OPTION);
         e = new BlackJackGameEngine();
-        jTextField4.setText(String.valueOf(c));
-    }
+        jTextField4.setText(String.valueOf(Player.currency));
+//        System.out.println(Player.currency);
+//        System.out.println("Constructor runs");
 
+    }
+    
     public void paint(Graphics g){
         super.paint(g);
     }
@@ -87,6 +88,12 @@ public class BlackJackFrame extends javax.swing.JFrame {
         });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                formComponentResized(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         DealerPanel.setMinimumSize(new java.awt.Dimension(100, 50));
@@ -105,6 +112,11 @@ public class BlackJackFrame extends javax.swing.JFrame {
 
         jButton1.setText("Hit");
         jButton1.setEnabled(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         ButtonPanel.add(jButton1);
 
         jButton2.setText("Stay");
@@ -148,7 +160,7 @@ public class BlackJackFrame extends javax.swing.JFrame {
         jLabel4.setText("Total:");
         ButtonPanel.add(jLabel4);
 
-        jTextField4.setText("0");
+        jTextField4.setText("500");
         jTextField4.setMinimumSize(new java.awt.Dimension(20, 20));
         jTextField4.setPreferredSize(new java.awt.Dimension(50, 30));
         ButtonPanel.add(jTextField4);
@@ -194,48 +206,44 @@ public class BlackJackFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    Card[] dealerHand = new Card[5];
+    Card[] playerHand = new Card[5];
     
-    public void beginPlay() throws IOException{
-        Card[] dealerHand = new Card[5];
-        Card[] playerHand = new Card[5];
-        
-        BlackJackDeck deck = null;
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
-            deck = new BlackJackDeck();
+            if(jPanel1.getComponentCount() > 4 && playerTot <= 21){
+                e.determineWinner(1000, 0, userBet);
+                this.dispose();
+            }
+            if(jPanel2.getComponentCount() > 4 && dealerTot <= 21){
+                e.determineWinner(0, 1000, userBet);
+                this.dispose();
+            }
+            int i = getDealerMove();
+            if(jPanel1.getComponentCount() > 4 && playerTot <= 21){
+                e.determineWinner(1000, 0, userBet);
+                this.dispose();
+            }
+            if(jPanel2.getComponentCount() > 4 && dealerTot <= 21){
+                e.determineWinner(0, 1000, userBet);
+                this.dispose();
+            }
+            if(i == 0){
+                jPanel2.remove(dealerCard0);
+                JLabel dealerCard1 = new JLabel(new ImageIcon(dealerHand[0].getCardImage()));
+                jPanel2.add(dealerCard1);
+                jPanel2.doLayout();
+                jButton1.setEnabled(false);
+                jButton2.setEnabled(false);
+                
+                jTextField2.setText(String.valueOf(dealerTot + dealerHand[0].getCardValue()));
+                
+                e.determineWinner(playerTot, dealerTot + dealerHand[0].getCardValue(), userBet);
+                this.dispose();
+            }
         } catch (IOException ex) {
             Logger.getLogger(BlackJackFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        deck.shuffle();
-        for(int i = 0; i < 2; i++){
-            dealerHand[i] = deck.deal();
-        }
-        
-        for(int i = 0; i < 2; i++){
-            playerHand[i] = deck.deal();
-        }
-        
-        //JLabel dealerCard1 = new JLabel(new ImageIcon(dealerHand[0].getCardImage()));
-        JLabel dealerCard1 = new JLabel(new ImageIcon(Card.getFlippedCardImage()));
-        JLabel dealerCard2 = new JLabel(new ImageIcon(dealerHand[1].getCardImage()));
-        
-        JLabel playerCard1 = new JLabel(new ImageIcon(playerHand[0].getCardImage()));
-        JLabel playerCard2 = new JLabel(new ImageIcon(playerHand[1].getCardImage()));
-        
-        jPanel2.add(dealerCard1);
-        jPanel2.add(dealerCard2);
-        jPanel1.add(playerCard1);
-        jPanel1.add(playerCard2);
-        
-        jTextField2.setText(String.valueOf(dealerHand[1].getCardValue()));
-        jTextField3.setText(String.valueOf(playerHand[0].getCardValue() + playerHand[1].getCardValue()));
-
-        
-        
-        repaint();
-    }
-    
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -260,17 +268,25 @@ public class BlackJackFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     Card[][] initialDeal;
+    JLabel dealerCard0 = new JLabel(new ImageIcon(Card.getFlippedCardImage()));
+    int dealerTot;
+    int playerTot;
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         userBet = jSlider1.getValue();
         if(userBet >= 25){
-            System.out.println("in here");
+            //System.out.println("in here");
             e.didAnteUp(true);
             jButton5.setEnabled(false);
+            //System.out.println("BEFORE: " + Player.currency);
+            Player.currency = Player.currency - userBet;
+            //System.out.println("AFTER: " + Player.currency);
+            jTextField4.setText(String.valueOf(Player.currency));
+            //jTextField4.setText("changed");
             try {
                 initialDeal = e.beginPlay();
                 //System.out.println(initialDeal[0][0]);
-                JLabel dealerCard0 = new JLabel(new ImageIcon(Card.getFlippedCardImage()));
+                
                 JLabel dealerCard1 = new JLabel(new ImageIcon(initialDeal[0][1].getCardImage()));
 
                 JLabel playerCard0 = new JLabel(new ImageIcon(initialDeal[1][0].getCardImage()));
@@ -290,6 +306,20 @@ public class BlackJackFrame extends javax.swing.JFrame {
                 jButton1.setEnabled(true);
                 jButton2.setEnabled(true);
                 
+                dealerHand[0] = initialDeal[0][0];
+                dealerHand[1] = initialDeal[0][1];
+                playerHand[0] = initialDeal[1][0];
+                playerHand[1] = initialDeal[1][1];
+                
+                if((playerHand[0].toString().contains("Ace") || playerHand[1].toString().contains("Ace")) && (playerHand[0].getCardValue() == 10 || playerHand[1].getCardValue() == 10)){
+                    //System.out.println("BLACKJACK");
+                    jTextField3.setText("21");
+                    
+                    //JOptionPane.showMessageDialog(null, "BLACKJACK! YOU WIN!", "BLACKJACK", JOptionPane.OK_OPTION);
+                }
+                
+                dealerTot = dealerHand[1].getCardValue();
+                playerTot = playerHand[0].getCardValue() + playerHand[1].getCardValue();
                 
             } catch (IOException ex) {
                 Logger.getLogger(BlackJackFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -297,7 +327,133 @@ public class BlackJackFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
+        // TODO add your handling code here:
+        jPanel1.setSize(super.getWidth(), jPanel1.getHeight());
+        jPanel2.setSize(super.getWidth(), jPanel2.getHeight());
+    }//GEN-LAST:event_formComponentResized
 
+    int dealeri = 2;
+    int playeri = 2;
+    
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+//            System.out.println("COMPONENTS IN JPANEL1(player):  "+jPanel1.getComponentCount());
+//            System.out.println("COMPONENTS IN JPANEL2(dealer):  "+jPanel2.getComponentCount());
+            if(jPanel1.getComponentCount() > 4 && playerTot <= 21){
+                e.determineWinner(1000, 0, userBet);
+                this.dispose();
+            }
+            if(jPanel2.getComponentCount() > 4 && dealerTot <= 21){
+                e.determineWinner(0, 1000, userBet);
+                this.dispose();
+            }
+            getDealerMove();
+            if(jPanel1.getComponentCount() > 4 && playerTot <= 21){
+                e.determineWinner(1000, 0, userBet);
+                this.dispose();
+            }
+            if(jPanel2.getComponentCount() > 4 && dealerTot <= 21){
+                e.determineWinner(0, 1000, userBet);
+                this.dispose();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(BlackJackFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     
+        //if(playerHand[0].getCardValue() + playerHand[1].getCardValue() < 21){
+        if(playerTot <= 21){
+            playerHand[playeri] = e.hit();
+            playerTot += playerHand[playeri].getCardValue();
+            JLabel playerCard = new JLabel(new ImageIcon(playerHand[playeri].getCardImage()));
+            jPanel1.add(playerCard);
+            jPanel1.doLayout();
+            if(playerTot > 21){
+                jTextField3.setText(String.valueOf(playerTot));
+                jPanel2.remove(dealerCard0);
+                JLabel dealerCard1 = new JLabel(new ImageIcon(dealerHand[0].getCardImage()));
+                jPanel2.add(dealerCard1);
+                jPanel2.doLayout();
+                jTextField2.setText(String.valueOf(dealerTot + dealerHand[0].getCardValue()));
+                try {
+                    //JOptionPane.showMessageDialog(null, "BUSTED! You lose.", "Bust", JOptionPane.OK_OPTION);
+                    e.determineWinner(100,0,userBet);
+                    this.dispose();
+                } catch (IOException ex) {
+                    Logger.getLogger(BlackJackFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                jButton1.setEnabled(false);
+                jButton2.setEnabled(false);
+            }
+        }
+        else{
+            jPanel2.remove(dealerCard0);
+            JLabel dealerCard1 = new JLabel(new ImageIcon(dealerHand[0].getCardImage()));
+            jPanel2.add(dealerCard1);
+            jPanel2.doLayout();
+            jTextField2.setText(String.valueOf(dealerTot + dealerHand[0].getCardValue()));
+            try {
+                //JOptionPane.showMessageDialog(null, "BUSTED! You lose.", "Bust", JOptionPane.OK_OPTION);
+                e.determineWinner(100,0,userBet);
+                this.dispose();
+            } catch (IOException ex) {
+                Logger.getLogger(BlackJackFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            jButton1.setEnabled(false);
+            jButton2.setEnabled(false);
+        }
+        
+        jTextField2.setText(String.valueOf(dealerTot));
+        jTextField3.setText(String.valueOf(playerTot));
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    public int getDealerMove() throws IOException{
+        int move;
+        if((dealerHand[0].toString().contains("Ace") || dealerHand[1].toString().contains("Ace")) && (dealerHand[0].getCardValue() == 10 || dealerHand[1].getCardValue() == 10)){
+            jPanel2.remove(dealerCard0);
+            JLabel dealerCard1 = new JLabel(new ImageIcon(dealerHand[0].getCardImage()));
+            jPanel2.add(dealerCard1);
+            
+            //JOptionPane.showMessageDialog(null, "Dealer BLACKJACK! You lose.", "Dealer Wins", JOptionPane.OK_OPTION);
+            e.determineWinner(0, 500, userBet);
+            this.dispose();
+            
+            jButton1.setEnabled(false);
+            jButton2.setEnabled(false);
+        }
+        if(dealerTot + dealerHand[0].getCardValue() < 17){
+            //Dealer hits on less than 17
+            JOptionPane.showMessageDialog(null, "Dealer HITS", "Dealer Play", JOptionPane.OK_OPTION);
+            dealerHand[dealeri] = e.hit();
+            dealerTot += dealerHand[dealeri].getCardValue();
+            JLabel dealerCard = new JLabel(new ImageIcon(dealerHand[dealeri].getCardImage()));
+            //JLabel c = new JLabel(new ImageIcon(Card.getFlippedCardImage()));
+            jPanel2.add(dealerCard);
+            //jPanel2.add(c);
+            jPanel2.doLayout();
+            //System.out.println(dealerHand[dealeri].toString());
+            jTextField2.setText(String.valueOf(dealerTot));
+            if(dealerTot + dealerHand[0].getCardValue() > 21){
+                jTextField2.setText(String.valueOf(dealerTot + dealerHand[0].getCardValue()));
+                jPanel2.remove(dealerCard0);
+                JLabel dealerCard1 = new JLabel(new ImageIcon(dealerHand[0].getCardImage()));
+                jPanel2.add(dealerCard1);
+                jPanel2.doLayout();
+                //JOptionPane.showMessageDialog(null, "DEALER BUSTED! You WIN.", "Win!", JOptionPane.OK_OPTION);
+                e.determineWinner(0, 100, userBet);
+                this.dispose();
+                jButton1.setEnabled(false);
+                jButton2.setEnabled(false);
+            }
+            move = 1;
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Dealer STAYS", "Dealer Play", JOptionPane.OK_OPTION);
+            jTextField2.setText(String.valueOf(dealerTot));
+            move = 0;
+        }
+        return move;
+    }
     /**
      * @param args the command line arguments
      */
@@ -328,7 +484,10 @@ public class BlackJackFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BlackJackFrame().setVisible(true);
+                try {
+                    new BlackJackFrame().setVisible(true);
+                } catch (IOException iOException) {
+                }
             }
         });
         

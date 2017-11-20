@@ -7,23 +7,30 @@
 package Controller;
 
 import Model.*;
+import View.BlackJackFrame;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.Vector;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Perry
  */
 public class BlackJackGameEngine extends GameEngine {
-<<<<<<< HEAD
 
     private int initialDeal;
     private int buyInAmount;
     private boolean playerTurn;
     private boolean playerWon;
     private boolean anteUp = false;
-
+    BlackJackDeck d;
+    
+    public BlackJackGameEngine() throws IOException{
+         d = new BlackJackDeck();
+         d.shuffle();
+    }
+    
     public void didAnteUp(boolean choice){
         anteUp = true;
     }
@@ -31,8 +38,8 @@ public class BlackJackGameEngine extends GameEngine {
     public Card[][] beginPlay() throws IOException{
         Card[][] hands = new Card[2][5];
         if (anteUp == true){
-            BlackJackDeck d = new BlackJackDeck();
-            d.shuffle();
+            
+            //d.shuffle();
             
             Vector<Card> playerHand = new Vector<Card>();
             Vector<Card> dealerHand = new Vector<Card>();
@@ -77,18 +84,16 @@ public class BlackJackGameEngine extends GameEngine {
         this.playerTurn = playerTurn;
     }
 
-=======
-    BlackJackDeck d;
+//    BlackJackDeck d;
     Vector<Card> playerHand;
     Vector<Card> dealerHand;
     private int hitChoice;
     private int gameChoice;
     private int playerAmount;
     private int dealerAmount;
-    private boolean playerWon;
+    //private boolean playerWon;
  
     // Setters and getters
->>>>>>> aaaa87a6dda7bd3244e527c2c6befaa441e6e656
     public boolean isPlayerWon() {
         return playerWon;
     }
@@ -98,13 +103,139 @@ public class BlackJackGameEngine extends GameEngine {
     }
 
     // Blackjack specific methods
-    public void determineWinner(int playerAmount, int dealerAmount) {
-        if (playerAmount > dealerAmount) {
-            System.out.println("Player wins.");
+    int choice;
+    String[] options = {"Yes", "No"};
+    public void determineWinner(int playerAmount, int dealerAmount, int pot) throws IOException {
+        Player p = new Player();
+        if(playerAmount == 0 && dealerAmount == 500){
+            Player.currency -= pot;
+            //JOptionPane.showMessageDialog(null, "DEALER BLACKJACK! You lose. Play again?", "BLACKJACK", JOptionPane.YES_NO_OPTION);
+            choice = JOptionPane.showOptionDialog(null, //Component parentComponent
+                               "DEALER BLACKJACK! You lose. Play again?",
+                               "BLACKJACK",
+                               JOptionPane.YES_NO_OPTION,
+                               JOptionPane.INFORMATION_MESSAGE,
+                               null,
+                               options,
+                               null);
+            if(choice == 0){
+               BlackJackFrame.startIt(p);
+            }           
+            else{
+                System.exit(0);
+                }
+            }
+        else if(playerAmount == 1000 && dealerAmount == 0){
+            Player.currency += pot * 2;
+            //JOptionPane.showMessageDialog(null, "5 Cards Under 21! YOU WON! Play again?", "BLACKJACK", JOptionPane.YES_NO_OPTION);
+            choice = JOptionPane.showOptionDialog(null, //Component parentComponent
+                               "5 Cards Under 21! YOU WON! Play again?",
+                               "BLACKJACK",
+                               JOptionPane.YES_NO_OPTION,
+                               JOptionPane.INFORMATION_MESSAGE,
+                               null,
+                               options,
+                               null);
+            if(choice == 0){
+               BlackJackFrame.startIt(p);
+            }           
+            else{
+                System.exit(0);
+                }
+        }
+        else if(playerAmount == 0 && dealerAmount == 1000){
+            Player.currency -= pot;
+            //JOptionPane.showMessageDialog(null, "5 Cards Under 21! DEALER WON! Play again?", "BLACKJACK", JOptionPane.YES_NO_OPTION);
+            choice = JOptionPane.showOptionDialog(null, //Component parentComponent
+                               "5 Cards Under 21! DEALER WON! Play again?",
+                               "BLACKJACK",
+                               JOptionPane.YES_NO_OPTION,
+                               JOptionPane.INFORMATION_MESSAGE,
+                               null,
+                               options,
+                               null);
+            if(choice == 0){
+               BlackJackFrame.startIt(p);
+            }           
+            else{
+                System.exit(0);
+                }
+        }
+        else if(playerAmount == 100 && dealerAmount == 0){
+            Player.currency -= pot;
+            //JOptionPane.showMessageDialog(null, "YOU BUSTED! You lose. Play again?", "BLACKJACK", JOptionPane.YES_NO_OPTION);
+            choice = JOptionPane.showOptionDialog(null, //Component parentComponent
+                               "YOU BUSTED! You lose. Play again?",
+                               "BLACKJACK",
+                               JOptionPane.YES_NO_OPTION,
+                               JOptionPane.INFORMATION_MESSAGE,
+                               null,
+                               options,
+                               null);
+            if(choice == 0){
+               BlackJackFrame.startIt(p);
+            }           
+            else{
+                System.exit(0);
+                }
+        }
+        else if(playerAmount == 0 && dealerAmount == 100){
+            Player.currency += pot * 2;
+             //JOptionPane.showMessageDialog(null, "DEALER BUSTED! You win. Play again?", "BLACKJACK", JOptionPane.YES_NO_OPTION);
+             choice = JOptionPane.showOptionDialog(null, //Component parentComponent
+                               "DEALER BUSTED! You win! Play again?",
+                               "BLACKJACK",
+                               JOptionPane.YES_NO_OPTION,
+                               JOptionPane.INFORMATION_MESSAGE,
+                               null,
+                               options,
+                               null);
+            if(choice == 0){
+               BlackJackFrame.startIt(p);
+            }           
+            else{
+                System.exit(0);
+                }
+        }
+        else if (playerAmount > dealerAmount && playerAmount != 100 && playerAmount != 1000) {
+            //System.out.println("Player wins.");
+            Player.currency += pot * 2;
+            //JOptionPane.showMessageDialog(null, "YOU WIN! Play again?", "BLACKJACK", JOptionPane.YES_NO_OPTION);
             playerWon = true;
-        } else {
-            System.out.println("Dealer wins.");
+            choice = JOptionPane.showOptionDialog(null, //Component parentComponent
+                               "YOU WIN! Play again?",
+                               "BLACKJACK",
+                               JOptionPane.YES_NO_OPTION,
+                               JOptionPane.INFORMATION_MESSAGE,
+                               null,
+                               options,
+                               null);
+            if(choice == 0){
+               BlackJackFrame.startIt(p);
+            }           
+            else{
+                System.exit(0);
+                }
+        }
+        else {
+            //System.out.println("Dealer wins.");
+            Player.currency -= pot;
+            //JOptionPane.showMessageDialog(null, "YOU LOSE! Play again?", "BLACKJACK", JOptionPane.YES_NO_OPTION);
             playerWon = false;
+            choice = JOptionPane.showOptionDialog(null, //Component parentComponent
+                               "YOU LOSE! Play again?",
+                               "BLACKJACK",
+                               JOptionPane.YES_NO_OPTION,
+                               JOptionPane.INFORMATION_MESSAGE,
+                               null,
+                               options,
+                               null);
+            if(choice == 0){
+               BlackJackFrame.startIt(p);
+            }           
+            else{
+                System.exit(0);
+                }
         }
     }
     public void setPlayerAmount(int amount) {
@@ -134,12 +265,19 @@ public class BlackJackGameEngine extends GameEngine {
         dealerHand.add(d.deal());
         dealerHand.add(d.deal());
     }
-    public void playerHit() {
-        playerHand.add(d.deal());
+    
+    public Card hit(){
+        Card c = d.deal();
+        return c;
     }
-    public void dealerHit() {
-        dealerHand.add(d.deal());
-    }
+//    public Card playerHit() {
+//        Card c = d.deal();
+//        return c;
+//    }
+//    public Card dealerHit() {
+//        Card c = d.deal();
+//        return c;
+//    }
   
     
 
