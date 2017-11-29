@@ -145,7 +145,7 @@ public class GameSelectionFrame extends javax.swing.JFrame {
 //        String[] s = new String[1];
 //        s[0] = String.valueOf(currency);
         //BlackJackFrame.main(null);
-        BlackJackFrame.startIt(player);
+        BlackJackFrame.startIt(player, true);
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
