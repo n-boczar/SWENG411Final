@@ -119,7 +119,7 @@ public class BlackJackGameEngine extends GameEngine {
                                options,
                                null);
             if(choice == 0){
-               BlackJackFrame.startIt(p);
+               BlackJackFrame.startIt(p,false);
             }           
             else{
                 System.exit(0);
@@ -137,7 +137,7 @@ public class BlackJackGameEngine extends GameEngine {
                                options,
                                null);
             if(choice == 0){
-               BlackJackFrame.startIt(p);
+               BlackJackFrame.startIt(p,false);
             }           
             else{
                 System.exit(0);
@@ -155,7 +155,7 @@ public class BlackJackGameEngine extends GameEngine {
                                options,
                                null);
             if(choice == 0){
-               BlackJackFrame.startIt(p);
+               BlackJackFrame.startIt(p,false);
             }           
             else{
                 System.exit(0);
@@ -173,7 +173,7 @@ public class BlackJackGameEngine extends GameEngine {
                                options,
                                null);
             if(choice == 0){
-               BlackJackFrame.startIt(p);
+               BlackJackFrame.startIt(p,false);
             }           
             else{
                 System.exit(0);
@@ -191,7 +191,7 @@ public class BlackJackGameEngine extends GameEngine {
                                options,
                                null);
             if(choice == 0){
-               BlackJackFrame.startIt(p);
+               BlackJackFrame.startIt(p,false);
             }           
             else{
                 System.exit(0);
@@ -211,7 +211,7 @@ public class BlackJackGameEngine extends GameEngine {
                                options,
                                null);
             if(choice == 0){
-               BlackJackFrame.startIt(p);
+               BlackJackFrame.startIt(p,false);
             }           
             else{
                 System.exit(0);
@@ -231,7 +231,7 @@ public class BlackJackGameEngine extends GameEngine {
                                options,
                                null);
             if(choice == 0){
-               BlackJackFrame.startIt(p);
+               BlackJackFrame.startIt(p,false);
             }           
             else{
                 System.exit(0);

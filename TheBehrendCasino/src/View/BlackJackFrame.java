@@ -23,12 +23,14 @@ import javax.swing.JOptionPane;
  */
 public class BlackJackFrame extends javax.swing.JFrame {
 
+    public static boolean ante;
     public static int currency;
     BlackJackGameEngine e;
     public int c = currency;
     
-    public static void startIt(Player player) {
+    public static void startIt(Player player, boolean x) {
        
+        ante = x;
         BlackJackFrame.main(null);
             
     }
@@ -37,7 +39,9 @@ public class BlackJackFrame extends javax.swing.JFrame {
      */
     public BlackJackFrame() throws IOException {
         initComponents();
-        JOptionPane.showMessageDialog(null, "Please ANTE UP 25 chips to start playing.", "Ante Up", JOptionPane.OK_OPTION);
+        if(ante == true){
+            JOptionPane.showMessageDialog(null, "Please ANTE UP 25 chips to start playing.", "Ante Up", JOptionPane.OK_OPTION);
+        }
         e = new BlackJackGameEngine();
         jTextField4.setText(String.valueOf(Player.currency));
 //        System.out.println(Player.currency);
