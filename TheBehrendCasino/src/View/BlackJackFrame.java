@@ -250,7 +250,6 @@ public class BlackJackFrame extends javax.swing.JFrame {
 //        try {
 //            // TODO add your handling code here:
 //            beginPlay();
-//            
 //        } catch (IOException ex) {
 //            Logger.getLogger(BlackJackFrame.class.getName()).log(Level.SEVERE, null, ex);
 //        }
