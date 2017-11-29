@@ -38,7 +38,7 @@ import static javafx.application.Platform.exit;
     }
  */
 public class FiveCardPokerEngine extends GameEngine {
-
+ 
     int initialDeal;
     double buyInAmount;
     double totalPot;
