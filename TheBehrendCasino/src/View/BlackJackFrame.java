@@ -23,12 +23,14 @@ import javax.swing.JOptionPane;
  */
 public class BlackJackFrame extends javax.swing.JFrame {
 
+    public static int ante;
     public static int currency;
     BlackJackGameEngine e;
     public int c = currency;
     
-    public static void startIt(Player player) {
+    public static void startIt(Player player, int x) {
        
+        ante = x;
         BlackJackFrame.main(null);
             
     }
