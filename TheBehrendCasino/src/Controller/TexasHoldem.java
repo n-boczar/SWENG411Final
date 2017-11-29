@@ -102,14 +102,14 @@ public class TexasHoldem extends GameEngine {
                 System.arraycopy(boardCards,0,playerArray[i].evalHand, playerArray[i].texasHand.length + 1, boardCards.length);
             }
         }
-        
+        /*
         for(int i = 0; i < playerArray.length; i++){
             System.out.print("Player " + i + ": "  );
             for(int x = 0; x < 7; x++){
-                
+                System.out.print(playerArray[i].evalHand[x].getCardValue() + " " + playerArray[i].evalHand[x].getCardSuit());
             }
         }
-        
+        */
         
         
         //Card[] comp1Hand = new Card[2];
