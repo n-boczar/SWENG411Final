@@ -19,7 +19,7 @@ import javax.swing.JPanel;
  *
  * @author Natalie
  */
-public class Card {
+public class Card implements Comparable<Card>{
     private String face;
     private String suit;
     private int value;
@@ -52,6 +52,11 @@ public class Card {
     public String toString(){
         return face + " of " + suit;
     }
+    
+    
+    public int compareTo(Card other) {
+        return value - other.getCardValue();
+   } 
     
     public static BufferedImage getFlippedCardImage() throws IOException{
         final int width = 79;

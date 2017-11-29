@@ -10,6 +10,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -58,9 +61,9 @@ public class PokerDeck extends Deck {
     public void showDeck(){
         for(Card card : deck){
             System.out.println(card);
-            if(card.toString().contains("Jack") || card.toString().contains("Queen") || card.toString().contains("King")){
-                card.setCardValue(10);
-            }  
+//            if(card.toString().contains("Jack") || card.toString().contains("Queen") || card.toString().contains("King")){
+//                card.setCardValue(10);
+//            }  
             System.out.println(card.getCardValue());
         }
         

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package Controller;
 import Model.PokerDeck;
 import Model.Card;
 import Model.Player;
@@ -17,8 +17,12 @@ import java.util.logging.Logger;
  *
  * @author Ian
  */
-public class TexasHoldem {
+public class TexasHoldem extends GameEngine {
     public static void main(String[] args) {
+        
+        int totalPot;
+        Card[] boardCards = new Card[5];
+        Card[] burnCards = new Card[3];
         
         //Create the deck for the poker game
         PokerDeck deck = null;
@@ -54,14 +58,59 @@ public class TexasHoldem {
         for loop to check whic players bet. If the player bet, set active to 
         true and deal them cards.
         */
+        
+       //--------------------------------
+       // Deal each player a hand
+       //--------------------------------
         for(int i=0; i<6; i++){
-            if(playerArray[i].getBet() != 0){
-                playerArray[i].active = true;
-                for(int x = 0; x < 2; x++){
-                    playerArray[i].texasHand[x] = deck.deal();
-                }
+            //check to see if a player has enough to play
+            //if(playerArray[i].getCurrency() < 25)
+                //playerArray[i].active = false;
+            //if the player has enough money to play deal them cards
+            //if(playerArray[i].active != false){
+                //playerArray[i].setBet(25);
+            for(int x = 0; x < 2; x++){
+                playerArray[i].texasHand[x] = deck.deal();
             }
         }
+         
+       //--------------------------------
+       // Deal the table cards 
+       //--------------------------------
+        //Burn one card
+        burnCards[0] = deck.deal();
+        //Get the flop
+        for (int i = 0; i < 3; i++){
+            boardCards[i] = deck.deal();
+        }
+        //Burn another card
+        burnCards[1] = deck.deal();
+        //Deal the turn 
+        boardCards[3] = deck.deal();
+        //Burn one last card
+        burnCards[2] = deck.deal();
+        //Deal the river card
+        boardCards[4] = deck.deal();
+        
+        //-------------------------
+        // Add the board cards to each players hand for evaluaiton
+        //------------------------- 
+        for(int i = 0; i < playerArray.length; i++){
+            //for loop to go throug each boardCard
+            for(int x = 0; i < boardCards.length; x++){
+                System.arraycopy(playerArray[i].texasHand,0,playerArray[i].evalHand,0,playerArray[i].texasHand.length);
+                System.arraycopy(boardCards,0,playerArray[i].evalHand, playerArray[i].texasHand.length + 1, boardCards.length);
+            }
+        }
+        
+        for(int i = 0; i < playerArray.length; i++){
+            System.out.print("Player " + i + ": "  );
+            for(int x = 0; x < 7; x++){
+                
+            }
+        }
+        
+        
         
         //Card[] comp1Hand = new Card[2];
         //Card[] comp2Hand = new Card[2];
