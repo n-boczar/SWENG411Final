@@ -310,7 +310,7 @@ public class FCPokerFrame extends javax.swing.JFrame {
         playerMoveChoice = 1;
         
         //Update player currency
-        Player.setCurrency(Player.getCurrency() - Integer.parseInt(jTextField1.getText()));
+        Player.setCurrency(Player.getCurrency());
         
         // Show the current currency of the player
         jTextField2.setText(String.valueOf(Player.getCurrency()));
