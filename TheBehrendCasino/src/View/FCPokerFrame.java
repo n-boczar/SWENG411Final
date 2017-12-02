@@ -277,7 +277,7 @@ public class FCPokerFrame extends javax.swing.JFrame {
         betAmount = 0;
 
         System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
-        
+
         if (roundNumber == 1) {
 
             do {
@@ -314,17 +314,21 @@ public class FCPokerFrame extends javax.swing.JFrame {
 
         // Set player move to bet
         playerMoveChoice = 1;
-        
+
         //Update player currency
         Player.setCurrency(Player.getCurrency());
-        
+
         // Set the bet amount from the text field
         betAmount = Integer.parseInt(jTextField1.getText());
-        
-        
+
+        if(betAmount > Player.getCurrency()) {
+            System.out.println("INSIDE FIRST USER BET MESSAGE.");
+            JOptionPane.showMessageDialog(null, "You're betting more than you actually have, retry!", "Warning", JOptionPane.OK_OPTION);
+        }
+
         // Show the current currency of the player
         jTextField2.setText(String.valueOf(Player.getCurrency() - betAmount));
-        
+
         System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
 
         if (roundNumber == 1) {
