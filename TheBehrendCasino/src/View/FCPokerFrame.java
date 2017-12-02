@@ -5,6 +5,10 @@
  */
 package View;
 
+import Controller.BlackJackGameEngine;
+import Controller.FiveCardPokerEngine;
+import Model.Player;
+import static View.BlackJackFrame.ante;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -15,6 +19,7 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,15 +27,36 @@ import javax.swing.JLabel;
  */
 public class FCPokerFrame extends javax.swing.JFrame {
 
+    public static boolean ante;
+    public static int currency;
+    FiveCardPokerEngine e;
+    public int c = currency;
+    
+    
+    public static void startIt(Player player, boolean x) {
+       
+        ante = x;
+        FCPokerFrame.main(null);
+            
+    }
     /**
      * Creates new form FCPokerFrame
      */
     public FCPokerFrame() {
         initComponents();
-    }
-    
-    public void paint(Graphics g){
-        super.paint(g);
+        if(ante == true){
+            JOptionPane.showMessageDialog(null, "Please ANTE UP 25 chips to start playing.", "Ante Up", JOptionPane.OK_OPTION);
+        }
+        e = new FiveCardPokerEngine();
+        
+        System.out.println(Player.currency);
+        Player.setCurrency(Player.getCurrency() - 25); 
+        System.out.println(Player.currency);
+        
+        
+        jTextField2.setText(String.valueOf(Player.currency));
+        
+        // Load table image into frame
         BufferedImage bi = null;
         try {
             bi = ImageIO.read(new File("PokerTableFinished.png"));
@@ -40,6 +66,11 @@ public class FCPokerFrame extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(GameSelectionFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void paint(Graphics g){
+        super.paint(g);
+       
 //        ImageIcon i = new ImageIcon(new File("AceIcon.png"));
         //JLabel aceImg = new JLabel(new File("AceIcon.png"));
     }
@@ -62,8 +93,9 @@ public class FCPokerFrame extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jSlider1 = new javax.swing.JSlider();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -75,9 +107,7 @@ public class FCPokerFrame extends javax.swing.JFrame {
         jRadioButtonMenuItem1.setSelected(true);
         jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
 
-        jFrame1.setMaximumSize(new java.awt.Dimension(576, 584));
         jFrame1.setMinimumSize(new java.awt.Dimension(576, 584));
-        jFrame1.setPreferredSize(new java.awt.Dimension(576, 584));
         jFrame1.setSize(new java.awt.Dimension(576, 584));
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
@@ -110,13 +140,14 @@ public class FCPokerFrame extends javax.swing.JFrame {
 
         jButton4.setText("Fold");
 
-        jButton5.setText("Menu");
-
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
             }
         });
+
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Currency");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -132,12 +163,17 @@ public class FCPokerFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton4)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton5)
-                .addGap(22, 22, 22))
+                .addComponent(jButton4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(40, 40, 40))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,7 +182,6 @@ public class FCPokerFrame extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton4)
-                        .addComponent(jButton5)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -154,14 +189,19 @@ public class FCPokerFrame extends javax.swing.JFrame {
                         .addComponent(jButton2)
                         .addComponent(jButton3)))
                 .addContainerGap(22, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15))
         );
 
         jPanel3.setBackground(new java.awt.Color(51, 51, 51));
-        jPanel3.setForeground(null);
         jPanel3.setMaximumSize(new java.awt.Dimension(576, 584));
         jPanel3.setMinimumSize(new java.awt.Dimension(576, 584));
         jPanel3.setPreferredSize(new java.awt.Dimension(576, 584));
-        jPanel3.setLayout(new java.awt.GridLayout());
+        jPanel3.setLayout(new java.awt.GridLayout(1, 0));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -258,7 +298,7 @@ public class FCPokerFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -319,8 +359,8 @@ public class FCPokerFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JFrame jFrame1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -333,5 +373,6 @@ public class FCPokerFrame extends javax.swing.JFrame {
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }

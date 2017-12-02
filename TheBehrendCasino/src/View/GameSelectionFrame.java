@@ -90,6 +90,11 @@ public class GameSelectionFrame extends javax.swing.JFrame {
         jButton4.setMaximumSize(new java.awt.Dimension(275, 100));
         jButton4.setMinimumSize(new java.awt.Dimension(275, 100));
         jButton4.setPreferredSize(new java.awt.Dimension(275, 100));
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Play TEXAS HOLD 'EM POKER");
         jButton5.setMaximumSize(new java.awt.Dimension(275, 100));
@@ -148,6 +153,11 @@ public class GameSelectionFrame extends javax.swing.JFrame {
         BlackJackFrame.startIt(player, true);
         
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        FCPokerFrame.startIt(player, true);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 //    public static void setCurrency(String s){
 //        System.out.println(s);

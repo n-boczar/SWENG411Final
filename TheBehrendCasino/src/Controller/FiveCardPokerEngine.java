@@ -44,7 +44,19 @@ public class FiveCardPokerEngine extends GameEngine {
     double totalPot;
     boolean playerTurn;
     boolean playerWon;
-
+    
+//        public Random rand = new Random();
+//        public PokerDeck pokerDeck;
+//        public Vector<Card> playerHand;
+//        public Vector<Card> AI_1Hand;
+//        public Vector<Card> AI_2Hand;
+//        public Vector<Card> AI_3Hand;
+//        public Player p;
+//        public Player ai1;
+//        public Player ai2;
+//        public Player ai3;
+//        
+        
     public void showCardValues() {
 
     }
