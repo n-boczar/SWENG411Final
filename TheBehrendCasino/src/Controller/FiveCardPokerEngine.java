@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import Model.AIPlayer;
 import Model.Card;
 import Model.Player;
 import Model.PokerDeck;
@@ -52,9 +53,9 @@ public class FiveCardPokerEngine extends GameEngine {
     public Vector<Card> AI_2Hand;
     public Vector<Card> AI_3Hand;
     public Player p;
-    public Player ai1;
-    public Player ai2;
-    public Player ai3;
+    public AIPlayer ai1;
+    public AIPlayer ai2;
+    public AIPlayer ai3;
     boolean replaceCardChoice;
     int gameChoice = 1;
     int replaceCardsChoice;
@@ -78,9 +79,9 @@ public class FiveCardPokerEngine extends GameEngine {
         this.AI_2Hand = new Vector<Card>();
         this.AI_3Hand = new Vector<Card>();
         this.p = new Player();
-        this.ai1 = new Player();
-        this.ai2 = new Player();
-        this.ai3 = new Player();
+        this.ai1 = new AIPlayer();
+        this.ai2 = new AIPlayer();
+        this.ai3 = new AIPlayer();
 
         deal();
 

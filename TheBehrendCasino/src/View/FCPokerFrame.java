@@ -276,16 +276,22 @@ public class FCPokerFrame extends javax.swing.JFrame {
         playerMoveChoice = 2;
         betAmount = 0;
 
+        System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
+        
         if (roundNumber == 1) {
 
             do {
                 universalBetAmountOwed = e.startRound1(playerMoveChoice, betAmount);
+                System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
+
             } while (universalBetAmountOwed != 0);
             roundNumber = 2;
 
         } else if (roundNumber == 2) {
             do {
                 universalBetAmountOwed = e.startRound2(playerMoveChoice, betAmount);
+                System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
+
             } while (universalBetAmountOwed != 0);
             // Call compareHands function and determine the winner
             playerWon = e.compareHands(e.playerHand, e.AI_1Hand, e.AI_2Hand, e.AI_3Hand);
@@ -312,22 +318,29 @@ public class FCPokerFrame extends javax.swing.JFrame {
         //Update player currency
         Player.setCurrency(Player.getCurrency());
         
-        // Show the current currency of the player
-        jTextField2.setText(String.valueOf(Player.getCurrency()));
-        
         // Set the bet amount from the text field
         betAmount = Integer.parseInt(jTextField1.getText());
+        
+        
+        // Show the current currency of the player
+        jTextField2.setText(String.valueOf(Player.getCurrency() - betAmount));
+        
+        System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
 
         if (roundNumber == 1) {
 
             do {
                 universalBetAmountOwed = e.startRound1(playerMoveChoice, betAmount);
+                System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
+
             } while (universalBetAmountOwed != 0);
             roundNumber = 2;
 
         } else if (roundNumber == 2) {
             do {
                 universalBetAmountOwed = e.startRound2(playerMoveChoice, betAmount);
+                System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
+
             } while (universalBetAmountOwed != 0);
 
             // Call compareHands function and determine the winner
