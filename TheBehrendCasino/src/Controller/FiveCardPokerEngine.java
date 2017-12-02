@@ -171,6 +171,7 @@ public class FiveCardPokerEngine extends GameEngine {
             case 1: // BET
 
                 while(betAmount > p.getCurrency()){
+                    System.out.println("INSIDE FIRST USER BET MESSAGE.");
                     JOptionPane.showMessageDialog(null, "You're betting more than you actually have, retry!", "Warning", JOptionPane.OK_OPTION);
                 }
                 // Check if player needs to clear bets from any other player first
