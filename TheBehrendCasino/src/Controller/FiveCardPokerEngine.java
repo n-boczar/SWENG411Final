@@ -15,6 +15,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Vector;
 import static javafx.application.Platform.exit;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -86,7 +87,7 @@ public class FiveCardPokerEngine extends GameEngine {
         deal();
 
         // Set currency for ai's, initial is 1000 - 50 for buy in amount
-        this.ai1.setCurrency(975);
+        this.ai1.setCurrency(100);
         this.ai2.setCurrency(975);
         this.ai3.setCurrency(975);
 
@@ -169,6 +170,9 @@ public class FiveCardPokerEngine extends GameEngine {
 
             case 1: // BET
 
+                while(betAmount > p.getCurrency()){
+                    JOptionPane.showMessageDialog(null, "You're betting more than you actually have, retry!", "Warning", JOptionPane.OK_OPTION);
+                }
                 // Check if player needs to clear bets from any other player first
                 if (totalBetOwedByPlayer != 0) {
                     // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
@@ -217,6 +221,10 @@ public class FiveCardPokerEngine extends GameEngine {
             case 1: // BET
                 // Get bet amount input
                 betAmount = rand.nextInt(900) + totalBetOwedByAI2;
+                
+                while(betAmount > ai1.getCurrency()){
+                    betAmount = rand.nextInt(900) + totalBetOwedByAI2;
+                }
 
                 // Force CALL action if less than 50 in currency 
                 if (ai1.getCurrency() < 50) {
@@ -275,6 +283,9 @@ public class FiveCardPokerEngine extends GameEngine {
             case 1: // BET  
                 // Get bet amount input
                 betAmount = rand.nextInt(900) + totalBetOwedByAI2;
+                 while(betAmount > ai1.getCurrency()){
+                    betAmount = rand.nextInt(900) + totalBetOwedByAI2;
+                }
 
                 // Force CALL action if less than 50 in currency 
                 if (ai2.getCurrency() < 50) {
@@ -334,6 +345,9 @@ public class FiveCardPokerEngine extends GameEngine {
 
                 // Get bet amount input
                 betAmount = rand.nextInt(900) + totalBetOwedByAI3;
+                 while(betAmount > ai1.getCurrency()){
+                    betAmount = rand.nextInt(900) + totalBetOwedByAI2;
+                }
 
                 // Force CALL action if less than 50 in currency 
                 if (ai3.getCurrency() < 50) {
@@ -407,7 +421,9 @@ public class FiveCardPokerEngine extends GameEngine {
         switch (playerMoveChoice) {
 
             case 1: // BET
-
+                while(betAmount > p.getCurrency()){
+                    JOptionPane.showMessageDialog(null, "You're betting more than you actually have, retry!", "Warning", JOptionPane.OK_OPTION);
+                }
                 // Check if player needs to clear bets from any other player first
                 if (totalBetOwedByPlayer != 0) {
                     // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
@@ -456,6 +472,9 @@ public class FiveCardPokerEngine extends GameEngine {
             case 1: // BET
                 // Get bet amount input
                 betAmount = rand.nextInt(900) + totalBetOwedByAI2;
+                 while(betAmount > ai1.getCurrency()){
+                    betAmount = rand.nextInt(900) + totalBetOwedByAI2;
+                }
 
                 // Force CALL action if less than 50 in currency 
                 if (ai1.getCurrency() < 50) {
@@ -514,6 +533,9 @@ public class FiveCardPokerEngine extends GameEngine {
             case 1: // BET  
                 // Get bet amount input
                 betAmount = rand.nextInt(900) + totalBetOwedByAI2;
+                 while(betAmount > ai1.getCurrency()){
+                    betAmount = rand.nextInt(900) + totalBetOwedByAI2;
+                }
 
                 // Force CALL action if less than 50 in currency 
                 if (ai2.getCurrency() < 50) {
@@ -573,6 +595,9 @@ public class FiveCardPokerEngine extends GameEngine {
 
                 // Get bet amount input
                 betAmount = rand.nextInt(900) + totalBetOwedByAI3;
+                 while(betAmount > ai1.getCurrency()){
+                    betAmount = rand.nextInt(900) + totalBetOwedByAI2;
+                }
 
                 // Force CALL action if less than 50 in currency 
                 if (ai3.getCurrency() < 50) {
