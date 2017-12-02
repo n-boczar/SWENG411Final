@@ -27,8 +27,9 @@ public class BlackJackFrame extends javax.swing.JFrame {
     public static int currency;
     BlackJackGameEngine e;
     public int c = currency;
+    Player p = new Player();
     
-    public static void startIt(Player player, boolean x) {
+    public static void startIt(Player player, boolean x) throws IOException {
        
         ante = x;
         BlackJackFrame.main(null);
@@ -81,6 +82,7 @@ public class BlackJackFrame extends javax.swing.JFrame {
         jTextField3 = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
@@ -190,6 +192,14 @@ public class BlackJackFrame extends javax.swing.JFrame {
         getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 600, 60));
 
         jMenu1.setText("File");
+
+        jMenuItem2.setText("Main Menu");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
 
         jMenuItem1.setText("Start Playing");
         jMenuItem1.setEnabled(false);
@@ -410,6 +420,10 @@ public class BlackJackFrame extends javax.swing.JFrame {
         jTextField3.setText(String.valueOf(playerTot));
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+         GameSelectionFrame.startIt(p);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     public int getDealerMove() throws IOException{
         int move;
         if((dealerHand[0].toString().contains("Ace") || dealerHand[1].toString().contains("Ace")) && (dealerHand[0].getCardValue() == 10 || dealerHand[1].getCardValue() == 10)){
@@ -460,7 +474,7 @@ public class BlackJackFrame extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws IOException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -511,6 +525,7 @@ public class BlackJackFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;

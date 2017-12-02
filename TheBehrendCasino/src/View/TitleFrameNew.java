@@ -5,6 +5,7 @@
  */
 package View;
 
+import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -35,8 +36,8 @@ public class TitleFrameNew extends javax.swing.JFrame {
         try {
             bi = ImageIO.read(new File("BCLogo.png"));
             Icon i = new ImageIcon(bi);
-            JLabel titleLogo = new JLabel(i);
-            jPanel1.add(titleLogo);
+            JLabel titleLogo = new JLabel("" , i , JLabel.CENTER);
+            jPanel1.add(titleLogo, BorderLayout.CENTER);
             //System.out.println("Showing Behrend Logo");
         } catch (IOException ex) {
             Logger.getLogger(GameSelectionFrame.class.getName()).log(Level.SEVERE, null, ex);

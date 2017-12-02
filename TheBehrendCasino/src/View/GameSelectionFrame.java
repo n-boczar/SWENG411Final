@@ -6,6 +6,7 @@
 package View;
 
 import Model.Player;
+import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -44,7 +45,7 @@ public class GameSelectionFrame extends javax.swing.JFrame {
             bi = ImageIO.read(new File("AceIcon.png"));
             Icon i = new ImageIcon(bi);
             JLabel aceIcon = new JLabel(i);
-            jPanel2.add(aceIcon);
+            jPanel2.add(aceIcon, BorderLayout.CENTER);
         } catch (IOException ex) {
             Logger.getLogger(GameSelectionFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -146,12 +147,15 @@ public class GameSelectionFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
 //        String[] s = new String[1];
 //        s[0] = String.valueOf(currency);
-        //BlackJackFrame.main(null);
+//BlackJackFrame.main(null);
         BlackJackFrame.startIt(player, true);
-        
+        } catch (IOException ex) {
+            Logger.getLogger(GameSelectionFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
