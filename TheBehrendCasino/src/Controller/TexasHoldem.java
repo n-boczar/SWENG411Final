@@ -198,12 +198,90 @@ public class TexasHoldem extends GameEngine {
     boolean playerTurn;
     boolean playerWon;
 
+    public Random rand;
+    public PokerDeck pokerDeck;
+    public Vector<Card> playerHand;
+    public Vector<Card> AI_1Hand;
+    public Vector<Card> AI_2Hand;
+    public Vector<Card> AI_3Hand;
+    public Vector<Card> boardCards;
+    public Vector<Card> burnCards;
+    public Player p;
+    public Player ai1;
+    public Player ai2;
+    public Player ai3;
+    boolean replaceCardChoice;
+    int gameChoice = 1;
+    int replaceCardsChoice;
+    int playerMoveChoice;
+    int AI_MoveChoice;
+    int roundNumber;
+    int lastBet = 0;
+    int pot;
+    int totalBetOwedByPlayer = 0;
+    int totalBetOwedByAI1 = 0;
+    int totalBetOwedByAI2 = 0;
+    int totalBetOwedByAI3 = 0;
+    int universalBetAmountOwed = 0;
+    
+    
+    public TexasHoldem() throws IOException {
+
+        this.rand = new Random();
+        this.pokerDeck = new PokerDeck();
+        this.playerHand = new Vector<Card>();
+        this.AI_1Hand = new Vector<Card>();
+        this.AI_2Hand = new Vector<Card>();
+        this.AI_3Hand = new Vector<Card>();
+        this.boardCards = new Vector<Card>();
+        this.burnCards = new Vector<Card>();
+        this.p = new Player();
+        this.ai1 = new Player();
+        this.ai2 = new Player();
+        this.ai3 = new Player();
+
+        deal();
+
+        // Set currency for ai's, initial is 1000 - 50 for buy in amount
+        this.ai1.setCurrency(975);
+        this.ai2.setCurrency(975);
+        this.ai3.setCurrency(975);
+
+        // Set the pot to 100, 25 placed from the player and 75 from the AIs
+        this.pot = 100;
+    }
+    
     public void showCardValues() {
 
     }
 
-    public void deal(int initialDeal) {
-        this.initialDeal = initialDeal;
+    /**
+     * Shuffle the deck and give each player 2 cards
+     */
+    public void deal() {
+        
+        pokerDeck.shuffle();
+
+        // Give player first card
+        playerHand.add(pokerDeck.deal());
+        // Give player second card
+        playerHand.add(pokerDeck.deal());
+
+        // Give player first card
+        AI_1Hand.add(pokerDeck.deal());
+        // Give player second card
+        AI_1Hand.add(pokerDeck.deal());
+
+
+        // Give player first card
+        AI_2Hand.add(pokerDeck.deal());
+        // Give player second card
+        AI_2Hand.add(pokerDeck.deal());
+
+        // Give player first card
+        AI_3Hand.add(pokerDeck.deal());
+        // Give player second card
+        AI_3Hand.add(pokerDeck.deal());
     }
 
     public void discard(int cards) {
@@ -640,9 +718,9 @@ public class TexasHoldem extends GameEngine {
         Player ai3 = new Player();
         Scanner scnr = new Scanner(System.in);
         TexasHoldem TexasHoldemEngine = new TexasHoldem();
-        boolean replaceCardChoice;  //NOT SURE IF NECESSARY
+        //boolean replaceCardChoice;  //NOT SURE IF NECESSARY
         int gameChoice = 1;
-        int replaceCardsChoice; //NOT SURE IF NECESSARY
+        //int replaceCardsChoice; //NOT SURE IF NECESSARY
         int playerMoveChoice;
         int AI_MoveChoice;
         int roundNumber;
