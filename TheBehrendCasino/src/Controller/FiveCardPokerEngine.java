@@ -162,6 +162,7 @@ public class FiveCardPokerEngine extends GameEngine {
          */
         roundNumber = 1;
 
+        System.out.println("Player Currency: " + p.getCurrency());
         // User places bet, calls, or folds
         System.out.println("First round of betting starting");
         System.out.println("Do you wish to bet, call, or fold? : 1 or 2 or 3");
@@ -213,7 +214,8 @@ public class FiveCardPokerEngine extends GameEngine {
         // Get random input (choice) from AI player
         AI_MoveChoice = rand.nextInt(2) + 1;
 
-        System.out.println("AI Move #:" + AI_MoveChoice);
+        System.out.println("AI1 Move #:" + AI_MoveChoice);
+        System.out.println("AI1 Currency: " + ai1.getCurrency());
 
         if (ai1.active) {
             switch (AI_MoveChoice) {
@@ -277,7 +279,8 @@ public class FiveCardPokerEngine extends GameEngine {
         // Get random input (choice) from AI player
         AI_MoveChoice = rand.nextInt(2) + 1;
 
-        System.out.println("AI Move #:" + AI_MoveChoice);
+        System.out.println("AI2 Move #:" + AI_MoveChoice);
+        System.out.println("AI2 Currency: " + ai2.getCurrency());
 
         if (ai2.active) {
             switch (AI_MoveChoice) {
@@ -327,7 +330,8 @@ public class FiveCardPokerEngine extends GameEngine {
         // Get random input (choice) from AI player
         AI_MoveChoice = rand.nextInt(2) + 1;
 
-        System.out.println("AI Move #:" + AI_MoveChoice);
+        System.out.println("AI3 Move #:" + AI_MoveChoice);
+        System.out.println("AI3 Currency: " + ai3.getCurrency());
 
         if (ai3.active) {
             switch (AI_MoveChoice) {
@@ -374,7 +378,8 @@ public class FiveCardPokerEngine extends GameEngine {
                     break;
             }
         }
-
+        
+        System.out.println("Total Owed: ");
         System.out.println(totalBetOwedByPlayer);
         System.out.println(totalBetOwedByAI1);
         System.out.println(totalBetOwedByAI2);
