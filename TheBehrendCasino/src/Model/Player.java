@@ -14,12 +14,6 @@ import Model.Card;
  */
 public class Player {
     
-    //Hand if they play Texas Hold'em
-    public static Card[] texasHand = new Card[2];
-    
-    //Original hand combined with cards dealt on table
-    public static Card[] evalHand = new Card[7];
-    
     //boolean statement to know if a player folded and is still in a round of poker
     public static boolean active = true;
     
