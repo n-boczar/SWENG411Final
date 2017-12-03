@@ -287,9 +287,9 @@ public class FiveCardPokerEngine extends GameEngine {
 
                 case 1: // BET  
                     // Get bet amount input
-                    betAmount = rand.nextInt(ai2.getCurrency()) + totalBetOwedByAI2;
+                    betAmount = rand.nextInt(ai2.getCurrency() - totalBetOwedByAI2) + totalBetOwedByAI2;
                     while (betAmount > p.getCurrency() || betAmount > ai1.getCurrency() || betAmount > ai2.getCurrency() || betAmount > ai3.getCurrency()) {
-                        betAmount = rand.nextInt(ai2.getCurrency()) + totalBetOwedByAI2;
+                        betAmount = rand.nextInt(ai2.getCurrency() - totalBetOwedByAI2) + totalBetOwedByAI2;
                     }
 
                     // Check if player needs to clear bets from any other player first
@@ -339,9 +339,9 @@ public class FiveCardPokerEngine extends GameEngine {
                 case 1: // BET
 
                     // Get bet amount input
-                    betAmount = rand.nextInt(ai1.getCurrency()) + totalBetOwedByAI3;
+                   betAmount = rand.nextInt(ai3.getCurrency() - totalBetOwedByAI3) + totalBetOwedByAI3;
                     while (betAmount > p.getCurrency() || betAmount > ai1.getCurrency() || betAmount > ai2.getCurrency() || betAmount > ai3.getCurrency()) {
-                        betAmount = rand.nextInt(ai1.getCurrency()) + totalBetOwedByAI2;
+                        betAmount = rand.nextInt(ai3.getCurrency() - totalBetOwedByAI3) + totalBetOwedByAI3;
                     }
 
 
@@ -459,9 +459,9 @@ public class FiveCardPokerEngine extends GameEngine {
 
                 case 1: // BET
                     // Get bet amount input
-                    betAmount = rand.nextInt(900) + totalBetOwedByAI2;
-                    while (betAmount > ai1.getCurrency()) {
-                        betAmount = rand.nextInt(900) + totalBetOwedByAI2;
+                    betAmount = rand.nextInt(ai1.getCurrency() - totalBetOwedByAI1) + totalBetOwedByAI1;
+                    while (betAmount > p.getCurrency() || betAmount > ai1.getCurrency() || betAmount > ai2.getCurrency() || betAmount > ai3.getCurrency()) {
+                        betAmount = rand.nextInt(ai1.getCurrency() - totalBetOwedByAI1) + totalBetOwedByAI1;
                     }
 
                    
@@ -509,9 +509,9 @@ public class FiveCardPokerEngine extends GameEngine {
 
                 case 1: // BET  
                     // Get bet amount input
-                    betAmount = rand.nextInt(900) + totalBetOwedByAI2;
-                    while (betAmount > ai1.getCurrency()) {
-                        betAmount = rand.nextInt(900) + totalBetOwedByAI2;
+                    betAmount = rand.nextInt(ai2.getCurrency() - totalBetOwedByAI2) + totalBetOwedByAI2;
+                    while (betAmount > p.getCurrency() || betAmount > ai1.getCurrency() || betAmount > ai2.getCurrency() || betAmount > ai3.getCurrency()) {
+                        betAmount = rand.nextInt(ai2.getCurrency() - totalBetOwedByAI2) + totalBetOwedByAI2;
                     }
 
 
@@ -559,9 +559,9 @@ public class FiveCardPokerEngine extends GameEngine {
                 case 1: // BET
 
                     // Get bet amount input
-                    betAmount = rand.nextInt(900) + totalBetOwedByAI3;
-                    while (betAmount > ai1.getCurrency()) {
-                        betAmount = rand.nextInt(900) + totalBetOwedByAI2;
+                    betAmount = rand.nextInt(ai3.getCurrency() - totalBetOwedByAI3) + totalBetOwedByAI3;
+                    while (betAmount > p.getCurrency() || betAmount > ai1.getCurrency() || betAmount > ai2.getCurrency() || betAmount > ai3.getCurrency()){
+                        betAmount = rand.nextInt(ai3.getCurrency() - totalBetOwedByAI3) + totalBetOwedByAI3;
                     }
 
                     
