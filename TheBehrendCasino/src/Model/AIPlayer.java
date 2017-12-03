@@ -18,7 +18,7 @@ public class AIPlayer{
     public static Card[] evalHand = new Card[7];
     
     //boolean statement to know if a player folded and is still in a round of poker
-    public boolean active = false;
+    public boolean active = true;
     
     //player's bet 
     private int bet;

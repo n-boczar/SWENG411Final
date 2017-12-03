@@ -21,7 +21,7 @@ public class Player {
     public static Card[] evalHand = new Card[7];
     
     //boolean statement to know if a player folded and is still in a round of poker
-    public static boolean active = false;
+    public static boolean active = true;
     
     //player's bet 
     private static int bet;
