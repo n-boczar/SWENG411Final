@@ -14,8 +14,11 @@ import Model.Card;
  */
 public class Player {
     
-    //boolean statement to know if a player folded and is still in a round of poker
+    //boolean statement to know if a player lost all their money and is eliminate
     public static boolean active = true;
+    
+    //boolean statement to know if a player folded
+    public static boolean fold = false;
     
     //player's bet 
     private static int bet;
