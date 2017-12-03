@@ -344,9 +344,10 @@ public class FCPokerFrame extends javax.swing.JFrame {
         System.out.println("BET AMOUNT: " + betAmount);
 
         if (betAmount > Player.getCurrency()) {
+            
             System.out.println("INSIDE FIRST USER BET MESSAGE.");
-
             JOptionPane.showMessageDialog(null, "You're betting more than you actually have, retry!", "Warning", JOptionPane.OK_OPTION);
+            
         } else {
 
             // Show the current currency of the player
