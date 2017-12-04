@@ -5,6 +5,8 @@
  */
 package View;
 
+import Model.Player;
+import static View.CAssignFrameNew.f;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -16,6 +18,7 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -37,7 +40,7 @@ public class TitleFrameNew extends javax.swing.JFrame {
             bi = ImageIO.read(new File("BCLogo.png"));
             Icon i = new ImageIcon(bi);
             JLabel titleLogo = new JLabel("" , i , JLabel.CENTER);
-            jPanel1.add(titleLogo, BorderLayout.CENTER);
+            jPanel2.add(titleLogo, BorderLayout.CENTER);
             //System.out.println("Showing Behrend Logo");
         } catch (IOException ex) {
             Logger.getLogger(GameSelectionFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -95,7 +98,7 @@ public class TitleFrameNew extends javax.swing.JFrame {
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setLayout(new java.awt.GridLayout(1, 0));
+        jPanel2.setLayout(new java.awt.GridLayout());
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
         pack();
@@ -103,6 +106,19 @@ public class TitleFrameNew extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        Object[] options = {"View Rules"};
+        int n = JOptionPane.showOptionDialog(null,
+        "Select an option:",
+        "Settings",
+        JOptionPane.OK_OPTION,
+        JOptionPane.INFORMATION_MESSAGE,
+        null,
+        options,
+        options[0]);
+        if(n == 0){
+            //HelpScreen help = new HelpScreen();
+            HelpScreen.main(null);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
