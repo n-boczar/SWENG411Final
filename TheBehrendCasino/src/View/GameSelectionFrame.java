@@ -101,6 +101,11 @@ public class GameSelectionFrame extends javax.swing.JFrame {
         jButton5.setMaximumSize(new java.awt.Dimension(275, 100));
         jButton5.setMinimumSize(new java.awt.Dimension(275, 100));
         jButton5.setPreferredSize(new java.awt.Dimension(275, 100));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("Play ROULETTE");
         jButton6.setMaximumSize(new java.awt.Dimension(275, 100));
@@ -164,6 +169,10 @@ public class GameSelectionFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
        FCPokerFrame.startIt(player, true);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        TexasHoldemFrame.startIt(player, true);
+    }//GEN-LAST:event_jButton5ActionPerformed
 
 //    public static void setCurrency(String s){
 //        System.out.println(s);

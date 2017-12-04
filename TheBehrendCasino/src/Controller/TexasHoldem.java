@@ -93,6 +93,9 @@ public class TexasHoldem extends GameEngine {
         this.ai3 = ai3;
 
         deal();
+        flop();
+        turnAndRiver();
+        turnAndRiver();
 
         // Set currency for ai's to whatever the user has
         this.ai1.setCurrency(Player.getCurrency());
@@ -894,29 +897,29 @@ public class TexasHoldem extends GameEngine {
         return universalBetAmountOwed;
 
     }
-    
+
     /**
      * See if a player folded that round because if they did they should be
-     * active for the next round.
-     * Reset fold because if you don't it could cause problems
+     * active for the next round. Reset fold because if you don't it could cause
+     * problems
      */
-    public void reset(){
-        if(p.fold){
+    public void reset() {
+        if (p.fold) {
             p.active = true;
             p.fold = false;
         }
-        
-        if(ai1.fold){
+
+        if (ai1.fold) {
             ai1.active = true;
             ai1.fold = false;
         }
-        
-        if(ai2.fold){
+
+        if (ai2.fold) {
             ai2.active = true;
             ai2.fold = false;
         }
-        
-        if(ai3.fold){
+
+        if (ai3.fold) {
             ai3.active = true;
             ai3.fold = false;
         }
@@ -928,7 +931,7 @@ public class TexasHoldem extends GameEngine {
      * @param boardCards
      * @param burnCards
      */
-    public void flop(Vector<Card> boardCards, Vector<Card> burnCards) {
+    public void flop() {
         // Burn one card
         burnCards.add(pokerDeck.deal());
         // Turn three cards
@@ -944,7 +947,7 @@ public class TexasHoldem extends GameEngine {
      * @param boardCards
      * @param burnCards
      */
-    public void turnAndRiver(Vector<Card> boardCards, Vector<Card> burnCards) {
+    public void turnAndRiver() {
         // Burn one card
         burnCards.add(pokerDeck.deal());
         // Turn one card
