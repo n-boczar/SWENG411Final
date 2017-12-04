@@ -76,6 +76,10 @@ public class TexasHoldem extends GameEngine {
     int tempCurr2;
     int tempCurr3;
     int tempCurr4;
+    int pOwed = 0;
+    int ai1Owed = 0;
+    int ai2Owed = 0;
+    int ai3Owed = 0;
 
     public TexasHoldem(AIPlayer ai1, AIPlayer ai2, AIPlayer ai3) throws IOException {
 
@@ -136,6 +140,212 @@ public class TexasHoldem extends GameEngine {
         AI_3Hand.add(pokerDeck.deal());
         // Give player second card
         AI_3Hand.add(pokerDeck.deal());
+    }
+
+    /**
+     * Function to Call/Check add players owed amount to the pot subtract the
+     * owed amount from their currency return 0 which will be set to their new
+     * owed amount
+     *
+     * @param player
+     * @param owedAmt
+     * @return
+     */
+    public int call(Player player, int owedAmt) {
+        pot += owedAmt;
+        player.setCurrency(player.getCurrency() - owedAmt);
+        return 0;
+    }
+
+    public int call(AIPlayer player, int owedAmt) {
+        pot += owedAmt;
+        player.setCurrency(player.getCurrency() - owedAmt);
+        return 0;
+    }
+
+    /**
+     * Set a new bet and add that amount to the pot before calling this function
+     * call() should be called after this function all owed amounts should be
+     * added to
+     *
+     * @param player
+     * @param betAmt
+     * @return
+     */
+    public int newBet(AIPlayer player, int betAmt) {
+        do {
+            // Get bet amount input
+            betAmt = rand.nextInt(player.getCurrency());
+        } while ((betAmt > p.getCurrency() && p.active) || (betAmt > ai1.getCurrency() && ai1.active) || (betAmt > ai2.getCurrency() && ai2.active) || (betAmt > ai3.getCurrency() && ai3.active));
+        pot += betAmt;
+        player.setCurrency(player.getCurrency() - betAmt);
+        return betAmt;
+    }
+
+    /**
+     * Player folds set them to inactive for the round use fold value to
+     * reactivate folded players at the end of the hand
+     *
+     * @param player
+     */
+    public void fold(Player player) {
+        player.active = false;
+        player.fold = true;
+    }
+
+    public void fold(AIPlayer player) {
+        player.active = false;
+        player.fold = true;
+    }
+
+    public int startRound(int playerMoveChoice, int betAmt) {
+        //do {
+            System.out.println("Player Owes: " + pOwed);
+            System.out.println("AI1 Curr: " + ai1.getCurrency());
+            //if the player is in the hand
+            if (p.active) {
+                //while (playerMoveChoice == 0) {
+                //This endless polling loop might break everything
+                //startRound(playerMoveChoice, betAmt);
+                //}
+                switch (playerMoveChoice) {
+                    //BET: Don't call bet function because that generate a random number
+                    case 1:
+                        //Only add on to amount owed if the player has not folded
+                        if (!ai1.fold) {
+                            ai1Owed += betAmt;
+                        }
+                        if (!ai2.fold) {
+                            ai2Owed += betAmt;
+                        }
+                        if (!ai3.fold) {
+                            ai3Owed += betAmt;
+                        }
+                        pot += betAmt;
+                        p.setCurrency(p.getCurrency() - betAmt);
+                        break;
+
+                    case 2:
+                        pOwed = call(p, pOwed);
+                        break;
+
+                    case 3:
+                        fold(p);
+                        pOwed = 0;
+                        break;
+                }
+
+            }
+
+            //if the ai1 is in the hand
+            if (ai1.active) {
+                AI_MoveChoice = rand.nextInt(3) + 1;
+                switch (AI_MoveChoice) {
+
+                    //BET: Don't call bet function because that generate a random number
+                    case 1:
+                        ai1Owed = call(ai1, ai1Owed);
+                        betAmt = newBet(ai1, betAmt);
+                        System.out.println("AI1 Bet Amount: " + betAmt);
+
+                        //Only add on to amount owed if the player has not folded
+                        if (!p.fold) {
+                            pOwed += betAmt;
+                        }
+                        if (!ai2.fold) {
+                            ai2Owed += betAmt;
+                        }
+                        if (!ai3.fold) {
+                            ai3Owed += betAmt;
+                        }
+                        pot += betAmt;
+                        ai1.setCurrency(ai1.getCurrency() - betAmt);
+                        break;
+
+                    case 2:
+                        System.out.println("AI1 Calling");
+
+                        ai1Owed = call(ai1, ai1Owed);
+                        break;
+
+                    case 3:
+                        System.out.println("AI1 Folding");
+                        fold(ai1);
+                        ai1Owed = 0;
+                        break;
+                }
+            }
+
+            //if the ai2 is in the hand
+            if (ai2.active) {
+                AI_MoveChoice = rand.nextInt(3) + 1;
+                switch (AI_MoveChoice) {
+
+                    //BET: Don't call bet function because that generate a random number
+                    case 1:
+                        ai2Owed = call(ai2, ai2Owed);
+                        betAmt = newBet(ai2, betAmt);
+                        //Only add on to amount owed if the player has not folded
+                        if (!p.fold) {
+                            pOwed += betAmt;
+                        }
+                        if (!ai1.fold) {
+                            ai1Owed += betAmt;
+                        }
+                        if (!ai3.fold) {
+                            ai3Owed += betAmt;
+                        }
+                        pot += betAmt;
+                        ai2.setCurrency(ai2.getCurrency() - betAmt);
+                        break;
+
+                    case 2:
+                        ai2Owed = call(ai2, ai2Owed);
+                        break;
+
+                    case 3:
+                        fold(ai2);
+                        ai2Owed = 0;
+                        break;
+                }
+            }
+
+            //if the ai3 is in the hand
+            if (ai3.active) {
+                AI_MoveChoice = rand.nextInt(3) + 1;
+                switch (AI_MoveChoice) {
+
+                    //BET: Don't call bet function because that generate a random number
+                    case 1:
+                        ai3Owed = call(ai3, ai3Owed);
+                        betAmt = newBet(ai3, betAmt);
+                        //Only add on to amount owed if the player has not folded
+                        if (!p.fold) {
+                            pOwed += betAmt;
+                        }
+                        if (!ai1.fold) {
+                            ai1Owed += betAmt;
+                        }
+                        if (!ai2.fold) {
+                            ai2Owed += betAmt;
+                        }
+                        pot += betAmt;
+                        ai3.setCurrency(ai3.getCurrency() - betAmt);
+                        break;
+
+                    case 2:
+                        ai3Owed = call(ai3, ai3Owed);
+                        break;
+
+                    case 3:
+                        fold(ai3);
+                        ai3Owed = 0;
+                        break;
+                }
+            }
+            universalBetAmountOwed = pOwed + ai1Owed + ai2Owed + ai3Owed;
+            return universalBetAmountOwed;
+        //} while (pOwed != 0 && ai1Owed != 0 && ai2Owed != 0 && ai3Owed != 0);
     }
 
     /**

@@ -36,6 +36,7 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
     public int betAmount = 0;
     public int universalBetAmountOwed = 0;
     public int playerWon;
+    public int round = 0;
     public AIPlayer ai1 = new AIPlayer();
     public AIPlayer ai2 = new AIPlayer();
     public AIPlayer ai3 = new AIPlayer();
@@ -242,104 +243,92 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // Set player choice to check
+        //Update player currency
+        //Player.setCurrency(Player.getCurrency());
+        // Set the bet amount from the text field
+        round++;
         playerMoveChoice = 2;
-        betAmount = 0;
-
-        System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
-
-        if (roundNumber == 1) {
-
+        // Show the current currency of the player
+        //COULDN'T FIND A BETTER WAY TO SHOW UPDATED CURRENCY AFTER CALLING
+        //SO I'M JUST UPDATING AFTER THE ROUND OF BETTING
+        jTextField1.setText(String.valueOf(Player.getCurrency() - betAmount));
+        if (round == 1) {
             do {
-                universalBetAmountOwed = e.startRound1(playerMoveChoice, betAmount);
-                System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
-
+                universalBetAmountOwed = e.startRound(playerMoveChoice, betAmount);
             } while (universalBetAmountOwed != 0);
-
-            roundNumber = 2;
-
+            jTextField1.setText(String.valueOf(Player.getCurrency()));
             //Show another board card (turn)
             JLabel tableCard4 = new JLabel(new ImageIcon(e.boardCards.elementAt(3).getCardImage()));
             jPanel4.add(tableCard4);
             jPanel4.doLayout();
-
-        } else if (roundNumber == 2) {
+        } else if (round == 2) {
             do {
-                universalBetAmountOwed = e.startRound2(playerMoveChoice, betAmount);
-                System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
-
+                universalBetAmountOwed = e.startRound(playerMoveChoice, betAmount);
             } while (universalBetAmountOwed != 0);
-
-            roundNumber = 3;
-
+            jTextField1.setText(String.valueOf(Player.getCurrency()));
             //Show another board card (river)
             JLabel tableCard5 = new JLabel(new ImageIcon(e.boardCards.elementAt(4).getCardImage()));
-            jPanel4.add(tableCard5);            
+            jPanel4.add(tableCard5);
             jPanel4.doLayout();
-
-        } else if (roundNumber == 3) {
+        } else if (round == 3) {
             do {
-                universalBetAmountOwed = e.startRound2(playerMoveChoice, betAmount);
-                System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
-
+                universalBetAmountOwed = e.startRound(playerMoveChoice, betAmount);
             } while (universalBetAmountOwed != 0);
-
-            // Call compareHands function and determine the winner
-            playerWon = e.compareHands(e.playerHand, e.AI_1Hand, e.AI_2Hand, e.AI_3Hand, e.boardCards);
-
-            if (playerWon == 1) {
-                JOptionPane.showMessageDialog(null, "User player won the game!", "Winner", JOptionPane.OK_OPTION);
-            }
-            if (playerWon == 2) {
-                JOptionPane.showMessageDialog(null, "AI player 1 won the game!", "Winner", JOptionPane.OK_OPTION);
-            }
-            if (playerWon == 3) {
-                JOptionPane.showMessageDialog(null, "AI player 2 won the game!", "Winner", JOptionPane.OK_OPTION);
-            }
-            if (playerWon == 4) {
-                JOptionPane.showMessageDialog(null, "AI player 3 won the game!", "Winner", JOptionPane.OK_OPTION);
-            }
-
-            //Check if player or AI have enough currencies to go to next round
-            if (Player.getCurrency() == 0) {
-                Player.active = false;
-            }
-            if (ai1.getCurrency() == 0) {
-                ai1.active = false;
-            }
-            if (ai2.getCurrency() == 0) {
-                ai2.active = false;
-            }
-            if (ai3.getCurrency() == 0) {
-                ai3.active = false;
-            }
+            check();
         }
+
+        System.out.println("AI1 Curr: " + ai1.getCurrency());
+        System.out.println("AI2 Curr: " + ai2.getCurrency());
+        System.out.println("AI3 Curr: " + ai3.getCurrency());
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // Set player move to bet
-        playerMoveChoice = 1;
 
         //Update player currency
-        Player.setCurrency(Player.getCurrency());
-
+        //Player.setCurrency(Player.getCurrency());
         // Set the bet amount from the text field
         betAmount = Integer.parseInt(jTextField1.getText());
+        playerMoveChoice = 1;
 
-        System.out.println("BET AMOUNT: " + betAmount);
-
-        if (betAmount > Player.getCurrency()) {
+        //make sure the user isn't betting more than what anyone has
+        if (betAmount > Player.getCurrency() || betAmount > ai1.getCurrency() || betAmount > ai2.getCurrency() || betAmount > ai3.getCurrency()) {
 
             System.out.println("INSIDE FIRST USER BET MESSAGE.");
-            JOptionPane.showMessageDialog(null, "You're betting more than you actually have, retry!", "Warning", JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(null, "You're betting more than you or another player has, retry!", "Warning", JOptionPane.OK_OPTION);
 
         } else {
-
+            round++;
             // Show the current currency of the player
-            jTextField2.setText(String.valueOf(Player.getCurrency() - betAmount));
+            jTextField1.setText(String.valueOf(Player.getCurrency() - betAmount));
+            if (round == 1) {
+                do {
+                    universalBetAmountOwed = e.startRound(playerMoveChoice, betAmount);
+                } while (universalBetAmountOwed != 0);
+                //Show another board card (turn)
+                JLabel tableCard4 = new JLabel(new ImageIcon(e.boardCards.elementAt(3).getCardImage()));
+                jPanel4.add(tableCard4);
+                jPanel4.doLayout();
+            } else if (round == 2) {
+                do {
+                    universalBetAmountOwed = e.startRound(playerMoveChoice, betAmount);
+                } while (universalBetAmountOwed != 0);
+                //Show another board card (river)
+                JLabel tableCard5 = new JLabel(new ImageIcon(e.boardCards.elementAt(4).getCardImage()));
+                jPanel4.add(tableCard5);
+                jPanel4.doLayout();
+            } else if (round == 3) {
+                do {
+                    universalBetAmountOwed = e.startRound(playerMoveChoice, betAmount);
+                } while (universalBetAmountOwed != 0);
+                check();
+            }
 
-            System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
+            System.out.println("AI1 Curr: " + ai1.getCurrency());
+            System.out.println("AI2 Curr: " + ai2.getCurrency());
+            System.out.println("AI3 Curr: " + ai3.getCurrency());
 
+            /*
             if (roundNumber == 1) {
 
                 do {
@@ -350,10 +339,7 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
 
                 roundNumber = 2;
 
-                //Show another board card (turn)
-                JLabel tableCard4 = new JLabel(new ImageIcon(e.boardCards.elementAt(3).getCardImage()));
-                jPanel4.add(tableCard4);
-                jPanel4.doLayout();
+                
 
             } else if (roundNumber == 2) {
                 do {
@@ -407,79 +393,161 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
                 }
             }
         }
+             */
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // Set player choice to fold
         playerMoveChoice = 3;
         betAmount = 0;
-        
-        if (roundNumber == 1) {
 
-            do {
-                universalBetAmountOwed = e.startRound1(playerMoveChoice, betAmount);
-                System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
-
-            } while (universalBetAmountOwed != 0);
-
-            roundNumber = 2;
-
+        do {
+            universalBetAmountOwed = e.startRound(playerMoveChoice, betAmount);
+        } while (universalBetAmountOwed != 0);
+        if (round < 2) {
             //Show another board card (turn)
             JLabel tableCard4 = new JLabel(new ImageIcon(e.boardCards.elementAt(3).getCardImage()));
             jPanel4.add(tableCard4);
             jPanel4.doLayout();
+        }
 
-        } else if (roundNumber == 2) {
-            do {
-                universalBetAmountOwed = e.startRound2(playerMoveChoice, betAmount);
-                System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
+        do {
+            universalBetAmountOwed = e.startRound(playerMoveChoice, betAmount);
+        } while (universalBetAmountOwed != 0);
 
-            } while (universalBetAmountOwed != 0);
-
-            roundNumber = 3;
-
+        if (round < 3) {
             //Show another board card (river)
             JLabel tableCard5 = new JLabel(new ImageIcon(e.boardCards.elementAt(4).getCardImage()));
             jPanel4.add(tableCard5);
             jPanel4.doLayout();
-
-        } else if (roundNumber == 3) {
-            do {
-                universalBetAmountOwed = e.startRound2(playerMoveChoice, betAmount);
-                System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
-
-            } while (universalBetAmountOwed != 0);
-
-            // Call compareHands function and determine the winner
-            playerWon = e.compareHands(e.playerHand, e.AI_1Hand, e.AI_2Hand, e.AI_3Hand, e.boardCards);
-
-            if (playerWon == 1) {
-                JOptionPane.showMessageDialog(null, "User player won the game!", "Winner", JOptionPane.OK_OPTION);
-            }
-            if (playerWon == 2) {
-                JOptionPane.showMessageDialog(null, "AI player 1 won the game!", "Winner", JOptionPane.OK_OPTION);
-            }
-            if (playerWon == 3) {
-                JOptionPane.showMessageDialog(null, "AI player 2 won the game!", "Winner", JOptionPane.OK_OPTION);
-            }
-            if (playerWon == 4) {
-                JOptionPane.showMessageDialog(null, "AI player 3 won the game!", "Winner", JOptionPane.OK_OPTION);
-            }
-
-            //Check if player or AI have enough currencies to go to next round
-            if (Player.getCurrency() == 0) {
-                Player.active = false;
-            }
-            if (ai1.getCurrency() == 0) {
-                ai1.active = false;
-            }
-            if (ai2.getCurrency() == 0) {
-                ai2.active = false;
-            }
-            if (ai3.getCurrency() == 0) {
-                ai3.active = false;
-            }
         }
+        do {
+            universalBetAmountOwed = e.startRound(playerMoveChoice, betAmount);
+        } while (universalBetAmountOwed != 0);
+        System.out.println("AI1 Curr: " + ai1.getCurrency());
+        System.out.println("AI2 Curr: " + ai2.getCurrency());
+        System.out.println("AI3 Curr: " + ai3.getCurrency());
+        check();
+    }
+
+    /**
+     * Check to see if the players are still in the game
+     */
+    public void check() {
+        // Call compareHands function and determine the winner
+        playerWon = e.compareHands(e.playerHand, e.AI_1Hand, e.AI_2Hand, e.AI_3Hand, e.boardCards);
+
+        if (playerWon == 1) {
+            JOptionPane.showMessageDialog(null, "User player won the game!", "Winner", JOptionPane.OK_OPTION);
+        }
+        if (playerWon == 2) {
+            JOptionPane.showMessageDialog(null, "AI player 1 won the game!", "Winner", JOptionPane.OK_OPTION);
+        }
+        if (playerWon == 3) {
+            JOptionPane.showMessageDialog(null, "AI player 2 won the game!", "Winner", JOptionPane.OK_OPTION);
+        }
+        if (playerWon == 4) {
+            JOptionPane.showMessageDialog(null, "AI player 3 won the game!", "Winner", JOptionPane.OK_OPTION);
+        }
+
+        //Check if player or AI have enough currencies to go to next round
+        if (Player.getCurrency() < 25) {
+            Player.active = false;
+        }
+        if (ai1.getCurrency() < 25) {
+            ai1.active = false;
+        }
+        if (ai2.getCurrency() < 25) {
+            ai2.active = false;
+        }
+        if (ai3.getCurrency() < 25) {
+            ai3.active = false;
+        }
+
+        //reset the folded players at the end of each game
+        e.reset();
+
+        /*
+    if (roundNumber
+
+    
+        == 1) {
+
+            do {
+            universalBetAmountOwed = e.startRound1(playerMoveChoice, betAmount);
+            System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
+
+        } while (universalBetAmountOwed != 0);
+
+        roundNumber = 2;
+
+        //Show another board card (turn)
+        //JLabel tableCard4 = new JLabel(new ImageIcon(e.boardCards.elementAt(3).getCardImage()));
+        jPanel4.add(tableCard4);
+        jPanel4.doLayout();
+
+    }
+    else if (roundNumber
+
+    
+        == 2) {
+            do {
+            universalBetAmountOwed = e.startRound2(playerMoveChoice, betAmount);
+            System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
+
+        } while (universalBetAmountOwed != 0);
+
+        roundNumber = 3;
+
+        //Show another board card (river)
+        //JLabel tableCard5 = new JLabel(new ImageIcon(e.boardCards.elementAt(4).getCardImage()));
+        jPanel4.add(tableCard5);
+        jPanel4.doLayout();
+
+    }
+    else if (roundNumber
+
+    
+        == 3) {
+            do {
+            universalBetAmountOwed = e.startRound2(playerMoveChoice, betAmount);
+            System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
+
+        } while (universalBetAmountOwed != 0);
+
+        // Call compareHands function and determine the winner
+        playerWon = e.compareHands(e.playerHand, e.AI_1Hand, e.AI_2Hand, e.AI_3Hand, e.boardCards);
+
+        if (playerWon == 1) {
+            JOptionPane.showMessageDialog(null, "User player won the game!", "Winner", JOptionPane.OK_OPTION);
+        }
+        if (playerWon == 2) {
+            JOptionPane.showMessageDialog(null, "AI player 1 won the game!", "Winner", JOptionPane.OK_OPTION);
+        }
+        if (playerWon == 3) {
+            JOptionPane.showMessageDialog(null, "AI player 2 won the game!", "Winner", JOptionPane.OK_OPTION);
+        }
+        if (playerWon == 4) {
+            JOptionPane.showMessageDialog(null, "AI player 3 won the game!", "Winner", JOptionPane.OK_OPTION);
+        }
+
+        //Check if player or AI have enough currencies to go to next round
+        if (Player.getCurrency() == 0) {
+            Player.active = false;
+        }
+        if (ai1.getCurrency() == 0) {
+            ai1.active = false;
+        }
+        if (ai2.getCurrency() == 0) {
+            ai2.active = false;
+        }
+        if (ai3.getCurrency() == 0) {
+            ai3.active = false;
+        }
+    }
+         */
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
@@ -490,10 +558,10 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
 
-/**
- * @param args the command line arguments
- */
-public static void main(String args[]) {
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -504,28 +572,24 @@ public static void main(String args[]) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                
 
-}
+                }
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(TexasHoldemFrame.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (InstantiationException ex) {
+        } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(TexasHoldemFrame.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (IllegalAccessException ex) {
+        } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(TexasHoldemFrame.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(TexasHoldemFrame.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -534,11 +598,10 @@ public static void main(String args[]) {
             public void run() {
                 try {
                     new TexasHoldemFrame().setVisible(true);
-                
 
-} catch (IOException ex) {
+                } catch (IOException ex) {
                     Logger.getLogger(TexasHoldemFrame.class
-.getName()).log(Level.SEVERE, null, ex);
+                            .getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
