@@ -237,7 +237,7 @@ public class FCPokerFrame extends javax.swing.JFrame {
             System.out.println("PLAYER WON # : " + playerWon);
             if (playerWon == 0) {
                 JOptionPane.showMessageDialog(null, "User player won the game!", "Winner", JOptionPane.OK_OPTION);
-                Player.setCurrency(Player.getCurrency() + 100);
+                Player.setCurrency(Player.getCurrency() + 25);
                 if (!(player.getCurrency() < 25)) {
                     startIt(player, true);
                     this.dispose();
@@ -311,7 +311,7 @@ public class FCPokerFrame extends javax.swing.JFrame {
 
             if (playerWon == 0) {
                 JOptionPane.showMessageDialog(null, "User player won the game!", "Winner", JOptionPane.OK_OPTION);
-                Player.setCurrency(Player.getCurrency() + 100);
+                Player.setCurrency(Player.getCurrency() + 25);
                 if (!(player.getCurrency() < 25)) {
                     startIt(player, true);
                     this.dispose();
