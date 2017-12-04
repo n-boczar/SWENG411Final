@@ -8,7 +8,8 @@
 
 
 
-package roullette;
+package View;
+import Model.Player;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.util.Random;
@@ -48,8 +49,13 @@ public class RoulletteWheel extends javax.swing.JFrame {
         jButton9 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jTextField2 = new javax.swing.JTextField();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setResizable(false);
 
         jButton10.setFont(new java.awt.Font("Tahoma", 1, 21)); // NOI18N
         jButton10.setIcon(new javax.swing.ImageIcon("C:\\Users\\mtw52\\Pictures\\RoullettePics\\FinalChipSmall2.png")); // NOI18N
@@ -173,6 +179,13 @@ public class RoulletteWheel extends javax.swing.JFrame {
             }
         });
 
+        jTextField1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel3.setText("Pay Out");
+
+        jTextField3.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -192,14 +205,21 @@ public class RoulletteWheel extends javax.swing.JFrame {
                     .addComponent(jButton14))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -210,19 +230,24 @@ public class RoulletteWheel extends javax.swing.JFrame {
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3)))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();
@@ -273,7 +298,10 @@ public class RoulletteWheel extends javax.swing.JFrame {
         g.setColor(Color.WHITE);
         g.fillOval(x2,y2,30,30);
         
-        //Balance = Balance - 5; 
+        int userBet = 5;
+        Player.currency = Player.currency - userBet;
+        String displayCurrency = Integer.toString(Player.currency);
+        jTextField1.setText(displayCurrency);
         
     }//GEN-LAST:event_jButton9MouseReleased
 
@@ -296,7 +324,10 @@ public class RoulletteWheel extends javax.swing.JFrame {
         g.setColor(Color.WHITE);
         g.fillOval(x2,y2,30,30);
         
-        //Balance = Balance - 10
+        int userBet = 10;
+        Player.currency = Player.currency - userBet;
+        String displayCurrency = Integer.toString(Player.currency);
+        jTextField1.setText(displayCurrency);
     }//GEN-LAST:event_jButton10MouseReleased
 
     private void jButton12MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton12MouseReleased
@@ -313,7 +344,10 @@ public class RoulletteWheel extends javax.swing.JFrame {
         g.setColor(Color.WHITE);
         g.fillOval(x2,y2,30,30);
         
-        //Balance = Balance - 20;
+        int userBet = 20;
+        Player.currency = Player.currency - userBet;
+        String displayCurrency = Integer.toString(Player.currency);
+        jTextField1.setText(displayCurrency);
     }//GEN-LAST:event_jButton12MouseReleased
 
     private void jButton11MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton11MouseReleased
@@ -330,7 +364,10 @@ public class RoulletteWheel extends javax.swing.JFrame {
         g.setColor(Color.WHITE);
         g.fillOval(x2,y2,30,30);
         
-        //Balance = Balance - 50;
+        int userBet = 50;
+        Player.currency = Player.currency - userBet;
+        String displayCurrency = Integer.toString(Player.currency);
+        jTextField1.setText(displayCurrency);
     }//GEN-LAST:event_jButton11MouseReleased
 
     private void jButton14MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton14MouseReleased
@@ -347,7 +384,10 @@ public class RoulletteWheel extends javax.swing.JFrame {
         g.setColor(Color.WHITE);
         g.fillOval(x2,y2,30,30);
         
-        //Balance = Balance - 100;
+        int userBet = 100;
+        Player.currency = Player.currency - userBet;
+        String displayCurrency = Integer.toString(Player.currency);
+        jTextField1.setText(displayCurrency);
     }//GEN-LAST:event_jButton14MouseReleased
 //Wheel Spin
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -401,7 +441,12 @@ public class RoulletteWheel extends javax.swing.JFrame {
             }
         });
     }
-
+public static void startIt(Player player, boolean x) 
+{
+         
+         RoulletteWheel.main(null);
+            
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
@@ -411,9 +456,12 @@ public class RoulletteWheel extends javax.swing.JFrame {
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 
     

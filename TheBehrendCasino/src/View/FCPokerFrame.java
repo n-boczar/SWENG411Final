@@ -40,6 +40,12 @@ public class FCPokerFrame extends javax.swing.JFrame {
     public AIPlayer ai1 = new AIPlayer();
     public AIPlayer ai2 = new AIPlayer();
     public AIPlayer ai3 = new AIPlayer();
+    public int counter = 0;
+    public JLabel card_1;
+    public JLabel card_2;
+    public JLabel card_3;
+    public JLabel card_4;
+    public JLabel card_5;
 
     public static void startIt(Player player, boolean x) {
 
@@ -79,19 +85,19 @@ public class FCPokerFrame extends javax.swing.JFrame {
         e = new FiveCardPokerEngine(ai1, ai2, ai3);
 
         // Show the card in their respective panels for the player
-        JLabel card_1 = new JLabel(new ImageIcon(e.playerHand.elementAt(0).getCardImage()));
+        card_1 = new JLabel(new ImageIcon(e.playerHand.elementAt(0).getCardImage()));
         jPanel4.add(card_1);
 
-        JLabel card_2 = new JLabel(new ImageIcon(e.playerHand.elementAt(1).getCardImage()));
+        card_2 = new JLabel(new ImageIcon(e.playerHand.elementAt(1).getCardImage()));
         jPanel4.add(card_2);
 
-        JLabel card_3 = new JLabel(new ImageIcon(e.playerHand.elementAt(2).getCardImage()));
+        card_3 = new JLabel(new ImageIcon(e.playerHand.elementAt(2).getCardImage()));
         jPanel4.add(card_3);
 
-        JLabel card_4 = new JLabel(new ImageIcon(e.playerHand.elementAt(3).getCardImage()));
+        card_4 = new JLabel(new ImageIcon(e.playerHand.elementAt(3).getCardImage()));
         jPanel4.add(card_4);
 
-        JLabel card_5 = new JLabel(new ImageIcon(e.playerHand.elementAt(4).getCardImage()));
+        card_5 = new JLabel(new ImageIcon(e.playerHand.elementAt(4).getCardImage()));
         jPanel4.add(card_5);
 
         jPanel4.doLayout();
@@ -111,12 +117,41 @@ public class FCPokerFrame extends javax.swing.JFrame {
         if (roundNumber == 1) {
             universalBetAmountOwedR1 = e.startRound1(playerMoveChoice, betAmount);
             System.out.println("Universal Amount Owed: " + universalBetAmountOwedR1);
+            jTextField3.setText(Integer.toString(e.ai1.getBet()));
+            jTextField4.setText(Integer.toString(e.ai2.getBet()));
+            jTextField5.setText(Integer.toString(e.ai3.getBet()));
         }
 
         if (universalBetAmountOwedR1 != 0) {
             roundNumber = 1;
         } else {
             roundNumber = 2;
+            counter++;
+            if (counter == 1) {
+                JOptionPane.showMessageDialog(null, "Replacing your cards!", "Betting Round 1 Over!", JOptionPane.OK_OPTION);
+                e.askToReplaceHand();
+
+                jPanel4.remove(card_1);
+                jPanel4.remove(card_2);
+                jPanel4.remove(card_3);
+
+                // Show the card in their respective panels for the player
+                card_1 = new JLabel(new ImageIcon(e.playerHand.elementAt(5).getCardImage()));
+                jPanel4.add(card_1);
+
+                card_2 = new JLabel(new ImageIcon(e.playerHand.elementAt(6).getCardImage()));
+                jPanel4.add(card_2);
+
+                card_3 = new JLabel(new ImageIcon(e.playerHand.elementAt(7).getCardImage()));
+                jPanel4.add(card_3);
+
+                e.playerHand.removeElementAt(0);
+                e.playerHand.removeElementAt(1);
+                e.playerHand.removeElementAt(2);
+
+                jPanel4.doLayout();
+                repaint();
+            }
         }
 
     }
@@ -146,12 +181,42 @@ public class FCPokerFrame extends javax.swing.JFrame {
             if (roundNumber == 1) {
                 universalBetAmountOwedR1 = e.startRound1(playerMoveChoice, betAmount);
                 System.out.println("Universal Amount Owed: " + universalBetAmountOwedR1);
+
+                jTextField3.setText(Integer.toString(e.ai1.getBet()));
+                jTextField4.setText(Integer.toString(e.ai2.getBet()));
+                jTextField5.setText(Integer.toString(e.ai3.getBet()));
             }
 
             if (universalBetAmountOwedR1 != 0) {
                 roundNumber = 1;
             } else {
                 roundNumber = 2;
+                counter++;
+                if (counter == 1) {
+                    JOptionPane.showMessageDialog(null, "Replacing your cards!", "Betting Round 1 Over!", JOptionPane.OK_OPTION);
+                    e.askToReplaceHand();
+
+                    jPanel4.remove(card_1);
+                    jPanel4.remove(card_2);
+                    jPanel4.remove(card_3);
+
+                    // Show the card in their respective panels for the player
+                    card_1 = new JLabel(new ImageIcon(e.playerHand.elementAt(5).getCardImage()));
+                    jPanel4.add(card_1);
+
+                    card_2 = new JLabel(new ImageIcon(e.playerHand.elementAt(6).getCardImage()));
+                    jPanel4.add(card_2);
+
+                    card_3 = new JLabel(new ImageIcon(e.playerHand.elementAt(7).getCardImage()));
+                    jPanel4.add(card_3);
+
+                    e.playerHand.removeElementAt(0);
+                    e.playerHand.removeElementAt(1);
+                    e.playerHand.removeElementAt(2);
+
+                    jPanel4.doLayout();
+                    repaint();
+                }
             }
         }
     }
@@ -160,6 +225,9 @@ public class FCPokerFrame extends javax.swing.JFrame {
         if (roundNumber == 2) {
             universalBetAmountOwedR2 = e.startRound2(playerMoveChoice, betAmount);
             System.out.println("Universal Amount Owed: " + universalBetAmountOwedR2);
+            jTextField3.setText(Integer.toString(e.ai1.getBet()));
+            jTextField4.setText(Integer.toString(e.ai2.getBet()));
+            jTextField5.setText(Integer.toString(e.ai3.getBet()));
         }
 
         if (universalBetAmountOwedR2 == 0) {
@@ -169,54 +237,59 @@ public class FCPokerFrame extends javax.swing.JFrame {
             System.out.println("PLAYER WON # : " + playerWon);
             if (playerWon == 0) {
                 JOptionPane.showMessageDialog(null, "User player won the game!", "Winner", JOptionPane.OK_OPTION);
-                if(!(player.getCurrency() < 25)){
-                startIt(player, true);
-                this.dispose();
-                }else{
-                    System.exit(0); 
+                Player.setCurrency(Player.getCurrency() + 100);
+                if (!(player.getCurrency() < 25)) {
+                    startIt(player, true);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Restart the game to get more money!", "No money!", JOptionPane.OK_OPTION);
+                    System.exit(0);
                 }
             }
             if (playerWon == 1) {
                 JOptionPane.showMessageDialog(null, "AI player 1 won the game!", "Winner", JOptionPane.OK_OPTION);
-                if(!(player.getCurrency() < 25)){
-                startIt(player, true);
-                this.dispose();
-                }else{
-                    System.exit(0); 
+                if (!(player.getCurrency() < 25)) {
+                    startIt(player, true);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Restart the game to get more money!", "No money!", JOptionPane.OK_OPTION);
+                    System.exit(0);
                 }
             }
             if (playerWon == 2) {
                 JOptionPane.showMessageDialog(null, "AI player 2 won the game!", "Winner", JOptionPane.OK_OPTION);
-                if(!(player.getCurrency() < 25)){
-                startIt(player, true);
-                this.dispose();
-                }else{
-                    System.exit(0); 
+                if (!(player.getCurrency() < 25)) {
+                    startIt(player, true);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Restart the game to get more money!", "No money!", JOptionPane.OK_OPTION);
+                    System.exit(0);
                 }
             }
             if (playerWon == 3) {
                 JOptionPane.showMessageDialog(null, "AI player 3 won the game!", "Winner", JOptionPane.OK_OPTION);
-                if(!(player.getCurrency() < 25)){
-                startIt(player, true);
-                this.dispose();
-                }else{
-                    System.exit(0); 
+                if (!(player.getCurrency() < 25)) {
+                    startIt(player, true);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Restart the game to get more money!", "No money!", JOptionPane.OK_OPTION);
+                    System.exit(0);
                 }
             }
 
-            //Check if player or AI have enough currencies to go to next round
-            if (Player.getCurrency() == 0) {
-                Player.active = false;
-            }
-            if (ai1.getCurrency() == 0) {
-                ai1.active = false;
-            }
-            if (ai2.getCurrency() == 0) {
-                ai2.active = false;
-            }
-            if (ai3.getCurrency() == 0) {
-                ai3.active = false;
-            }
+//            //Check if player or AI have enough currencies to go to next round
+//            if (Player.getCurrency() == 0) {
+//                Player.active = false;
+//            }
+//            if (ai1.getCurrency() == 0) {
+//                ai1.active = false;
+//            }
+//            if (ai2.getCurrency() == 0) {
+//                ai2.active = false;
+//            }
+//            if (ai3.getCurrency() == 0) {
+//                ai3.active = false;
+//            }
         }
     }
 
@@ -225,48 +298,56 @@ public class FCPokerFrame extends javax.swing.JFrame {
         if (roundNumber == 2) {
             universalBetAmountOwedR2 = e.startRound2(playerMoveChoice, betAmount);
             System.out.println("Universal Amount Owed: " + universalBetAmountOwedR2);
+            jTextField3.setText(Integer.toString(e.ai1.getBet()));
+            jTextField4.setText(Integer.toString(e.ai2.getBet()));
+            jTextField5.setText(Integer.toString(e.ai3.getBet()));
         }
 
         if (universalBetAmountOwedR2 == 0) {
             // Call compareHands function and determine the winner
-            
+
             playerWon = e.compareHands(e.playerHand, e.AI_1Hand, e.AI_2Hand, e.AI_3Hand);
             System.out.println("PLAYER WON # : " + playerWon);
-            
+
             if (playerWon == 0) {
                 JOptionPane.showMessageDialog(null, "User player won the game!", "Winner", JOptionPane.OK_OPTION);
-                if(!(player.getCurrency() < 25)){
-                startIt(player, true);
-                this.dispose();
-                }else{
-                    System.exit(0); 
+                Player.setCurrency(Player.getCurrency() + 100);
+                if (!(player.getCurrency() < 25)) {
+                    startIt(player, true);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Restart the game to get more money!", "No money!", JOptionPane.OK_OPTION);
+                    System.exit(0);
                 }
             }
             if (playerWon == 1) {
                 JOptionPane.showMessageDialog(null, "AI player 1 won the game!", "Winner", JOptionPane.OK_OPTION);
-                if(!(player.getCurrency() < 25)){
-                startIt(player, true);
-                this.dispose();
-                }else{
-                    System.exit(0); 
+                if (!(player.getCurrency() < 25)) {
+                    startIt(player, true);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Restart the game to get more money!", "No money!", JOptionPane.OK_OPTION);
+                    System.exit(0);
                 }
             }
             if (playerWon == 2) {
                 JOptionPane.showMessageDialog(null, "AI player 2 won the game!", "Winner", JOptionPane.OK_OPTION);
-                if(!(player.getCurrency() < 25)){
-                startIt(player, true);
-                this.dispose();
-                }else{
-                    System.exit(0); 
+                if (!(player.getCurrency() < 25)) {
+                    startIt(player, true);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Restart the game to get more money!", "No money!", JOptionPane.OK_OPTION);
+                    System.exit(0);
                 }
             }
             if (playerWon == 3) {
                 JOptionPane.showMessageDialog(null, "AI player 3 won the game!", "Winner", JOptionPane.OK_OPTION);
-                if(!(player.getCurrency() < 25)){
-                startIt(player, true);
-                this.dispose();
-                }else{
-                    System.exit(0); 
+                if (!(player.getCurrency() < 25)) {
+                    startIt(player, true);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Restart the game to get more money!", "No money!", JOptionPane.OK_OPTION);
+                    System.exit(0);
                 }
             }
 
@@ -309,6 +390,12 @@ public class FCPokerFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField5 = new javax.swing.JTextField();
 
         jRadioButtonMenuItem1.setSelected(true);
         jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
@@ -430,6 +517,18 @@ public class FCPokerFrame extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
+        jLabel2.setText("AI 1 Bet:");
+
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("AI 2 Bet:");
+
+        jLabel4.setText("AI 3 Bet:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -439,13 +538,35 @@ public class FCPokerFrame extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -499,6 +620,10 @@ public class FCPokerFrame extends javax.swing.JFrame {
     private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
         jTextField1.setText(Integer.toString(jSlider1.getValue()));
     }//GEN-LAST:event_jSlider1StateChanged
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -555,6 +680,9 @@ public class FCPokerFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -563,5 +691,8 @@ public class FCPokerFrame extends javax.swing.JFrame {
     private javax.swing.JSlider jSlider1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
 }
