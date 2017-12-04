@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.YES_NO_OPTION;
 
 /**
  *
@@ -192,7 +193,7 @@ public class BlackJackFrame extends javax.swing.JFrame {
 
         getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 600, 60));
 
-        jMenu1.setText("File");
+        jMenu1.setText("Exit");
 
         jMenuItem2.setText("Main Menu");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -202,8 +203,8 @@ public class BlackJackFrame extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem2);
 
-        jMenuItem1.setText("Start Playing");
-        jMenuItem1.setEnabled(false);
+        jMenuItem1.setText("Desktop");
+        jMenuItem1.setOpaque(false);
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -271,6 +272,12 @@ public class BlackJackFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+          
+         int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure you want to quit to desktop? ","Warning",YES_NO_OPTION);
+         if(dialogResult == JOptionPane.YES_OPTION){
+             System.exit(0);
+        }
+
 //        try {
 //            // TODO add your handling code here:
 //            beginPlay();
@@ -431,8 +438,12 @@ public class BlackJackFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-         GameSelectionFrame.startIt(p);
-         this.dispose();
+         
+         int dialogResult = JOptionPane.showConfirmDialog (null, "Are you sure you want to quit? ","Warning",YES_NO_OPTION);
+         if(dialogResult == JOptionPane.YES_OPTION){
+             GameSelectionFrame.startIt(p);
+             this.dispose();
+        }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
