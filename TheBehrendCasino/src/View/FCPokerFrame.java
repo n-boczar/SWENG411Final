@@ -166,25 +166,42 @@ public class FCPokerFrame extends javax.swing.JFrame {
 
             // Call compareHands function and determine the winner
             playerWon = e.compareHands(e.playerHand, e.AI_1Hand, e.AI_2Hand, e.AI_3Hand);
-            if (playerWon == 1) {
+            System.out.println("PLAYER WON # : " + playerWon);
+            if (playerWon == 0) {
                 JOptionPane.showMessageDialog(null, "User player won the game!", "Winner", JOptionPane.OK_OPTION);
+                if(!(player.getCurrency() < 25)){
                 startIt(player, true);
                 this.dispose();
+                }else{
+                    System.exit(0); 
+                }
+            }
+            if (playerWon == 1) {
+                JOptionPane.showMessageDialog(null, "AI player 1 won the game!", "Winner", JOptionPane.OK_OPTION);
+                if(!(player.getCurrency() < 25)){
+                startIt(player, true);
+                this.dispose();
+                }else{
+                    System.exit(0); 
+                }
             }
             if (playerWon == 2) {
-                JOptionPane.showMessageDialog(null, "AI player 1 won the game!", "Winner", JOptionPane.OK_OPTION);
+                JOptionPane.showMessageDialog(null, "AI player 2 won the game!", "Winner", JOptionPane.OK_OPTION);
+                if(!(player.getCurrency() < 25)){
                 startIt(player, true);
                 this.dispose();
+                }else{
+                    System.exit(0); 
+                }
             }
             if (playerWon == 3) {
-                JOptionPane.showMessageDialog(null, "AI player 2 won the game!", "Winner", JOptionPane.OK_OPTION);
-                startIt(player, true);
-                this.dispose();
-            }
-            if (playerWon == 4) {
                 JOptionPane.showMessageDialog(null, "AI player 3 won the game!", "Winner", JOptionPane.OK_OPTION);
+                if(!(player.getCurrency() < 25)){
                 startIt(player, true);
                 this.dispose();
+                }else{
+                    System.exit(0); 
+                }
             }
 
             //Check if player or AI have enough currencies to go to next round
@@ -212,26 +229,45 @@ public class FCPokerFrame extends javax.swing.JFrame {
 
         if (universalBetAmountOwedR2 == 0) {
             // Call compareHands function and determine the winner
+            
             playerWon = e.compareHands(e.playerHand, e.AI_1Hand, e.AI_2Hand, e.AI_3Hand);
-            if (playerWon == 1) {
+            System.out.println("PLAYER WON # : " + playerWon);
+            
+            if (playerWon == 0) {
                 JOptionPane.showMessageDialog(null, "User player won the game!", "Winner", JOptionPane.OK_OPTION);
+                if(!(player.getCurrency() < 25)){
                 startIt(player, true);
                 this.dispose();
+                }else{
+                    System.exit(0); 
+                }
+            }
+            if (playerWon == 1) {
+                JOptionPane.showMessageDialog(null, "AI player 1 won the game!", "Winner", JOptionPane.OK_OPTION);
+                if(!(player.getCurrency() < 25)){
+                startIt(player, true);
+                this.dispose();
+                }else{
+                    System.exit(0); 
+                }
             }
             if (playerWon == 2) {
-                JOptionPane.showMessageDialog(null, "AI player 1 won the game!", "Winner", JOptionPane.OK_OPTION);
+                JOptionPane.showMessageDialog(null, "AI player 2 won the game!", "Winner", JOptionPane.OK_OPTION);
+                if(!(player.getCurrency() < 25)){
                 startIt(player, true);
                 this.dispose();
+                }else{
+                    System.exit(0); 
+                }
             }
             if (playerWon == 3) {
-                JOptionPane.showMessageDialog(null, "AI player 2 won the game!", "Winner", JOptionPane.OK_OPTION);
-                startIt(player, true);
-                this.dispose();
-            }
-            if (playerWon == 4) {
                 JOptionPane.showMessageDialog(null, "AI player 3 won the game!", "Winner", JOptionPane.OK_OPTION);
+                if(!(player.getCurrency() < 25)){
                 startIt(player, true);
                 this.dispose();
+                }else{
+                    System.exit(0); 
+                }
             }
 
             //Check if player or AI have enough currencies to go to next round
