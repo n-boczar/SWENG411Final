@@ -8,7 +8,8 @@
 
 
 
-package roullette;
+package View;
+import Model.Player;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.util.Random;
@@ -401,7 +402,12 @@ public class RoulletteWheel extends javax.swing.JFrame {
             }
         });
     }
-
+public static void startIt(Player player, boolean x) 
+{
+         
+         RoulletteWheel.main(null);
+            
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
