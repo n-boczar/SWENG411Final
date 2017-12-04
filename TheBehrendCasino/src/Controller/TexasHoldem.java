@@ -200,6 +200,12 @@ public class TexasHoldem extends GameEngine {
 
     public int startRound(int playerMoveChoice, int betAmt) {
         //do {
+        tempCurr1 = p.getCurrency();
+        tempCurr2 = ai1.getCurrency();
+        tempCurr3 = ai2.getCurrency();
+        tempCurr4 = ai3.getCurrency();
+
+        System.out.println("AI 2 Active: " + ai2.active);
         System.out.println("Player Owes: " + pOwed);
         System.out.println("AI1 Curr: " + ai1.getCurrency());
         //if the player is in the hand
@@ -250,13 +256,13 @@ public class TexasHoldem extends GameEngine {
                     System.out.println("AI1 Bet Amount: " + betAmt);
 
                     //Only add on to amount owed if the player has not folded
-                    if (!p.fold) {
+                    if (p.active) {
                         pOwed += betAmt;
                     }
-                    if (!ai2.fold) {
+                    if (ai2.active) {
                         ai2Owed += betAmt;
                     }
-                    if (!ai3.fold) {
+                    if (ai3.active) {
                         ai3Owed += betAmt;
                     }
                     pot += betAmt;
@@ -264,19 +270,29 @@ public class TexasHoldem extends GameEngine {
                     break;
 
                 case 2:
-                    System.out.println("AI1 Calling" + ai1Owed);
+                    System.out.println("AI1 Calling: " + ai1Owed);
 
                     ai1Owed = call(ai1, ai1Owed);
                     break;
 
                 case 3:
                     System.out.println("AI1 Folding");
-                    System.out.println("AI2: " + ai2.fold);
-                    System.out.println("AI3: " + ai3.fold);
+                    if (ai2.fold) {
+                        System.out.println("AI2 Folding");
+                    }
+                    if (ai3.fold) {
+                        System.out.println("AI3 Folding");
+                    }
 
                     fold(ai1);
                     ai1Owed = 0;
                     break;
+            }
+            if (ai2.active) {
+                System.out.println("AI2 active");
+            }
+            if (ai3.active) {
+                System.out.println("AI3 active");
             }
         }
 
@@ -291,13 +307,13 @@ public class TexasHoldem extends GameEngine {
                     betAmt = newBet(ai2, betAmt);
                     System.out.println("AI2 Bet Amount: " + betAmt);
                     //Only add on to amount owed if the player has not folded
-                    if (!p.fold) {
+                    if (p.active) {
                         pOwed += betAmt;
                     }
-                    if (!ai1.fold) {
+                    if (ai1.active) {
                         ai1Owed += betAmt;
                     }
-                    if (!ai3.fold) {
+                    if (ai3.active) {
                         ai3Owed += betAmt;
                     }
                     pot += betAmt;
@@ -328,13 +344,13 @@ public class TexasHoldem extends GameEngine {
                     betAmt = newBet(ai3, betAmt);
                     System.out.println("AI3 Bet Amount: " + betAmt);
                     //Only add on to amount owed if the player has not folded
-                    if (!p.fold) {
+                    if (p.active) {
                         pOwed += betAmt;
                     }
-                    if (!ai1.fold) {
+                    if (ai1.active) {
                         ai1Owed += betAmt;
                     }
-                    if (!ai2.fold) {
+                    if (ai2.active) {
                         ai2Owed += betAmt;
                     }
                     pot += betAmt;
