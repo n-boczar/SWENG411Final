@@ -40,7 +40,7 @@ public class TitleFrameNew extends javax.swing.JFrame {
             bi = ImageIO.read(new File("BCLogo.png"));
             Icon i = new ImageIcon(bi);
             JLabel titleLogo = new JLabel("" , i , JLabel.CENTER);
-            jPanel1.add(titleLogo, BorderLayout.CENTER);
+            jPanel2.add(titleLogo, BorderLayout.CENTER);
             //System.out.println("Showing Behrend Logo");
         } catch (IOException ex) {
             Logger.getLogger(GameSelectionFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -98,7 +98,7 @@ public class TitleFrameNew extends javax.swing.JFrame {
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setLayout(new java.awt.GridLayout(1, 0));
+        jPanel2.setLayout(new java.awt.GridLayout());
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
         pack();
