@@ -121,6 +121,10 @@ public class FiveCardPokerEngine extends GameEngine {
         // Give player fifth card
         playerHand.add(pokerDeck.deal());
 
+        playerHand.add(pokerDeck.deal());
+        playerHand.add(pokerDeck.deal());
+        playerHand.add(pokerDeck.deal());
+
         pokerDeck.shuffle();
 
         // Give player first card
@@ -248,7 +252,7 @@ public class FiveCardPokerEngine extends GameEngine {
                         betAmount = rand.nextInt(ai1.getCurrency() - totalBetOwedByAI1) + totalBetOwedByAI1;
                     }
                     System.out.println("AI1 Bet: " + betAmount);
-                    
+
 //                    // Force CALL action if less than 50 in currency 
 //                    if (ai1.getCurrency() < 50) {
 //                        betAmount = totalBetOwedByAI1;
@@ -370,13 +374,12 @@ public class FiveCardPokerEngine extends GameEngine {
                     System.out.println("AI3 Bets");
                     // Get bet amount input
                     betAmount = rand.nextInt(ai3.getCurrency() - totalBetOwedByAI3) + totalBetOwedByAI3;
-                    
 
                     while ((betAmount > tempCurr1 && p.active) || (betAmount > tempCurr2 && ai1.active) || (betAmount > tempCurr3 && ai1.active) || (betAmount > tempCurr4 && ai3.active)) {
                         betAmount = rand.nextInt(ai3.getCurrency() - totalBetOwedByAI3) + totalBetOwedByAI3;
                     }
                     System.out.println("AI3 Bet: " + betAmount);
-                    
+
                     // Check if player needs to clear bets from any other player first
                     if (totalBetOwedByAI3 != 0) {
                         System.out.println("AI3 Clears Amount Owed: " + totalBetOwedByAI3);
@@ -423,14 +426,13 @@ public class FiveCardPokerEngine extends GameEngine {
         System.out.println("By AI2: " + totalBetOwedByAI2);
         System.out.println("By AI3: " + totalBetOwedByAI3);
         System.out.println("");
-        
 
         universalBetAmountOwed = totalBetOwedByPlayer + totalBetOwedByAI1 + totalBetOwedByAI2 + totalBetOwedByAI3;
-        
+
         System.out.println("Universal Owed Amount: " + universalBetAmountOwed);
-        
+
         System.out.println("");
-        
+
         System.out.println("Player Currency: " + p.getCurrency());
         System.out.println("AI1 Currency: " + ai1.getCurrency());
         System.out.println("AI2 Currency: " + ai2.getCurrency());
@@ -519,7 +521,6 @@ public class FiveCardPokerEngine extends GameEngine {
                         betAmount = rand.nextInt(ai1.getCurrency() - totalBetOwedByAI1) + totalBetOwedByAI1;
                     }
                     System.out.println("AI1 Bet: " + betAmount);
-                    
 
                     // Check if player needs to clear bets from any other player first
                     if (totalBetOwedByAI1 != 0) {
@@ -556,10 +557,10 @@ public class FiveCardPokerEngine extends GameEngine {
                     break;
             }
         }
-        
+
         System.out.println("AI1 Currency: " + ai1.getCurrency());
         System.out.println("");
-        
+
         // AI_2 player bet, or calls 
         // Get random input (choice) from AI player
         AI_MoveChoice = rand.nextInt(2) + 1;
@@ -614,7 +615,7 @@ public class FiveCardPokerEngine extends GameEngine {
         }
         System.out.println("AI2 Currency: " + ai2.getCurrency());
         System.out.println("");
-        
+
         /// AI_3 player bet, or calls 
         // Get random input (choice) from AI player
         AI_MoveChoice = rand.nextInt(2) + 1;
@@ -668,7 +669,7 @@ public class FiveCardPokerEngine extends GameEngine {
                     break;
             }
         }
-        
+
         System.out.println("AI3 Currency: " + ai3.getCurrency());
         System.out.println("");
 
@@ -679,9 +680,9 @@ public class FiveCardPokerEngine extends GameEngine {
         System.out.println(totalBetOwedByAI3);
 
         universalBetAmountOwed = totalBetOwedByPlayer + totalBetOwedByAI1 + totalBetOwedByAI2 + totalBetOwedByAI3;
-        
+
         System.out.println("Universal Owed Amount: " + universalBetAmountOwed);
-        
+
         System.out.println("Player Currency: " + p.getCurrency());
         System.out.println("AI1 Currency: " + ai1.getCurrency());
         System.out.println("AI2 Currency: " + ai2.getCurrency());
@@ -700,6 +701,7 @@ public class FiveCardPokerEngine extends GameEngine {
         if (replaceCardsChoice == 1) {
             // Start replace card process for the player
 
+            pokerDeck.shuffle();
             // Give player first card
             playerHand.set(0, pokerDeck.deal());
             // Give player second card
@@ -733,33 +735,28 @@ public class FiveCardPokerEngine extends GameEngine {
         // If player = 0, if AI 1 = 1, if AI 2 = 2, if AI 3 = 3
         int gamePlayerThatWon = 0;
 
-        if (p.active) {
-            // ANALYSE PLAYER HAND
-            if (isARoyalFlush(playerHand)) {
-                playerScore = 10;
-            } else if (isAStraightFlush(playerHand)) {
-                playerScore = 9;
-            } else if (isAFourOfAKind(playerHand)) {
-                playerScore = 8;
-            } else if (isAFullHouse(playerHand)) {
-                playerScore = 7;
-            } else if (isAFlush(playerHand)) {
-                playerScore = 6;
-            } else if (isAStraight(playerHand)) {
-                playerScore = 5;
-            } else if (isAThreeOfAKind(playerHand)) {
-                playerScore = 4;
-            } else if (isATwoPair(playerHand)) {
-                playerScore = 3;
-            } else if (isAPair(playerHand)) {
-                playerScore = 2;
-            } else {
-                playerHC = isAHighCard(playerHand);
-                playerScore = 1;
-            }
+        // ANALYSE PLAYER HAND
+        if (isARoyalFlush(playerHand)) {
+            playerScore = 10;
+        } else if (isAStraightFlush(playerHand)) {
+            playerScore = 9;
+        } else if (isAFourOfAKind(playerHand)) {
+            playerScore = 8;
+        } else if (isAFullHouse(playerHand)) {
+            playerScore = 7;
+        } else if (isAFlush(playerHand)) {
+            playerScore = 6;
+        } else if (isAStraight(playerHand)) {
+            playerScore = 5;
+        } else if (isAThreeOfAKind(playerHand)) {
+            playerScore = 4;
+        } else if (isATwoPair(playerHand)) {
+            playerScore = 3;
+        } else if (isAPair(playerHand)) {
+            playerScore = 2;
         } else {
-            playerHC = 0;
-            playerScore = 0;
+            playerHC = isAHighCard(playerHand);
+            playerScore = 1;
         }
 
         if (ai1.active) {
@@ -852,7 +849,7 @@ public class FiveCardPokerEngine extends GameEngine {
         // Determine winner based on hand score
         if ((playerScore > AI_1Score) && (playerScore > AI_2Score) && (playerScore > AI_3Score)) {
             gamePlayerThatWon = 0;
-            p.setCurrency(p.getCurrency() + pot);
+            Player.setCurrency(Player.getCurrency() + pot);
         }
 
         if ((AI_1Score > playerScore) && (AI_1Score > AI_2Score) && (AI_1Score > AI_3Score)) {
@@ -873,7 +870,7 @@ public class FiveCardPokerEngine extends GameEngine {
         // Special case where every player/AI just has a high card, determine winner based on high card
         if ((playerHC > AI_1HC) && (playerHC > AI_2HC) && (playerHC > AI_3HC)) {
             gamePlayerThatWon = 0;
-            p.setCurrency(p.getCurrency() + pot);
+            Player.setCurrency(Player.getCurrency() + pot);
         }
 
         if ((AI_1HC > playerHC) && (AI_1HC > AI_2HC) && (AI_1HC > AI_3HC)) {
