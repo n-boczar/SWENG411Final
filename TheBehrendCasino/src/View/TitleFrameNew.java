@@ -5,6 +5,8 @@
  */
 package View;
 
+import Model.Player;
+import static View.CAssignFrameNew.f;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -16,6 +18,7 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -103,6 +106,19 @@ public class TitleFrameNew extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        Object[] options = {"View Rules"};
+        int n = JOptionPane.showOptionDialog(null,
+        "Select an option:",
+        "Settings",
+        JOptionPane.OK_OPTION,
+        JOptionPane.INFORMATION_MESSAGE,
+        null,
+        options,
+        options[0]);
+        if(n == 0){
+            //HelpScreen help = new HelpScreen();
+            HelpScreen.main(null);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
