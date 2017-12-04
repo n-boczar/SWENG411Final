@@ -199,6 +199,7 @@ public class FiveCardPokerEngine extends GameEngine {
                         totalBetOwedByPlayer -= totalBetOwedByPlayer; // Update player total bet owed varaible
                     }
 
+                    System.out.println("Player Bet Amount: " + betAmount);
                     p.setBet(betAmount); // Update player bet amount
                     p.setCurrency(p.getCurrency() - betAmount); // Update player currency 
                     pot += betAmount; // Add bet amount to pot
@@ -469,6 +470,7 @@ public class FiveCardPokerEngine extends GameEngine {
                         totalBetOwedByPlayer -= totalBetOwedByPlayer; // Update player total bet owed varaible
                     }
 
+                    System.out.println("Player Bet Amount: " + betAmount);
                     p.setBet(betAmount); // Update player bet amount
                     p.setCurrency(p.getCurrency() - betAmount); // Update player currency 
                     pot += betAmount; // Add bet amount to pot
