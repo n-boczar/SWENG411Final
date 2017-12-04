@@ -282,11 +282,9 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
         System.out.println("AI3 Curr: " + ai3.getCurrency());
 
     }//GEN-LAST:event_jButton1ActionPerformed
-
+//BET
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
-        //Update player currency
-        //Player.setCurrency(Player.getCurrency());
+        //Set your bet amount 
         // Set the bet amount from the text field
         betAmount = Integer.parseInt(jTextField1.getText());
         playerMoveChoice = 1;
@@ -396,7 +394,7 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
              */
         }
     }//GEN-LAST:event_jButton2ActionPerformed
-
+//FOLD
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // Set player choice to fold
         playerMoveChoice = 3;
