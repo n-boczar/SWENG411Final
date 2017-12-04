@@ -6,7 +6,9 @@
 package View;
 
 import Controller.FiveCardPokerEngine;
+import Model.AIPlayer;
 import Model.Player;
+import static View.GameSelectionFrame.player;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -34,6 +36,9 @@ public class FCPokerFrame extends javax.swing.JFrame {
     public int betAmount = 0;
     public int universalBetAmountOwed = 0;
     public int playerWon;
+    public AIPlayer ai1 = new AIPlayer();
+    public AIPlayer ai2 = new AIPlayer();
+    public AIPlayer ai3 = new AIPlayer();
 
     public static void startIt(Player player, boolean x) {
 
@@ -69,8 +74,9 @@ public class FCPokerFrame extends javax.swing.JFrame {
             Logger.getLogger(GameSelectionFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+     
         // Load game engine
-        e = new FiveCardPokerEngine();
+        e = new FiveCardPokerEngine(ai1, ai2, ai3);
 
         // Show the card in their respective panels for the player
         JLabel card_1 = new JLabel(new ImageIcon(e.playerHand.elementAt(0).getCardImage()));
@@ -307,6 +313,20 @@ public class FCPokerFrame extends javax.swing.JFrame {
             if (playerWon == 4) {
                 JOptionPane.showMessageDialog(null, "AI player 3 won the game!", "Winner", JOptionPane.OK_OPTION);
             }
+            
+            //Check if player or AI have enough currencies to go to next round
+                if (Player.getCurrency() == 0) {
+                    Player.active = false;
+                }
+                if (ai1.getCurrency() == 0){
+                    ai1.active = false; 
+                }
+                if(ai2.getCurrency() == 0){
+                    ai2.active = false; 
+                }
+                if(ai3.getCurrency() == 0){
+                    ai3.active = false; 
+                }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -322,49 +342,69 @@ public class FCPokerFrame extends javax.swing.JFrame {
         betAmount = Integer.parseInt(jTextField1.getText());
 
         System.out.println("BET AMOUNT: " + betAmount);
-        
-        if(betAmount > Player.getCurrency()) {
+
+        if (betAmount > Player.getCurrency()) {
+            
             System.out.println("INSIDE FIRST USER BET MESSAGE.");
             JOptionPane.showMessageDialog(null, "You're betting more than you actually have, retry!", "Warning", JOptionPane.OK_OPTION);
-        }else{
+            
+        } else {
 
-        // Show the current currency of the player
-        jTextField2.setText(String.valueOf(Player.getCurrency() - betAmount));
+            // Show the current currency of the player
+            jTextField2.setText(String.valueOf(Player.getCurrency() - betAmount));
 
-        System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
+            System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
 
-        if (roundNumber == 1) {
+            if (roundNumber == 1) {
 
-            do {
-                universalBetAmountOwed = e.startRound1(playerMoveChoice, betAmount);
-                System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
+                do {
+                    universalBetAmountOwed = e.startRound1(playerMoveChoice, betAmount);
+                    System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
 
-            } while (universalBetAmountOwed != 0);
-            roundNumber = 2;
+                } while (universalBetAmountOwed != 0);
+                roundNumber = 2;
 
-        } else if (roundNumber == 2) {
-            do {
-                universalBetAmountOwed = e.startRound2(playerMoveChoice, betAmount);
-                System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
+            } else if (roundNumber == 2) {
+                do {
+                    universalBetAmountOwed = e.startRound2(playerMoveChoice, betAmount);
+                    System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
 
-            } while (universalBetAmountOwed != 0);
+                } while (universalBetAmountOwed != 0);
 
-            // Call compareHands function and determine the winner
-            playerWon = e.compareHands(e.playerHand, e.AI_1Hand, e.AI_2Hand, e.AI_3Hand);
+                // Call compareHands function and determine the winner
+                playerWon = e.compareHands(e.playerHand, e.AI_1Hand, e.AI_2Hand, e.AI_3Hand);
 
-            if (playerWon == 1) {
-                JOptionPane.showMessageDialog(null, "User player won the game!", "Winner", JOptionPane.OK_OPTION);
+                if (playerWon == 1) {
+                    JOptionPane.showMessageDialog(null, "User player won the game!", "Winner", JOptionPane.OK_OPTION);
+                    startIt(player,true); 
+                }
+                if (playerWon == 2) {
+                    JOptionPane.showMessageDialog(null, "AI player 1 won the game!", "Winner", JOptionPane.OK_OPTION);
+                    startIt(player,true); 
+                }
+                if (playerWon == 3) {
+                    JOptionPane.showMessageDialog(null, "AI player 2 won the game!", "Winner", JOptionPane.OK_OPTION);
+                    startIt(player,true); 
+                }
+                if (playerWon == 4) {
+                    JOptionPane.showMessageDialog(null, "AI player 3 won the game!", "Winner", JOptionPane.OK_OPTION);
+                    startIt(player,true); 
+                }
+
+                //Check if player or AI have enough currencies to go to next round
+                if (Player.getCurrency() == 0) {
+                    Player.active = false;
+                }
+                if (ai1.getCurrency() == 0){
+                    ai1.active = false; 
+                }
+                if(ai2.getCurrency() == 0){
+                    ai2.active = false; 
+                }
+                if(ai3.getCurrency() == 0){
+                    ai3.active = false; 
+                }
             }
-            if (playerWon == 2) {
-                JOptionPane.showMessageDialog(null, "AI player 1 won the game!", "Winner", JOptionPane.OK_OPTION);
-            }
-            if (playerWon == 3) {
-                JOptionPane.showMessageDialog(null, "AI player 2 won the game!", "Winner", JOptionPane.OK_OPTION);
-            }
-            if (playerWon == 4) {
-                JOptionPane.showMessageDialog(null, "AI player 3 won the game!", "Winner", JOptionPane.OK_OPTION);
-            }
-        }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
