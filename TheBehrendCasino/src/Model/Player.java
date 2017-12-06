@@ -20,12 +20,9 @@ public class Player {
     //boolean statement to know if a player folded
     public static boolean fold = false;
     
-<<<<<<< HEAD
     //Did the player already bet once?
     public static boolean didBet = false;
-=======
     public static int totalAmountOwed = 0; 
->>>>>>> 4b22f552116e87d7deaf40f2a0a0a80eccdb677e
     
     //player's bet 
     private static int bet;
