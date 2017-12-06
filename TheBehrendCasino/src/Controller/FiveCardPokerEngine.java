@@ -10,7 +10,9 @@ import Model.Card;
 import Model.Player;
 import Model.PokerDeck;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Vector;
@@ -910,6 +912,14 @@ public class FiveCardPokerEngine extends GameEngine {
         return gamePlayerThatWon;
 
     }
+    
+    public Comparator<Card> byValue = (Card left, Card right) -> {
+    if (left.getCardValue() < right.getCardValue()) {
+        return -1;
+    } else {
+        return 1;
+    }
+};
 
     // 1) Check for Royal FLush
     public boolean isARoyalFlush(Vector<Card> checkedHand) {
@@ -984,14 +994,17 @@ public class FiveCardPokerEngine extends GameEngine {
     // 4) Check for Full House
     public boolean isAFullHouse(Vector<Card> checkedHand) {
 
+        Card[] objArray = (Card[]) checkedHand.toArray();
+
         // Sorts current hand by implementing comparable
-        Collections.sort(checkedHand);
+        Arrays.sort(objArray, byValue);
+
 
         int noOfRepeats = 1;
         boolean isThreeOfAKind = false;
         boolean isTwoOfAKind = false;
-        for (int i = 0; i < checkedHand.size() - 1; i++) {
-            if (checkedHand.elementAt(i).getCardValue() == checkedHand.elementAt(i + 1).getCardValue()) {
+        for (int i = 0; i < objArray.length - 1; i++) {
+            if (objArray[i].getCardValue() == objArray[i + 1].getCardValue()) {
                 noOfRepeats++;
                 if (noOfRepeats == 3) {
                     isThreeOfAKind = true;
@@ -1040,15 +1053,17 @@ public class FiveCardPokerEngine extends GameEngine {
     // 6) Check for Straight
     public boolean isAStraight(Vector<Card> checkedHand) {
 
+        Card[] objArray = (Card[]) checkedHand.toArray();
+
         // Sorts current hand by implementing comparable
-        Collections.sort(checkedHand);
+        Arrays.sort(objArray, byValue);
 
         // Checks if the cards are in row by comparing elements nex to eachother, if the difference is 1 then it means they're in order
         int noOfCardsInARow = 0;
         int pos = 0;
         boolean isAStraight = false;
-        while (pos < checkedHand.size() - 1 && !isAStraight) {
-            if (checkedHand.elementAt(pos + 1).getCardValue() - checkedHand.elementAt(pos).getCardValue() == 1) {
+        while (pos < objArray.length - 1 && !isAStraight) {
+            if (objArray[pos + 1].getCardValue() - objArray[pos].getCardValue() == 1) {
                 noOfCardsInARow++;
                 if (noOfCardsInARow == 4) {
                     isAStraight = true;
@@ -1143,9 +1158,12 @@ public class FiveCardPokerEngine extends GameEngine {
     // 10) Check for High Card
     public int isAHighCard(Vector<Card> checkedHand) {
 
+        Card[] objArray = (Card[]) checkedHand.toArray();
+
         // Sorts current hand by implementing comparable
-        Collections.sort(checkedHand);
-        return checkedHand.elementAt(4).getCardValue();
+        Arrays.sort(objArray, byValue);
+        
+        return objArray[0].getCardValue();
 
     }
 
