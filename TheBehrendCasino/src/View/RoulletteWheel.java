@@ -33,7 +33,7 @@ public class RoulletteWheel extends javax.swing.JFrame {
     
     public void paint(Graphics g){
         super.paint(g);
-        this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        super.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
     }
 
     /**
@@ -137,7 +137,7 @@ public class RoulletteWheel extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(15, 89, 0));
         jPanel1.setForeground(new java.awt.Color(51, 255, 0));
 
-        jLabel2.setIcon(new ImageIcon("roulette-table3.png"));
+        jLabel2.setIcon(new ImageIcon("roulette-table3SMALL.png"));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
