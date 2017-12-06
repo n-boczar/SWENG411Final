@@ -13,6 +13,8 @@ import Model.Player;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.util.Random;
+import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -38,6 +40,8 @@ public class RoulletteWheel extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
+        jOptionPane1 = new javax.swing.JOptionPane();
         jButton10 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
@@ -53,7 +57,19 @@ public class RoulletteWheel extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
 
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(102, 102, 102));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
 
@@ -116,7 +132,7 @@ public class RoulletteWheel extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(15, 89, 0));
         jPanel1.setForeground(new java.awt.Color(51, 255, 0));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\mtw52\\Pictures\\RoullettePics\\roulette-table3.png")); // NOI18N
+        jLabel2.setIcon(new ImageIcon("roulette-table3.png"));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -247,10 +263,10 @@ public class RoulletteWheel extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel3)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
-        pack();
+        setBounds(0, 0, 1634, 883);
     }// </editor-fold>//GEN-END:initComponents
 
     //5 Value Chip
@@ -292,16 +308,25 @@ public class RoulletteWheel extends javax.swing.JFrame {
         int y = evt.getYOnScreen(); //Chip Y Coordinate
         int x2 = x + 5; //Inner Circle Coordinate
         int y2 = y + 5; //Inner Circle Coordinate
-                
+        
+
+     if ( Player.currency >5)
+     {
         g.setColor(Color.CYAN);
         g.fillOval(x,y,40,40);
         g.setColor(Color.WHITE);
         g.fillOval(x2,y2,30,30);
-        
-        int userBet = 5;
+     
+         int userBet = 5;
         Player.currency = Player.currency - userBet;
         String displayCurrency = Integer.toString(Player.currency);
         jTextField1.setText(displayCurrency);
+     
+     }  
+     else if( Player.currency < 5) 
+             {
+                 JOptionPane.showMessageDialog(null, "Insufficient Funds", " ", JOptionPane.OK_OPTION);
+             }
         
     }//GEN-LAST:event_jButton9MouseReleased
 
@@ -315,12 +340,12 @@ public class RoulletteWheel extends javax.swing.JFrame {
         Graphics g = this.getGraphics();
         int x = evt.getXOnScreen();
         int y = evt.getYOnScreen();
-        
+        int x2 = x + 5; //Inner Circle Coordinate
+        int y2 = y + 5; //Inner Circle Coordinate
         g.setColor(Color.BLUE);
         g.fillOval(x,y,40,40);
         
-        int x2 = x + 5; //Inner Circle Coordinate
-        int y2 = y + 5; //Inner Circle Coordinate
+       
         g.setColor(Color.WHITE);
         g.fillOval(x2,y2,30,30);
         
@@ -454,9 +479,11 @@ public static void startIt(Player player, boolean x)
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton9;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextField1;
