@@ -128,11 +128,7 @@ public class FiveCardPokerEngine extends GameEngine {
         playerHand.add(pokerDeck.deal());
         // Give player fifth card
         playerHand.add(pokerDeck.deal());
-
-        playerHand.add(pokerDeck.deal());
-        playerHand.add(pokerDeck.deal());
-        playerHand.add(pokerDeck.deal());
-
+        
         pokerDeck.shuffle();
 
         // Give player first card
@@ -850,7 +846,7 @@ public class FiveCardPokerEngine extends GameEngine {
             AI_3Score = 1;
         }
 
-        if ((AI_1Score > playerScore) && (AI_1Score > AI_2Score) && (AI_1Score > AI_3Score)) {
+        if ((AI_1Score >= playerScore) && (AI_1Score >= AI_2Score) && (AI_1Score >= AI_3Score)) {
             gamePlayerThatWon = 1;
             ai1.setCurrency(ai1.getCurrency() + pot);
             Player.currency = 0;
@@ -876,9 +872,10 @@ public class FiveCardPokerEngine extends GameEngine {
             } else if (AI_1Score == 10) {
                 winningHand = "Royal Flush!";
             }
+            
         }
 
-        if ((AI_2Score > playerScore) && (AI_2Score > AI_1Score) && (AI_2Score > AI_3Score)) {
+        if ((AI_2Score >= playerScore) && (AI_2Score >= AI_1Score) && (AI_2Score >= AI_3Score)) {
             gamePlayerThatWon = 2;
             ai2.setCurrency(ai2.getCurrency() + pot);
 
@@ -903,9 +900,10 @@ public class FiveCardPokerEngine extends GameEngine {
             } else if (AI_2Score == 10) {
                 winningHand = "Royal Flush!";
             }
+            
         }
 
-        if ((AI_3Score > playerScore) && (AI_3Score > AI_2Score) && (AI_3Score > AI_1Score)) {
+        if ((AI_3Score >= playerScore) && (AI_3Score >= AI_2Score) && (AI_3Score >= AI_1Score)) {
             gamePlayerThatWon = 3;
             ai3.setCurrency(ai3.getCurrency() + pot);
 
@@ -930,28 +928,29 @@ public class FiveCardPokerEngine extends GameEngine {
             } else if (AI_3Score == 10) {
                 winningHand = "Royal Flush!";
             }
+            
         }
 
-        if ((AI_1HC > playerHC) && (AI_1HC > AI_2HC) && (AI_1HC > AI_3HC)) {
-            gamePlayerThatWon = 1;
-            ai1.setCurrency(ai1.getCurrency() + pot);
-            winningHand = "High Card!";
-        }
-
-        if ((AI_2HC > playerHC) && (AI_2HC > AI_1HC) && (AI_2HC > AI_3HC)) {
-            gamePlayerThatWon = 2;
-            ai2.setCurrency(ai2.getCurrency() + pot);
-            winningHand = "High Card!";
-        }
-
-        if ((AI_3HC > playerHC) && (AI_3HC > AI_2HC) && (AI_3HC > AI_1HC)) {
-            gamePlayerThatWon = 3;
-            ai3.setCurrency(ai3.getCurrency() + pot);
-            winningHand = "High Card!";
-        }
+//        if ((AI_1HC > playerHC) && (AI_1HC > AI_2HC) && (AI_1HC > AI_3HC)) {
+//            gamePlayerThatWon = 1;
+//            ai1.setCurrency(ai1.getCurrency() + pot);
+//            winningHand = "High Card!";
+//        }
+//
+//        if ((AI_2HC > playerHC) && (AI_2HC > AI_1HC) && (AI_2HC > AI_3HC)) {
+//            gamePlayerThatWon = 2;
+//            ai2.setCurrency(ai2.getCurrency() + pot);
+//            winningHand = "High Card!";
+//        }
+//
+//        if ((AI_3HC > playerHC) && (AI_3HC > AI_2HC) && (AI_3HC > AI_1HC)) {
+//            gamePlayerThatWon = 3;
+//            ai3.setCurrency(ai3.getCurrency() + pot);
+//            winningHand = "High Card!";
+//        }
 
         // Determine winner based on hand score
-        if ((playerScore > AI_1Score) && (playerScore > AI_2Score) && (playerScore > AI_3Score)) {
+        if ((playerScore >= AI_1Score) && (playerScore >= AI_2Score) && (playerScore >= AI_3Score)) {
             gamePlayerThatWon = 0;
             Player.currency = (Player.currency + pot);
 
@@ -978,12 +977,12 @@ public class FiveCardPokerEngine extends GameEngine {
             }
         }
 
-        // Special case where every player/AI just has a high card, determine winner based on high card
-        if ((playerHC > AI_1HC) && (playerHC > AI_2HC) && (playerHC > AI_3HC)) {
-            gamePlayerThatWon = 0;
-            Player.currency = (Player.currency + pot);
-            winningHand = "High Card!";
-        }
+//        // Special case where every player/AI just has a high card, determine winner based on high card
+//        if ((playerHC > AI_1HC) && (playerHC > AI_2HC) && (playerHC > AI_3HC)) {
+//            gamePlayerThatWon = 0;
+//            Player.currency = (Player.currency + pot);
+//            winningHand = "High Card!";
+//        }
 
         System.out.println("Player Score: " + playerScore);
         System.out.println("AI 1 Score: " + AI_1Score);
@@ -995,25 +994,40 @@ public class FiveCardPokerEngine extends GameEngine {
         System.out.println("AI 2 HC Score: " + AI_2HC);
         System.out.println("AI 3 HC Score: " + AI_3HC);
 
+        
         System.out.println("");
 
-        System.out.print("AI 1 HAND: ");
+        System.out.println("Player HAND: ");
+        for (int i = 0; i < playerHand.size(); i++) {
+            System.out.println(playerHand.elementAt(i).getCardValue());
+        }
+        
+        System.out.println("");
+
+        System.out.println("AI 1 HAND: ");
         for (int i = 0; i < AI_1Hand.size(); i++) {
             System.out.println(AI_1Hand.elementAt(i));
         }
         
         System.out.println("");
 
-        System.out.print("AI 2 HAND: ");
+        System.out.println("AI 2 HAND: ");
         for (int i = 0; i < AI_2Hand.size(); i++) {
             System.out.println(AI_2Hand.elementAt(i));
         }
         
         System.out.println("");
 
-        System.out.print("AI 3 HAND: ");
+        System.out.println("AI 3 HAND: ");
         for (int i = 0; i < AI_3Hand.size(); i++) {
             System.out.println(AI_3Hand.elementAt(i));
+        }
+        
+        // Safety to handle when all players have high card and the user and some other ai have the same one, favor goes to player
+        if((playerScore == 1) && (AI_1Score == 1) && (AI_2Score == 1) && (AI_3Score == 1)){
+            if(playerHC >= AI_1HC && playerHC >= AI_2HC && playerHC >= AI_3HC){
+                gamePlayerThatWon = 0; 
+            }
         }
       
 
@@ -1282,7 +1296,7 @@ public Comparator<Card> byValue = (Card left, Card right) -> {
         // Sorts current hand by implementing comparable
         Arrays.sort(objArray, byValue);
 
-        return objArray[0].getCardValue();
+        return objArray[4].getCardValue();
 
     }
 
