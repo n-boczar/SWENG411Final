@@ -20,10 +20,16 @@ public class Player {
     //boolean statement to know if a player folded
     public static boolean fold = false;
     
+    public static int totalAmountOwed = 0; 
+    
     //player's bet 
     private static int bet;
 
     public static int currency;
+    
+    public static void setTotalAmountOwed(int c){
+        totalAmountOwed = c; 
+    }
     
     public static int getCurrency(){
         return currency;
