@@ -48,6 +48,8 @@ public class FCPokerFrame extends javax.swing.JFrame {
     public JLabel card_5;
     public Player p;
     public boolean submitButton = false;
+    public boolean firstBetPlaced = false;
+    public int replacementLimit;
 
     public static void startIt(Player player, boolean x) {
 
@@ -107,7 +109,7 @@ public class FCPokerFrame extends javax.swing.JFrame {
         roundNumber = 1;
 
         // Set replacement card panel not visible until the end of round 1
-        jPanel5.setVisible(false);
+        jPanel5.setVisible(true);
 
     }
 
@@ -116,6 +118,8 @@ public class FCPokerFrame extends javax.swing.JFrame {
     }
 
     public void runCallChoiceRound1() {
+
+        firstBetPlaced = true;
 
         System.out.println("Universal Amount Owed: " + universalBetAmountOwedR1);
 
@@ -133,9 +137,7 @@ public class FCPokerFrame extends javax.swing.JFrame {
             roundNumber = 2;
             counter++;
             if (counter == 1) {
-                JOptionPane.showMessageDialog(null, "Replacing your cards!", "Betting Round 1 Over!", JOptionPane.OK_OPTION);
-                    replaceCards(); 
-                    jPanel5.setVisible(false);
+
             }
         }
         // Update total amount owed by player text field
@@ -146,6 +148,8 @@ public class FCPokerFrame extends javax.swing.JFrame {
     }
 
     public void runBetChoiceRound1() {
+
+        firstBetPlaced = true;
 
         //Update player currency
         Player.setCurrency(Player.getCurrency());
@@ -186,7 +190,7 @@ public class FCPokerFrame extends javax.swing.JFrame {
                 counter++;
                 if (counter == 1) {
                     JOptionPane.showMessageDialog(null, "Replacing your cards!", "Betting Round 1 Over!", JOptionPane.OK_OPTION);
-                    replaceCards(); 
+                    replaceCards();
                     jPanel5.setVisible(false);
                 }
             }
@@ -198,6 +202,7 @@ public class FCPokerFrame extends javax.swing.JFrame {
     }
 
     public void runCallChoiceRound2() {
+
         if (roundNumber == 2) {
             universalBetAmountOwedR2 = e.startRound2(playerMoveChoice, betAmount);
             System.out.println("Universal Amount Owed: " + universalBetAmountOwedR2);
@@ -392,46 +397,52 @@ public class FCPokerFrame extends javax.swing.JFrame {
 
         jPanel5.setVisible(true);
 
-        while (submitButton == false) {
+        repaint();
 
-            if (jCheckBox1.isSelected()) {
-                e.playerHand.setElementAt(e.pokerDeck.deal(), 0);
-                // Show the card in their respective panels for the player
-                card_1 = new JLabel(new ImageIcon(e.playerHand.elementAt(0).getCardImage()));
-                jPanel4.add(card_1);
-                jPanel4.doLayout();
-            }
-            if (jCheckBox2.isSelected()) {
-                e.playerHand.setElementAt(e.pokerDeck.deal(), 1);
-                // Show the card in their respective panels for the player
-                card_2 = new JLabel(new ImageIcon(e.playerHand.elementAt(1).getCardImage()));
-                jPanel4.add(card_2);
-                jPanel4.doLayout();
-            }
-            if (jCheckBox3.isSelected()) {
-                e.playerHand.setElementAt(e.pokerDeck.deal(), 2);
-                // Show the card in their respective panels for the player
-                card_3 = new JLabel(new ImageIcon(e.playerHand.elementAt(2).getCardImage()));
-                jPanel4.add(card_3);
-                jPanel4.doLayout();
-            }
-            if (jCheckBox4.isSelected()) {
-                e.playerHand.setElementAt(e.pokerDeck.deal(), 3);
-                // Show the card in their respective panels for the player
-                card_4 = new JLabel(new ImageIcon(e.playerHand.elementAt(3).getCardImage()));
-                jPanel4.add(card_4);
-                jPanel4.doLayout();
-            }
-            if (jCheckBox5.isSelected()) {
-                e.playerHand.setElementAt(e.pokerDeck.deal(), 4);
-                // Show the card in their respective panels for the player
-                card_5 = new JLabel(new ImageIcon(e.playerHand.elementAt(4).getCardImage()));
-                jPanel4.add(card_5);
-                jPanel4.doLayout();
-            }
+        if (jCheckBox1.isSelected()) {
+            jPanel4.remove(card_1);
+            e.playerHand.setElementAt(e.dealNew(), 0);
+            // Show the card in their respective panels for the player
+            card_1 = new JLabel(new ImageIcon(e.playerHand.elementAt(0).getCardImage()));
+            jPanel4.add(card_1);
+            jPanel4.doLayout();
+        }
+        if (jCheckBox2.isSelected()) {
+            jPanel4.remove(card_2);
+            e.playerHand.setElementAt(e.dealNew(), 1);
+            // Show the card in their respective panels for the player
+            card_2 = new JLabel(new ImageIcon(e.playerHand.elementAt(1).getCardImage()));
+            jPanel4.add(card_2);
+            jPanel4.doLayout();
+        }
+        if (jCheckBox3.isSelected()) {
+            jPanel4.remove(card_3);
+            e.playerHand.setElementAt(e.dealNew(), 2);
+            // Show the card in their respective panels for the player
+            card_3 = new JLabel(new ImageIcon(e.playerHand.elementAt(2).getCardImage()));
+            jPanel4.add(card_3);
+            jPanel4.doLayout();
+        }
+        if (jCheckBox4.isSelected()) {
+            jPanel4.remove(card_4);
+            e.playerHand.setElementAt(e.dealNew(), 3);
+            // Show the card in their respective panels for the player
+            card_4 = new JLabel(new ImageIcon(e.playerHand.elementAt(3).getCardImage()));
+            jPanel4.add(card_4);
+            jPanel4.doLayout();
+        }
+        if (jCheckBox5.isSelected()) {
+            jPanel4.remove(card_5);
+            e.playerHand.setElementAt(e.dealNew(), 4);
+            // Show the card in their respective panels for the player
+            card_5 = new JLabel(new ImageIcon(e.playerHand.elementAt(4).getCardImage()));
+            jPanel4.add(card_5);
+            jPanel4.doLayout();
         }
 
         repaint();
+
+        jPanel5.setVisible(false);
 
     }
 
@@ -807,7 +818,37 @@ public class FCPokerFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        submitButton = true;
+        if (jCheckBox1.isSelected()) {
+            replacementLimit++;
+        }
+        if (jCheckBox2.isSelected()) {
+            replacementLimit++;
+        }
+        if (jCheckBox3.isSelected()) {
+            replacementLimit++;
+        }
+        if (jCheckBox4.isSelected()) {
+            replacementLimit++;
+        }
+        if (jCheckBox5.isSelected()) {
+            replacementLimit++;
+        }
+
+        if (replacementLimit > 3) {
+            JOptionPane.showMessageDialog(null, "You can only replace up to three cards!", "Warning", JOptionPane.OK_OPTION);
+        } else {
+            if (firstBetPlaced == true) {
+                submitButton = true;
+                replaceCards();
+                if (roundNumber == 2) {
+
+                    runBetChoiceRound2();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "You need to call or bet before your card replacement!", "Warning", JOptionPane.OK_OPTION);
+            }
+        }
+        replacementLimit = 0;
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

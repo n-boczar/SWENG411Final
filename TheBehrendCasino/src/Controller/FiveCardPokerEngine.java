@@ -103,6 +103,11 @@ public class FiveCardPokerEngine extends GameEngine {
         this.tempCurr3 = ai2.getCurrency();
         this.tempCurr4 = ai3.getCurrency();
     }
+    
+    public Card dealNew(){
+        Card c = pokerDeck.deal(); 
+        return c; 
+    }
 
     public void deal() {
         /*
