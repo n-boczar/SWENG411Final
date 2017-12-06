@@ -10,7 +10,9 @@ import Model.Card;
 import Model.Player;
 import Model.PokerDeck;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Vector;
@@ -65,7 +67,7 @@ public class FiveCardPokerEngine extends GameEngine {
     int roundNumber;
     int lastBet = 0;
     int pot;
-    int totalBetOwedByPlayer = 0;
+    public int totalBetOwedByPlayer = 0;
     int totalBetOwedByAI1 = 0;
     int totalBetOwedByAI2 = 0;
     int totalBetOwedByAI3 = 0;
@@ -74,6 +76,7 @@ public class FiveCardPokerEngine extends GameEngine {
     int tempCurr2;
     int tempCurr3;
     int tempCurr4;
+    public String winningHand = "";
 
     public FiveCardPokerEngine(AIPlayer ai1, AIPlayer ai2, AIPlayer ai3) throws IOException {
 
@@ -102,6 +105,11 @@ public class FiveCardPokerEngine extends GameEngine {
         this.tempCurr2 = ai1.getCurrency();
         this.tempCurr3 = ai2.getCurrency();
         this.tempCurr4 = ai3.getCurrency();
+    }
+
+    public Card dealNew() {
+        Card c = pokerDeck.deal();
+        return c;
     }
 
     public void deal() {
@@ -223,6 +231,7 @@ public class FiveCardPokerEngine extends GameEngine {
                     p.setCurrency(p.getCurrency() - totalBetOwedByPlayer); // Update player currency 
                     pot += totalBetOwedByPlayer; // Update pot
                     totalBetOwedByPlayer -= totalBetOwedByPlayer; // Update player total bet owed varaible
+                    p.setTotalAmountOwed(0);
                     break;
 
                 case 3: // FOLD
@@ -283,6 +292,7 @@ public class FiveCardPokerEngine extends GameEngine {
                     System.out.println("AI1 Raised Amount: " + betAmount);
                     // Broadcast bet amount to all other players
                     totalBetOwedByPlayer += betAmount;
+                    p.totalAmountOwed += betAmount;
                     totalBetOwedByAI2 += betAmount;
                     totalBetOwedByAI3 += betAmount;
                     break;
@@ -340,6 +350,7 @@ public class FiveCardPokerEngine extends GameEngine {
                     System.out.println("AI2 Raised Amount: " + betAmount);
                     // Broadcast bet amount to all other players
                     totalBetOwedByPlayer += betAmount;
+                    p.totalAmountOwed += betAmount;
                     totalBetOwedByAI1 += betAmount;
                     totalBetOwedByAI3 += betAmount;
                     break;
@@ -398,6 +409,7 @@ public class FiveCardPokerEngine extends GameEngine {
                     System.out.println("AI3 Raised Amount: " + betAmount);
                     // Broadcast bet amount to all other players
                     totalBetOwedByPlayer += betAmount;
+                    p.totalAmountOwed += betAmount;
                     totalBetOwedByAI1 += betAmount;
                     totalBetOwedByAI2 += betAmount;
                     break;
@@ -470,6 +482,7 @@ public class FiveCardPokerEngine extends GameEngine {
                         p.setCurrency(p.getCurrency() - totalBetOwedByPlayer); // Update player currency 
                         pot += totalBetOwedByPlayer; // Update pot
                         totalBetOwedByPlayer -= totalBetOwedByPlayer; // Update player total bet owed varaible
+                        p.totalAmountOwed -= totalBetOwedByPlayer;
                     }
 
                     System.out.println("Player Bet Amount: " + betAmount);
@@ -492,6 +505,7 @@ public class FiveCardPokerEngine extends GameEngine {
                     p.setCurrency(p.getCurrency() - totalBetOwedByPlayer); // Update player currency 
                     pot += totalBetOwedByPlayer; // Update pot
                     totalBetOwedByPlayer -= totalBetOwedByPlayer; // Update player total bet owed varaible
+                    p.totalAmountOwed -= totalBetOwedByPlayer;
                     break;
 
                 case 3: // FOLD
@@ -540,6 +554,7 @@ public class FiveCardPokerEngine extends GameEngine {
                     System.out.println("AI1 Raised Amount: " + betAmount);
                     // Broadcast bet amount to all other players
                     totalBetOwedByPlayer += betAmount;
+                    p.totalAmountOwed += betAmount;
                     totalBetOwedByAI2 += betAmount;
                     totalBetOwedByAI3 += betAmount;
                     break;
@@ -596,6 +611,7 @@ public class FiveCardPokerEngine extends GameEngine {
                     System.out.println("AI2 Raised Amount: " + betAmount);
                     // Broadcast bet amount to all other players
                     totalBetOwedByPlayer += betAmount;
+                    p.totalAmountOwed += betAmount;
                     totalBetOwedByAI1 += betAmount;
                     totalBetOwedByAI3 += betAmount;
                     break;
@@ -652,6 +668,7 @@ public class FiveCardPokerEngine extends GameEngine {
                     System.out.println("AI3 Raised Amount: " + betAmount);
                     // Broadcast bet amount to all other players
                     totalBetOwedByPlayer += betAmount;
+                    p.totalAmountOwed += betAmount;
                     totalBetOwedByAI1 += betAmount;
                     totalBetOwedByAI2 += betAmount;
                     break;
@@ -688,6 +705,8 @@ public class FiveCardPokerEngine extends GameEngine {
         System.out.println("AI2 Currency: " + ai2.getCurrency());
         System.out.println("AI3 Currency: " + ai3.getCurrency());
         System.out.println("");
+
+        p.totalAmountOwed = 0;
 
         return universalBetAmountOwed;
 
@@ -759,138 +778,256 @@ public class FiveCardPokerEngine extends GameEngine {
             playerScore = 1;
         }
 
-        if (ai1.active) {
-            // ANALYSE AI_1 HAND
-            if (isARoyalFlush(AI_1Hand)) {
-                AI_1Score = 10;
-            } else if (isAStraightFlush(AI_1Hand)) {
-                AI_1Score = 9;
-            } else if (isAFourOfAKind(AI_1Hand)) {
-                AI_1Score = 8;
-            } else if (isAFullHouse(AI_1Hand)) {
-                AI_1Score = 7;
-            } else if (isAFlush(AI_1Hand)) {
-                AI_1Score = 6;
-            } else if (isAStraight(AI_1Hand)) {
-                AI_1Score = 5;
-            } else if (isAThreeOfAKind(AI_1Hand)) {
-                AI_1Score = 4;
-            } else if (isATwoPair(AI_1Hand)) {
-                AI_1Score = 3;
-            } else if (isAPair(AI_1Hand)) {
-                AI_1Score = 2;
-            } else {
-                AI_1HC = isAHighCard(AI_1Hand);
-                AI_1Score = 1;
-            }
+        // ANALYSE AI_1 HAND
+        if (isARoyalFlush(AI_1Hand)) {
+            AI_1Score = 10;
+        } else if (isAStraightFlush(AI_1Hand)) {
+            AI_1Score = 9;
+        } else if (isAFourOfAKind(AI_1Hand)) {
+            AI_1Score = 8;
+        } else if (isAFullHouse(AI_1Hand)) {
+            AI_1Score = 7;
+        } else if (isAFlush(AI_1Hand)) {
+            AI_1Score = 6;
+        } else if (isAStraight(AI_1Hand)) {
+            AI_1Score = 5;
+        } else if (isAThreeOfAKind(AI_1Hand)) {
+            AI_1Score = 4;
+        } else if (isATwoPair(AI_1Hand)) {
+            AI_1Score = 3;
+        } else if (isAPair(AI_1Hand)) {
+            AI_1Score = 2;
         } else {
-            AI_1HC = 0;
-            AI_1Score = 0;
+            AI_1HC = isAHighCard(AI_1Hand);
+            AI_1Score = 1;
         }
 
-        if (ai2.active) {
-            // ANALYSE AI_2 HAND
-            if (isARoyalFlush(AI_2Hand)) {
-                AI_2Score = 10;
-            } else if (isAStraightFlush(AI_2Hand)) {
-                AI_2Score = 9;
-            } else if (isAFourOfAKind(AI_2Hand)) {
-                AI_2Score = 8;
-            } else if (isAFullHouse(AI_2Hand)) {
-                AI_2Score = 7;
-            } else if (isAFlush(AI_2Hand)) {
-                AI_2Score = 6;
-            } else if (isAStraight(AI_2Hand)) {
-                AI_2Score = 5;
-            } else if (isAThreeOfAKind(AI_2Hand)) {
-                AI_2Score = 4;
-            } else if (isATwoPair(AI_2Hand)) {
-                AI_2Score = 3;
-            } else if (isAPair(AI_2Hand)) {
-                AI_2Score = 2;
-            } else {
-                AI_2HC = isAHighCard(AI_2Hand);
-                AI_2Score = 1;
-            }
+        // ANALYSE AI_2 HAND
+        if (isARoyalFlush(AI_2Hand)) {
+            AI_2Score = 10;
+        } else if (isAStraightFlush(AI_2Hand)) {
+            AI_2Score = 9;
+        } else if (isAFourOfAKind(AI_2Hand)) {
+            AI_2Score = 8;
+        } else if (isAFullHouse(AI_2Hand)) {
+            AI_2Score = 7;
+        } else if (isAFlush(AI_2Hand)) {
+            AI_2Score = 6;
+        } else if (isAStraight(AI_2Hand)) {
+            AI_2Score = 5;
+        } else if (isAThreeOfAKind(AI_2Hand)) {
+            AI_2Score = 4;
+        } else if (isATwoPair(AI_2Hand)) {
+            AI_2Score = 3;
+        } else if (isAPair(AI_2Hand)) {
+            AI_2Score = 2;
         } else {
-            AI_2HC = 0;
-            AI_2Score = 0;
+            AI_2HC = isAHighCard(AI_2Hand);
+            AI_2Score = 1;
         }
 
-        if (ai3.active) {
-            // ANALYSE AI_3 HAND
-            if (isARoyalFlush(AI_3Hand)) {
-                AI_3Score = 10;
-            } else if (isAStraightFlush(AI_3Hand)) {
-                AI_3Score = 9;
-            } else if (isAFourOfAKind(AI_3Hand)) {
-                AI_3Score = 8;
-            } else if (isAFullHouse(AI_3Hand)) {
-                AI_3Score = 7;
-            } else if (isAFlush(AI_3Hand)) {
-                AI_3Score = 6;
-            } else if (isAStraight(AI_3Hand)) {
-                AI_3Score = 5;
-            } else if (isAThreeOfAKind(AI_3Hand)) {
-                AI_3Score = 4;
-            } else if (isATwoPair(AI_3Hand)) {
-                AI_3Score = 3;
-            } else if (isAPair(AI_3Hand)) {
-                AI_3Score = 2;
-            } else {
-                AI_3HC = isAHighCard(AI_3Hand);
-                AI_3Score = 1;
-            }
+        // ANALYSE AI_3 HAND
+        if (isARoyalFlush(AI_3Hand)) {
+            AI_3Score = 10;
+        } else if (isAStraightFlush(AI_3Hand)) {
+            AI_3Score = 9;
+        } else if (isAFourOfAKind(AI_3Hand)) {
+            AI_3Score = 8;
+        } else if (isAFullHouse(AI_3Hand)) {
+            AI_3Score = 7;
+        } else if (isAFlush(AI_3Hand)) {
+            AI_3Score = 6;
+        } else if (isAStraight(AI_3Hand)) {
+            AI_3Score = 5;
+        } else if (isAThreeOfAKind(AI_3Hand)) {
+            AI_3Score = 4;
+        } else if (isATwoPair(AI_3Hand)) {
+            AI_3Score = 3;
+        } else if (isAPair(AI_3Hand)) {
+            AI_3Score = 2;
         } else {
-            AI_3HC = 0;
-            AI_3Score = 0;
-        }
-
-        // Determine winner based on hand score
-        if ((playerScore > AI_1Score) && (playerScore > AI_2Score) && (playerScore > AI_3Score)) {
-            gamePlayerThatWon = 0;
-            Player.setCurrency(Player.getCurrency() + pot);
+            AI_3HC = isAHighCard(AI_3Hand);
+            AI_3Score = 1;
         }
 
         if ((AI_1Score > playerScore) && (AI_1Score > AI_2Score) && (AI_1Score > AI_3Score)) {
             gamePlayerThatWon = 1;
             ai1.setCurrency(ai1.getCurrency() + pot);
+            Player.currency = 0;
+
+            if (AI_1Score == 1) {
+                winningHand = "High Card!";
+            } else if (AI_1Score == 2) {
+                winningHand = "Pair!";
+            } else if (AI_1Score == 3) {
+                winningHand = "Two Pair!";
+            } else if (AI_1Score == 4) {
+                winningHand = "Three of a Kind!";
+            } else if (AI_1Score == 5) {
+                winningHand = "Straight!";
+            } else if (AI_1Score == 6) {
+                winningHand = "Flush!";
+            } else if (AI_1Score == 7) {
+                winningHand = "Full House!";
+            } else if (AI_1Score == 8) {
+                winningHand = "Four of a Kind!";
+            } else if (AI_1Score == 9) {
+                winningHand = "Straight Flush!";
+            } else if (AI_1Score == 10) {
+                winningHand = "Royal Flush!";
+            }
         }
 
         if ((AI_2Score > playerScore) && (AI_2Score > AI_1Score) && (AI_2Score > AI_3Score)) {
             gamePlayerThatWon = 2;
             ai2.setCurrency(ai2.getCurrency() + pot);
+
+            if (AI_2Score == 1) {
+                winningHand = "High Card!";
+            } else if (AI_2Score == 2) {
+                winningHand = "Pair!";
+            } else if (AI_2Score == 3) {
+                winningHand = "Two Pair!";
+            } else if (AI_2Score == 4) {
+                winningHand = "Three of a Kind!";
+            } else if (AI_2Score == 5) {
+                winningHand = "Straight!";
+            } else if (AI_2Score == 6) {
+                winningHand = "Flush!";
+            } else if (AI_2Score == 7) {
+                winningHand = "Full House!";
+            } else if (AI_2Score == 8) {
+                winningHand = "Four of a Kind!";
+            } else if (AI_2Score == 9) {
+                winningHand = "Straight Flush!";
+            } else if (AI_2Score == 10) {
+                winningHand = "Royal Flush!";
+            }
         }
 
         if ((AI_3Score > playerScore) && (AI_3Score > AI_2Score) && (AI_3Score > AI_1Score)) {
             gamePlayerThatWon = 3;
             ai3.setCurrency(ai3.getCurrency() + pot);
-        }
 
-        // Special case where every player/AI just has a high card, determine winner based on high card
-        if ((playerHC > AI_1HC) && (playerHC > AI_2HC) && (playerHC > AI_3HC)) {
-            gamePlayerThatWon = 0;
-            Player.setCurrency(Player.getCurrency() + pot);
+            if (AI_3Score == 1) {
+                winningHand = "High Card!";
+            } else if (AI_3Score == 2) {
+                winningHand = "Pair!";
+            } else if (AI_3Score == 3) {
+                winningHand = "Two Pair!";
+            } else if (AI_3Score == 4) {
+                winningHand = "Three of a Kind!";
+            } else if (AI_3Score == 5) {
+                winningHand = "Straight!";
+            } else if (AI_3Score == 6) {
+                winningHand = "Flush!";
+            } else if (AI_3Score == 7) {
+                winningHand = "Full House!";
+            } else if (AI_3Score == 8) {
+                winningHand = "Four of a Kind!";
+            } else if (AI_3Score == 9) {
+                winningHand = "Straight Flush!";
+            } else if (AI_3Score == 10) {
+                winningHand = "Royal Flush!";
+            }
         }
 
         if ((AI_1HC > playerHC) && (AI_1HC > AI_2HC) && (AI_1HC > AI_3HC)) {
             gamePlayerThatWon = 1;
             ai1.setCurrency(ai1.getCurrency() + pot);
+            winningHand = "High Card!";
         }
 
         if ((AI_2HC > playerHC) && (AI_2HC > AI_1HC) && (AI_2HC > AI_3HC)) {
             gamePlayerThatWon = 2;
             ai2.setCurrency(ai2.getCurrency() + pot);
+            winningHand = "High Card!";
         }
 
         if ((AI_3HC > playerHC) && (AI_3HC > AI_2HC) && (AI_3HC > AI_1HC)) {
             gamePlayerThatWon = 3;
             ai3.setCurrency(ai3.getCurrency() + pot);
+            winningHand = "High Card!";
         }
 
-        return gamePlayerThatWon;
+        // Determine winner based on hand score
+        if ((playerScore > AI_1Score) && (playerScore > AI_2Score) && (playerScore > AI_3Score)) {
+            gamePlayerThatWon = 0;
+            Player.currency = (Player.currency + pot);
 
-    }
+            if (playerScore == 1) {
+                winningHand = "High Card!";
+            } else if (playerScore == 2) {
+                winningHand = "Pair!";
+            } else if (playerScore == 3) {
+                winningHand = "Two Pair!";
+            } else if (playerScore == 4) {
+                winningHand = "Three of a Kind!";
+            } else if (playerScore == 5) {
+                winningHand = "Straight!";
+            } else if (playerScore == 6) {
+                winningHand = "Flush!";
+            } else if (playerScore == 7) {
+                winningHand = "Full House!";
+            } else if (playerScore == 8) {
+                winningHand = "Four of a Kind!";
+            } else if (playerScore == 9) {
+                winningHand = "Straight Flush!";
+            } else if (playerScore == 10) {
+                winningHand = "Royal Flush!";
+            }
+        }
+
+        // Special case where every player/AI just has a high card, determine winner based on high card
+        if ((playerHC > AI_1HC) && (playerHC > AI_2HC) && (playerHC > AI_3HC)) {
+            gamePlayerThatWon = 0;
+            Player.currency = (Player.currency + pot);
+            winningHand = "High Card!";
+        }
+
+        System.out.println("Player Score: " + playerScore);
+        System.out.println("AI 1 Score: " + AI_1Score);
+        System.out.println("AI 2 Score: " + AI_2Score);
+        System.out.println("AI 3 Score: " + AI_3Score);
+
+        System.out.println("PlayerHC Score: " + playerHC);
+        System.out.println("AI 1 HC Score: " + AI_1HC);
+        System.out.println("AI 2 HC Score: " + AI_2HC);
+        System.out.println("AI 3 HC Score: " + AI_3HC);
+
+        System.out.println("");
+
+        System.out.print("AI 1 HAND: ");
+        for (int i = 0; i < AI_1Hand.size(); i++) {
+            System.out.println(AI_1Hand.elementAt(i));
+        }
+        
+        System.out.println("");
+
+        System.out.print("AI 2 HAND: ");
+        for (int i = 0; i < AI_2Hand.size(); i++) {
+            System.out.println(AI_2Hand.elementAt(i));
+        }
+        
+        System.out.println("");
+
+        System.out.print("AI 3 HAND: ");
+        for (int i = 0; i < AI_3Hand.size(); i++) {
+            System.out.println(AI_3Hand.elementAt(i));
+        }
+      
+
+    return gamePlayerThatWon ;
+
+}
+
+public Comparator<Card> byValue = (Card left, Card right) -> {
+        if (left.getCardValue() < right.getCardValue()) {
+            return -1;
+        } else {
+            return 1;
+        }
+    };
 
     // 1) Check for Royal FLush
     public boolean isARoyalFlush(Vector<Card> checkedHand) {
@@ -965,14 +1102,20 @@ public class FiveCardPokerEngine extends GameEngine {
     // 4) Check for Full House
     public boolean isAFullHouse(Vector<Card> checkedHand) {
 
+        Card[] objArray = new Card[checkedHand.size()];
+        
+        for (int i = 0; i < checkedHand.size(); i++) {
+            objArray[i] = checkedHand.get(i);
+        }
+
         // Sorts current hand by implementing comparable
-        Collections.sort(checkedHand);
+        Arrays.sort(objArray, byValue);
 
         int noOfRepeats = 1;
         boolean isThreeOfAKind = false;
         boolean isTwoOfAKind = false;
-        for (int i = 0; i < checkedHand.size() - 1; i++) {
-            if (checkedHand.elementAt(i).getCardValue() == checkedHand.elementAt(i + 1).getCardValue()) {
+        for (int i = 0; i < objArray.length - 1; i++) {
+            if (objArray[i].getCardValue() == objArray[i + 1].getCardValue()) {
                 noOfRepeats++;
                 if (noOfRepeats == 3) {
                     isThreeOfAKind = true;
@@ -1021,15 +1164,21 @@ public class FiveCardPokerEngine extends GameEngine {
     // 6) Check for Straight
     public boolean isAStraight(Vector<Card> checkedHand) {
 
+        Card[] objArray = new Card[checkedHand.size()];
+        
+        for (int i = 0; i < checkedHand.size(); i++) {
+            objArray[i] = checkedHand.get(i);
+        }
+
         // Sorts current hand by implementing comparable
-        Collections.sort(checkedHand);
+        Arrays.sort(objArray, byValue);
 
         // Checks if the cards are in row by comparing elements nex to eachother, if the difference is 1 then it means they're in order
         int noOfCardsInARow = 0;
         int pos = 0;
         boolean isAStraight = false;
-        while (pos < checkedHand.size() - 1 && !isAStraight) {
-            if (checkedHand.elementAt(pos + 1).getCardValue() - checkedHand.elementAt(pos).getCardValue() == 1) {
+        while (pos < objArray.length - 1 && !isAStraight) {
+            if (objArray[pos + 1].getCardValue() - objArray[pos].getCardValue() == 1) {
                 noOfCardsInARow++;
                 if (noOfCardsInARow == 4) {
                     isAStraight = true;
@@ -1124,9 +1273,16 @@ public class FiveCardPokerEngine extends GameEngine {
     // 10) Check for High Card
     public int isAHighCard(Vector<Card> checkedHand) {
 
+        Card[] objArray = new Card[checkedHand.size()];
+        
+        for (int i = 0; i < checkedHand.size(); i++) {
+            objArray[i] = checkedHand.get(i);
+        }
+
         // Sorts current hand by implementing comparable
-        Collections.sort(checkedHand);
-        return checkedHand.elementAt(4).getCardValue();
+        Arrays.sort(objArray, byValue);
+
+        return objArray[0].getCardValue();
 
     }
 

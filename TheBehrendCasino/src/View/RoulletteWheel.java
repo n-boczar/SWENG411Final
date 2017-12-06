@@ -12,7 +12,10 @@ package View;
 import Model.Player;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Toolkit;
 import java.util.Random;
+import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -26,7 +29,11 @@ public class RoulletteWheel extends javax.swing.JFrame {
     
     public RoulletteWheel() {
         initComponents();
-            
+    }
+    
+    public void paint(Graphics g){
+        super.paint(g);
+        super.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
     }
 
     /**
@@ -38,6 +45,8 @@ public class RoulletteWheel extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
+        jOptionPane1 = new javax.swing.JOptionPane();
         jButton10 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
@@ -53,12 +62,24 @@ public class RoulletteWheel extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
 
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(102, 102, 102));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
 
         jButton10.setFont(new java.awt.Font("Tahoma", 1, 21)); // NOI18N
-        jButton10.setIcon(new javax.swing.ImageIcon("C:\\Users\\mtw52\\Pictures\\RoullettePics\\FinalChipSmall2.png")); // NOI18N
+        jButton10.setIcon(new ImageIcon("FinalChipSmall2.png"));
         jButton10.setText("10");
         jButton10.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -72,7 +93,7 @@ public class RoulletteWheel extends javax.swing.JFrame {
         });
 
         jButton11.setFont(new java.awt.Font("Tahoma", 1, 21)); // NOI18N
-        jButton11.setIcon(new javax.swing.ImageIcon("C:\\Users\\mtw52\\Pictures\\RoullettePics\\OrangeChipSmall2.png")); // NOI18N
+        jButton11.setIcon(new ImageIcon("OrangeChipSmall2.png"));
         jButton11.setText("50");
         jButton11.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -86,7 +107,7 @@ public class RoulletteWheel extends javax.swing.JFrame {
         });
 
         jButton12.setFont(new java.awt.Font("Tahoma", 1, 21)); // NOI18N
-        jButton12.setIcon(new javax.swing.ImageIcon("C:\\Users\\mtw52\\Pictures\\RoullettePics\\RedChipSmall2.png")); // NOI18N
+        jButton12.setIcon(new ImageIcon("RedChipSmall2.png"));
         jButton12.setText("20");
         jButton12.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -100,7 +121,7 @@ public class RoulletteWheel extends javax.swing.JFrame {
         });
 
         jButton14.setFont(new java.awt.Font("Tahoma", 1, 21)); // NOI18N
-        jButton14.setIcon(new javax.swing.ImageIcon("C:\\Users\\mtw52\\Pictures\\RoullettePics\\BlackChipSmall.png")); // NOI18N
+        jButton14.setIcon(new ImageIcon("BlackChipSmall.png"));
         jButton14.setText("100");
         jButton14.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -116,7 +137,7 @@ public class RoulletteWheel extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(15, 89, 0));
         jPanel1.setForeground(new java.awt.Color(51, 255, 0));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\mtw52\\Pictures\\RoullettePics\\roulette-table3.png")); // NOI18N
+        jLabel2.setIcon(new ImageIcon("roulette-table3SMALL.png"));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -140,7 +161,7 @@ public class RoulletteWheel extends javax.swing.JFrame {
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButton9.setFont(new java.awt.Font("Tahoma", 1, 21)); // NOI18N
-        jButton9.setIcon(new javax.swing.ImageIcon("C:\\Users\\mtw52\\Pictures\\RoullettePics\\LBchipSmall.png")); // NOI18N
+        jButton9.setIcon(new ImageIcon("LBchipSmall.png"));
         jButton9.setText("5");
         jButton9.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
@@ -247,10 +268,10 @@ public class RoulletteWheel extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel3)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
-        pack();
+        setBounds(0, 0, 1634, 883);
     }// </editor-fold>//GEN-END:initComponents
 
     //5 Value Chip
@@ -292,16 +313,25 @@ public class RoulletteWheel extends javax.swing.JFrame {
         int y = evt.getYOnScreen(); //Chip Y Coordinate
         int x2 = x + 5; //Inner Circle Coordinate
         int y2 = y + 5; //Inner Circle Coordinate
-                
+        
+
+     if ( Player.currency >5)
+     {
         g.setColor(Color.CYAN);
         g.fillOval(x,y,40,40);
         g.setColor(Color.WHITE);
         g.fillOval(x2,y2,30,30);
-        
-        int userBet = 5;
+     
+         int userBet = 5;
         Player.currency = Player.currency - userBet;
         String displayCurrency = Integer.toString(Player.currency);
         jTextField1.setText(displayCurrency);
+     
+     }  
+     else if( Player.currency < 5) 
+             {
+                 JOptionPane.showMessageDialog(null, "Insufficient Funds", " ", JOptionPane.OK_OPTION);
+             }
         
     }//GEN-LAST:event_jButton9MouseReleased
 
@@ -315,12 +345,12 @@ public class RoulletteWheel extends javax.swing.JFrame {
         Graphics g = this.getGraphics();
         int x = evt.getXOnScreen();
         int y = evt.getYOnScreen();
-        
+        int x2 = x + 5; //Inner Circle Coordinate
+        int y2 = y + 5; //Inner Circle Coordinate
         g.setColor(Color.BLUE);
         g.fillOval(x,y,40,40);
         
-        int x2 = x + 5; //Inner Circle Coordinate
-        int y2 = y + 5; //Inner Circle Coordinate
+       
         g.setColor(Color.WHITE);
         g.fillOval(x2,y2,30,30);
         
@@ -454,9 +484,11 @@ public static void startIt(Player player, boolean x)
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton9;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextField1;
