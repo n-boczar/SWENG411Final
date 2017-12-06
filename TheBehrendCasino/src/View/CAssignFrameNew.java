@@ -111,13 +111,10 @@ public class CAssignFrameNew extends JPanel{
         null,
         options,
         options[0]);
-        if(n == 0){
             f.dispose();
-            String currencyString = String.valueOf(currency);
-            String[] s = new String[1];
-            s[0] = currencyString;
-            GameSelectionFrame.main(s);
-        }
+            Player.setCurrency(currency);
+            GameSelectionFrame.startIt(p);
+            //GameSelectionFrame.main(s);
     }
     
     public static int getCurrency(){
