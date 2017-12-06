@@ -12,6 +12,7 @@ package View;
 import Model.Player;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Toolkit;
 import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
@@ -28,7 +29,11 @@ public class RoulletteWheel extends javax.swing.JFrame {
     
     public RoulletteWheel() {
         initComponents();
-            
+    }
+    
+    public void paint(Graphics g){
+        super.paint(g);
+        this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
     }
 
     /**
@@ -74,7 +79,7 @@ public class RoulletteWheel extends javax.swing.JFrame {
         setResizable(false);
 
         jButton10.setFont(new java.awt.Font("Tahoma", 1, 21)); // NOI18N
-        jButton10.setIcon(new javax.swing.ImageIcon("C:\\Users\\mtw52\\Pictures\\RoullettePics\\FinalChipSmall2.png")); // NOI18N
+        jButton10.setIcon(new ImageIcon("FinalChipSmall2.png"));
         jButton10.setText("10");
         jButton10.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -88,7 +93,7 @@ public class RoulletteWheel extends javax.swing.JFrame {
         });
 
         jButton11.setFont(new java.awt.Font("Tahoma", 1, 21)); // NOI18N
-        jButton11.setIcon(new javax.swing.ImageIcon("C:\\Users\\mtw52\\Pictures\\RoullettePics\\OrangeChipSmall2.png")); // NOI18N
+        jButton11.setIcon(new ImageIcon("OrangeChipSmall2.png"));
         jButton11.setText("50");
         jButton11.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -102,7 +107,7 @@ public class RoulletteWheel extends javax.swing.JFrame {
         });
 
         jButton12.setFont(new java.awt.Font("Tahoma", 1, 21)); // NOI18N
-        jButton12.setIcon(new javax.swing.ImageIcon("C:\\Users\\mtw52\\Pictures\\RoullettePics\\RedChipSmall2.png")); // NOI18N
+        jButton12.setIcon(new ImageIcon("RedChipSmall2.png"));
         jButton12.setText("20");
         jButton12.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -116,7 +121,7 @@ public class RoulletteWheel extends javax.swing.JFrame {
         });
 
         jButton14.setFont(new java.awt.Font("Tahoma", 1, 21)); // NOI18N
-        jButton14.setIcon(new javax.swing.ImageIcon("C:\\Users\\mtw52\\Pictures\\RoullettePics\\BlackChipSmall.png")); // NOI18N
+        jButton14.setIcon(new ImageIcon("BlackChipSmall.png"));
         jButton14.setText("100");
         jButton14.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -156,7 +161,7 @@ public class RoulletteWheel extends javax.swing.JFrame {
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButton9.setFont(new java.awt.Font("Tahoma", 1, 21)); // NOI18N
-        jButton9.setIcon(new javax.swing.ImageIcon("C:\\Users\\mtw52\\Pictures\\RoullettePics\\LBchipSmall.png")); // NOI18N
+        jButton9.setIcon(new ImageIcon("LBchipSmall.png"));
         jButton9.setText("5");
         jButton9.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
