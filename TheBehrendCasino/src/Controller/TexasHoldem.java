@@ -175,7 +175,11 @@ public class TexasHoldem extends GameEngine {
     public int newBet(AIPlayer player, int betAmt) {
         do {
             // Get bet amount input
-            betAmt = rand.nextInt(player.getCurrency());
+            if (player.getCurrency() > 100) {
+                betAmt = rand.nextInt(player.getCurrency()/2);
+            } else {
+                betAmt = rand.nextInt(player.getCurrency());
+            }
         } while ((betAmt > p.getCurrency() && p.active) || (betAmt > ai1.getCurrency() && ai1.active) || (betAmt > ai2.getCurrency() && ai2.active) || (betAmt > ai3.getCurrency() && ai3.active));
         pot += betAmt;
         player.setCurrency(player.getCurrency() - betAmt);
@@ -198,12 +202,22 @@ public class TexasHoldem extends GameEngine {
         player.fold = true;
     }
 
+    /**
+     * After the user has selected a move start the betting until it gets back
+     * to the user. Then they will pick another move in the frame and the round
+     * will continue.
+     *
+     * @param playerMoveChoice
+     * @param betAmt
+     * @return universalAmountOwed because if it is 0 then everyone is satisfied
+     * and squared away with their bets so the round of betting is over
+     */
     public int startRound(int playerMoveChoice, int betAmt) {
         //do {
-        tempCurr1 = p.getCurrency();
-        tempCurr2 = ai1.getCurrency();
-        tempCurr3 = ai2.getCurrency();
-        tempCurr4 = ai3.getCurrency();
+        //tempCurr1 = p.getCurrency();
+        //tempCurr2 = ai1.getCurrency();
+        //tempCurr3 = ai2.getCurrency();
+        //tempCurr4 = ai3.getCurrency();
 
         System.out.println("AI 2 Active: " + ai2.active);
         System.out.println("Player Owes: " + pOwed);
@@ -247,6 +261,10 @@ public class TexasHoldem extends GameEngine {
         //if the ai1 is in the hand
         if (ai1.active) {
             AI_MoveChoice = rand.nextInt(3) + 1;
+            //If the player already bet that round but they want to still play force them to call
+            if (AI_MoveChoice == 1 && ai1.didBet == true) {
+                AI_MoveChoice = 2;
+            }
             switch (AI_MoveChoice) {
 
                 //BET: Don't call bet function because that generate a random number
@@ -299,6 +317,10 @@ public class TexasHoldem extends GameEngine {
         //if the ai2 is in the hand
         if (ai2.active) {
             AI_MoveChoice = rand.nextInt(3) + 1;
+            //If the player already bet that round but they want to still play force them to call
+            if (AI_MoveChoice == 1 && ai2.didBet == true) {
+                AI_MoveChoice = 2;
+            }
             switch (AI_MoveChoice) {
 
                 //BET: Don't call bet function because that generate a random number
@@ -336,6 +358,10 @@ public class TexasHoldem extends GameEngine {
         //if the ai3 is in the hand
         if (ai3.active) {
             AI_MoveChoice = rand.nextInt(3) + 1;
+            //If the player already bet that round but they want to still play force them to call
+            if (AI_MoveChoice == 1 && ai3.didBet == true) {
+                AI_MoveChoice = 2;
+            }
             switch (AI_MoveChoice) {
 
                 //BET: Don't call bet function because that generate a random number

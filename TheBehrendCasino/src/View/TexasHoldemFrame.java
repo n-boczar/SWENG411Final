@@ -32,7 +32,7 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
     public static int currency;
     public TexasHoldem e;
     public int c = currency;
-    public int roundNumber = 0;
+    public int roundNumber = 1;
     public int playerMoveChoice = 0;
     public int betAmount = 0;
     public int universalBetAmountOwed = 0;
@@ -56,7 +56,7 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
         initComponents();
 
         if (ante == true) {
-            JOptionPane.showMessageDialog(null, "25 Chips Deducted for Ante.", "OK", JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(null, "25 Chips Deducted for the Ante.", "OK", JOptionPane.OK_OPTION);
         }
 
         // Take out the ante from the players currency before showing it
@@ -79,29 +79,8 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
         // Load game engine
         e = new TexasHoldem(ai1, ai2, ai3);
 
-        // Show the card in their respective panels for the player
-        JLabel card_1 = new JLabel(new ImageIcon(e.playerHand.elementAt(0).getCardImage()));
-        jPanel6.add(card_1);
-
-        JLabel card_2 = new JLabel(new ImageIcon(e.playerHand.elementAt(1).getCardImage()));
-        jPanel6.add(card_2);
-
-        jPanel6.doLayout();
-
-        // Show the flop
-        JLabel tableCard1 = new JLabel(new ImageIcon(e.boardCards.elementAt(0).getCardImage()));
-        jPanel4.add(tableCard1);
-
-        JLabel tableCard2 = new JLabel(new ImageIcon(e.boardCards.elementAt(1).getCardImage()));
-        jPanel4.add(tableCard2);
-
-        JLabel tableCard3 = new JLabel(new ImageIcon(e.boardCards.elementAt(2).getCardImage()));
-        jPanel4.add(tableCard3);
-
-        jPanel4.doLayout();
-
-        roundNumber = 1;
-
+        //Start a new hand of TexasHoldem
+        newHand();
     }
 
     public void paint(Graphics g) {
@@ -308,39 +287,27 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Function: CALL Set bet amount to 0 and start betting round with player
+     * choice as 2 The Engine should do the rest such as subtracting from
+     * player's currency
+     *
+     * @param evt
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //Update player currency
-        //Player.setCurrency(Player.getCurrency());
-        // Set the bet amount from the text field
-        roundNumber++;
+        betAmount = 0;
         playerMoveChoice = 2;
-        // Show the current currency of the player
-        //COULDN'T FIND A BETTER WAY TO SHOW UPDATED CURRENCY AFTER CALLING
-        //SO I'M JUST UPDATING AFTER THE ROUND OF BETTING
-        jTextField1.setText(String.valueOf(Player.getCurrency() - betAmount));
-        if (roundNumber == 1) {
-            do {
-                universalBetAmountOwed = e.startRound(playerMoveChoice, betAmount);
-            } while (universalBetAmountOwed != 0);
-            jTextField1.setText(String.valueOf(Player.getCurrency()));
-            //Show another board card (turn)
-            JLabel tableCard4 = new JLabel(new ImageIcon(e.boardCards.elementAt(3).getCardImage()));
-            jPanel4.add(tableCard4);
-            jPanel4.doLayout();
-        } else if (roundNumber == 2) {
-            do {
-                universalBetAmountOwed = e.startRound(playerMoveChoice, betAmount);
-            } while (universalBetAmountOwed != 0);
-            jTextField1.setText(String.valueOf(Player.getCurrency()));
-            //Show another board card (river)
-            JLabel tableCard5 = new JLabel(new ImageIcon(e.boardCards.elementAt(4).getCardImage()));
-            jPanel4.add(tableCard5);
-            jPanel4.doLayout();
-        } else if (roundNumber == 3) {
-            do {
-                universalBetAmountOwed = e.startRound(playerMoveChoice, betAmount);
-            } while (universalBetAmountOwed != 0);
-            check();
+        //Start betting round with user calling previous bet
+        universalBetAmountOwed = e.startRound(playerMoveChoice, betAmount);
+        //Update currency
+        jTextField1.setText(String.valueOf(Player.getCurrency()));
+
+        /*
+            If the betting clears and no one else owes anything check to see what round it is
+            so the right table card can be displayed and then round number increments 
+         */
+        if (universalBetAmountOwed == 0) {
+            checkRound();
         }
 
         System.out.println("AI1 Curr: " + ai1.getCurrency());
@@ -348,7 +315,13 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
         System.out.println("AI3 Curr: " + ai3.getCurrency());
 
     }//GEN-LAST:event_jButton1ActionPerformed
-//BET
+    /**
+     * Function: BET Set the bet amount for the user according to the JSlider
+     * Make sure the user isn't betting more than any player's currency around
+     * the table Make sure the user didn't already bet this round
+     *
+     * @param evt
+     */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         //Set your bet amount 
         // Set the bet amount from the text field
@@ -356,7 +329,6 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
         playerMoveChoice = 1;
         //make sure the user isn't betting more than what anyone has
         if (betAmount > Player.getCurrency() || betAmount > ai1.getCurrency() || betAmount > ai2.getCurrency() || betAmount > ai3.getCurrency()) {
-            System.out.println("INSIDE FIRST USER BET MESSAGE.");
             JOptionPane.showMessageDialog(null, "You're betting more than you or another player has, retry!", "Warning", JOptionPane.OK_OPTION);
 
         } //players should only be able to bet once per round
@@ -370,85 +342,15 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
             universalBetAmountOwed = e.startRound(playerMoveChoice, betAmount);
             /*
             If the betting clears and no one else owes anything check to see what round it is
-            so the right table card can be displayed and then 
-            
-            */ 
+            so the right table card can be displayed and then round number increments 
+             */
             if (universalBetAmountOwed == 0) {
                 checkRound();
-                //do this in checkRound();
-                roundNumber++;
             }
 
             //System.out.println("AI1 Curr: " + ai1.getCurrency());
             //System.out.println("AI2 Curr: " + ai2.getCurrency());
             //System.out.println("AI3 Curr: " + ai3.getCurrency());
-
-            /*
-            if (roundNumber == 1) {
-
-                do {
-                    universalBetAmountOwed = e.startRound1(playerMoveChoice, betAmount);
-                    System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
-
-                } while (universalBetAmountOwed != 0);
-
-                roundNumber = 2;
-
-                
-
-            } else if (roundNumber == 2) {
-                do {
-                    universalBetAmountOwed = e.startRound2(playerMoveChoice, betAmount);
-                    System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
-
-                } while (universalBetAmountOwed != 0);
-
-                roundNumber = 3;
-
-                //Show another board card (river)
-                JLabel tableCard5 = new JLabel(new ImageIcon(e.boardCards.elementAt(4).getCardImage()));
-                jPanel4.add(tableCard5);
-                jPanel4.doLayout();
-
-            } else if (roundNumber == 3) {
-                do {
-                    universalBetAmountOwed = e.startRound2(playerMoveChoice, betAmount);
-                    System.out.println("Universal Amount Owed: " + universalBetAmountOwed);
-
-                } while (universalBetAmountOwed != 0);
-
-                // Call compareHands function and determine the winner
-                playerWon = e.compareHands(e.playerHand, e.AI_1Hand, e.AI_2Hand, e.AI_3Hand, e.boardCards);
-
-                if (playerWon == 1) {
-                    JOptionPane.showMessageDialog(null, "User player won the game!", "Winner", JOptionPane.OK_OPTION);
-                }
-                if (playerWon == 2) {
-                    JOptionPane.showMessageDialog(null, "AI player 1 won the game!", "Winner", JOptionPane.OK_OPTION);
-                }
-                if (playerWon == 3) {
-                    JOptionPane.showMessageDialog(null, "AI player 2 won the game!", "Winner", JOptionPane.OK_OPTION);
-                }
-                if (playerWon == 4) {
-                    JOptionPane.showMessageDialog(null, "AI player 3 won the game!", "Winner", JOptionPane.OK_OPTION);
-                }
-
-                //Check if player or AI have enough currencies to go to next round
-                if (Player.getCurrency() == 0) {
-                    Player.active = false;
-                }
-                if (ai1.getCurrency() == 0) {
-                    ai1.active = false;
-                }
-                if (ai2.getCurrency() == 0) {
-                    ai2.active = false;
-                }
-                if (ai3.getCurrency() == 0) {
-                    ai3.active = false;
-                }
-            }
-        }
-             */
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -462,7 +364,6 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
      */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // Set player choice to fold
-        roundNumber++;
         playerMoveChoice = 3;
         betAmount = 0;
 
@@ -513,27 +414,12 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
             check();
         }
 
-        //do {
-        //universalBetAmountOwed = e.startRound(playerMoveChoice, betAmount);
-        //} while (universalBetAmountOwed != 0);
-        //if (roundNumber == 3) {
-        //Show another board card (river)
-        //JLabel tableCard5 = new JLabel(new ImageIcon(e.boardCards.elementAt(4).getCardImage()));
-        //jPanel4.add(tableCard5);
-        //jPanel4.doLayout();
-        //}
-        //do {
-        //universalBetAmountOwed = e.startRound(playerMoveChoice, betAmount);
-        //} while (universalBetAmountOwed != 0);
-        //System.out.println("AI1 Curr: " + ai1.getCurrency());
-        //System.out.println("AI2 Curr: " + ai2.getCurrency());
-        //System.out.println("AI3 Curr: " + ai3.getCurrency());
-        //check();
     }
 
     /**
-     * Check to see who won the game and if all players are still in the game if
-     * they have less than 25 they should be set to inactive
+     * Function: CHECK Check to see who won the game and if all players are
+     * still in the game if they have less than 25 they should be set to
+     * inactive
      */
     public void check() {
         // Call compareHands function and determine the winner
@@ -555,38 +441,91 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
         //Check if player or AI have enough currencies to go to next round
         if (Player.getCurrency() < 25) {
             Player.active = false;
+            //Show the user lost and exit game
+            JOptionPane.showMessageDialog(null, "You ran out of currency! Please reenter the Casino to play again.", "Warning", JOptionPane.OK_OPTION);
+            System.exit(0);
         }
         if (ai1.getCurrency() < 25) {
             ai1.active = false;
+            ai1.fold = false;
         }
         if (ai2.getCurrency() < 25) {
             ai2.active = false;
+            ai2.fold = false;
         }
         if (ai3.getCurrency() < 25) {
             ai3.active = false;
+            ai3.fold = false;
         }
 
         //reset the folded players at the end of each game
         e.reset();
+        
+        //If all the ai's are inactive then the user wins! Exit back to game selection screen
+        if (!ai1.active && !ai2.active && !ai3.active) {
+            JOptionPane.showMessageDialog(null, "You ran out of currency! Please reenter the Casino to play again.", "Warning", JOptionPane.OK_OPTION);
+            GameSelectionFrame.startIt(e.p);
+            this.dispose();
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    //Check to see which card to put on the table 
+    /**
+     * Function: CHECKROUND Check to see what round it is This will decide which
+     * card to put on the table and when to increment the round number. If the
+     * round number is 3 then the hand is over and a winner should be
+     * determined.
+     */
     public void checkRound() {
+        //Reset the didBet variable so players can bet in the next round
+        Player.didBet = false;
+        e.ai1.didBet = false;
+        e.ai2.didBet = false;
+        e.ai3.didBet = false;
+        //Begin to check which round it is
         if (roundNumber == 1) {
             //Show board card (turn)
             JLabel tableCard4 = new JLabel(new ImageIcon(e.boardCards.elementAt(3).getCardImage()));
             jPanel4.add(tableCard4);
             jPanel4.doLayout();
+            roundNumber++;
         } else if (roundNumber
                 == 2) {
             //Show board card (river)
             JLabel tableCard5 = new JLabel(new ImageIcon(e.boardCards.elementAt(4).getCardImage()));
             jPanel4.add(tableCard5);
             jPanel4.doLayout();
+            roundNumber++;
         } else if (roundNumber == 3) {
             check();
         }
 
+    }
+
+    /**
+     * Start a new round of Texas Hold 'em Shuffle cards Deal new hands
+     */
+    public void newHand() {
+        e.deal();
+        // Show the card in their respective panels for the player
+        JLabel card_1 = new JLabel(new ImageIcon(e.playerHand.elementAt(0).getCardImage()));
+        jPanel6.add(card_1);
+
+        JLabel card_2 = new JLabel(new ImageIcon(e.playerHand.elementAt(1).getCardImage()));
+        jPanel6.add(card_2);
+
+        jPanel6.doLayout();
+
+        // Show the flop
+        JLabel tableCard1 = new JLabel(new ImageIcon(e.boardCards.elementAt(0).getCardImage()));
+        jPanel4.add(tableCard1);
+
+        JLabel tableCard2 = new JLabel(new ImageIcon(e.boardCards.elementAt(1).getCardImage()));
+        jPanel4.add(tableCard2);
+
+        JLabel tableCard3 = new JLabel(new ImageIcon(e.boardCards.elementAt(2).getCardImage()));
+        jPanel4.add(tableCard3);
+
+        jPanel4.doLayout();
     }
 
     private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
