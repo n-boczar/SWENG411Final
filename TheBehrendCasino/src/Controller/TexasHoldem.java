@@ -10,7 +10,9 @@ import Model.Card;
 import Model.Player;
 import Model.PokerDeck;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Vector;
@@ -77,10 +79,15 @@ public class TexasHoldem extends GameEngine {
     int tempCurr2;
     int tempCurr3;
     int tempCurr4;
-    int pOwed = 0;
+    public int pOwed = 0;
     int ai1Owed = 0;
     int ai2Owed = 0;
     int ai3Owed = 0;
+    public String playerMove;
+    public String ai1Move;
+    public String ai2Move;
+    public String ai3Move;
+    public String winningHand;
 
     public TexasHoldem(AIPlayer ai1, AIPlayer ai2, AIPlayer ai3) throws IOException {
 
@@ -97,7 +104,7 @@ public class TexasHoldem extends GameEngine {
         this.ai2 = ai2;
         this.ai3 = ai3;
         tempDeck = pokerDeck;
-        deal();
+        //deal();
 
         // Set currency for ai's to whatever the user has
         this.ai1.setCurrency(Player.getCurrency());
@@ -264,6 +271,7 @@ public class TexasHoldem extends GameEngine {
             switch (playerMoveChoice) {
                 //BET: Don't call bet function because that generate a random number
                 case 1:
+                    playerMove = "User: Bets " + betAmt;
                     //Only add on to amount owed if the player has not folded
                     if (!ai1.fold) {
                         ai1Owed += betAmt;
@@ -277,12 +285,18 @@ public class TexasHoldem extends GameEngine {
                     pot += betAmt;
                     p.setCurrency(p.getCurrency() - betAmt);
                     break;
-
+                //CALL
                 case 2:
+                    if (pOwed == 0) {
+                        playerMove = "User: Checks";
+                    } else {
+                        playerMove = "User: Calls " + ai1Owed;
+                    }
                     pOwed = call(p, pOwed);
                     break;
-
+                //FOLD
                 case 3:
+                    playerMove = "User: Folds";
                     fold(p);
                     pOwed = 0;
                     break;
@@ -301,14 +315,24 @@ public class TexasHoldem extends GameEngine {
             if (AI_MoveChoice == 3 && ai1Owed == 0) {
                 AI_MoveChoice = 2;
             }
+            //If everyone else folds don't let this player fold
+            if (p.fold && ai2.fold && ai3.fold) {
+                AI_MoveChoice = 2;
+            }
             switch (AI_MoveChoice) {
 
                 //BET: Don't call bet function because that generate a random number
                 case 1:
+                    //Determine if ai is betting or raising someone elses bet
+                    if (ai1Owed == 0) {
+                        ai1Move = "AI1: Bets ";
+                    } else {
+                        ai1Move = "AI1: Raises ";
+                    }
                     ai1Owed = call(ai1, ai1Owed);
                     betAmt = newBet(ai1, betAmt);
                     //System.out.println("AI1 Bet Amount: " + betAmt);
-
+                    ai1Move += betAmt;
                     //Only add on to amount owed if the player has not folded
                     if (p.active) {
                         pOwed += betAmt;
@@ -321,15 +345,20 @@ public class TexasHoldem extends GameEngine {
                     }
                     pot += betAmt;
                     break;
-
+                //CALL
                 case 2:
                     //System.out.println("AI1 Calling: " + ai1Owed);
-
+                    if (ai1Owed == 0) {
+                        ai1Move = "AI1: Checks";
+                    } else {
+                        ai1Move = "AI1: Calls " + ai1Owed;
+                    }
                     ai1Owed = call(ai1, ai1Owed);
                     break;
-
+                //FOLD
                 case 3:
                     //System.out.println("AI1 Folding");
+                    ai1Move = "AI1: Folds";
 
                     fold(ai1);
                     ai1Owed = 0;
@@ -348,12 +377,23 @@ public class TexasHoldem extends GameEngine {
             if (AI_MoveChoice == 3 && ai2Owed == 0) {
                 AI_MoveChoice = 2;
             }
+            //If everyone else folds don't let this player fold
+            if (p.fold && ai1.fold && ai3.fold) {
+                AI_MoveChoice = 2;
+            }
             switch (AI_MoveChoice) {
 
                 //BET: Don't call bet function because that generate a random number
                 case 1:
+                    //Determine if ai is betting or raising someone elses bet
+                    if (ai2Owed == 0) {
+                        ai2Move = "AI2: Bets ";
+                    } else {
+                        ai2Move = "AI2: Raises ";
+                    }
                     ai2Owed = call(ai2, ai2Owed);
                     betAmt = newBet(ai2, betAmt);
+                    ai2Move += betAmt;
                     //System.out.println("AI2 Bet Amount: " + betAmt);
                     //Only add on to amount owed if the player has not folded
                     if (p.active) {
@@ -367,13 +407,19 @@ public class TexasHoldem extends GameEngine {
                     }
                     pot += betAmt;
                     break;
-
+                ///CALL
                 case 2:
+                    if (ai2Owed == 0) {
+                        ai2Move = "AI2: Checks";
+                    } else {
+                        ai2Move = "AI2: Calls " + ai2Owed;
+                    }
                     ai2Owed = call(ai2, ai2Owed);
                     //System.out.println("AI2 Calling: " + ai2Owed);
                     break;
-
+                //FOLD
                 case 3:
+                    ai2Move = "AI2: Folds";
                     fold(ai2);
                     //System.out.println("AI2 Folding");
                     ai2Owed = 0;
@@ -392,12 +438,23 @@ public class TexasHoldem extends GameEngine {
             if (AI_MoveChoice == 3 && ai3Owed == 0) {
                 AI_MoveChoice = 2;
             }
+            //If everyone else folds don't let this player fold
+            if (p.fold && ai2.fold && ai1.fold) {
+                AI_MoveChoice = 2;
+            }
             switch (AI_MoveChoice) {
 
                 //BET: Don't call bet function because that generate a random number
                 case 1:
+                    //Determine if ai is betting or raising someone elses bet
+                    if (ai3Owed == 0) {
+                        ai3Move = "AI3: Bets ";
+                    } else {
+                        ai3Move = "AI3: Raises ";
+                    }
                     ai3Owed = call(ai3, ai3Owed);
                     betAmt = newBet(ai3, betAmt);
+                    ai3Move += betAmt;
                     //System.out.println("AI3 Bet Amount: " + betAmt);
                     //Only add on to amount owed if the player has not folded
                     if (p.active) {
@@ -411,13 +468,19 @@ public class TexasHoldem extends GameEngine {
                     }
                     pot += betAmt;
                     break;
-
+                //CALL
                 case 2:
+                    if (ai3Owed == 0) {
+                        ai3Move = "AI3: Checks";
+                    } else {
+                        ai3Move = "AI3: Calls " + ai3Owed;
+                    }
                     ai3Owed = call(ai3, ai3Owed);
                     //System.out.println("AI3 Bet Amount: " + ai3Owed);
                     break;
-
+                //FOLD
                 case 3:
+                    ai3Move = "AI3: Folds";
                     fold(ai3);
                     //System.out.println("AI3 Folding");
                     ai3Owed = 0;
@@ -1282,6 +1345,11 @@ public class TexasHoldem extends GameEngine {
         Vector<Card> tempAI_2Hand = mergeHand(OrigAI_2Hand, boardCards);
         Vector<Card> tempAI_3Hand = mergeHand(OrigAI_3Hand, boardCards);
 
+        System.out.println("Players Compare Hand: ");
+        for (int i = 0; i < tempPlayerHand.size(); i++) {
+            System.out.println(tempPlayerHand.elementAt(i).getCardSuit() + " of " + tempPlayerHand.elementAt(i).getCardFace());
+        }
+
         // Declare variables for each player to hold scores
         int playerScore = 0;
         int AI_1Score = 0;
@@ -1318,7 +1386,7 @@ public class TexasHoldem extends GameEngine {
             } else if (isAPair(tempPlayerHand)) {
                 playerScore = 2;
             } else {
-                playerHC = isAHighCard(tempPlayerHand);
+                playerHC = isAHighCard(OrigPlayerHand);
                 playerScore = 1;
             }
         } else {
@@ -1347,7 +1415,7 @@ public class TexasHoldem extends GameEngine {
             } else if (isAPair(tempAI_1Hand)) {
                 AI_1Score = 2;
             } else {
-                AI_1HC = isAHighCard(tempAI_1Hand);
+                AI_1HC = isAHighCard(OrigAI_1Hand);
                 AI_1Score = 1;
             }
         } else {
@@ -1376,7 +1444,7 @@ public class TexasHoldem extends GameEngine {
             } else if (isAPair(tempAI_2Hand)) {
                 AI_2Score = 2;
             } else {
-                AI_2HC = isAHighCard(tempAI_2Hand);
+                AI_2HC = isAHighCard(OrigAI_2Hand);
                 AI_2Score = 1;
             }
         } else {
@@ -1405,12 +1473,119 @@ public class TexasHoldem extends GameEngine {
             } else if (isAPair(tempAI_3Hand)) {
                 AI_3Score = 2;
             } else {
-                AI_3HC = isAHighCard(tempAI_3Hand);
+                AI_3HC = isAHighCard(OrigAI_3Hand);
                 AI_3Score = 1;
             }
         } else {
             AI_3HC = 0;
             AI_3Score = 0;
+        }
+
+        if ((AI_1Score >= playerScore) && (AI_1Score >= AI_2Score) && (AI_1Score >= AI_3Score)) {
+            gamePlayerThatWon = 1;
+            ai1.setCurrency(ai1.getCurrency() + pot);
+            Player.currency = 0;
+            if (AI_1Score == 1) {
+                winningHand = "High Card!";
+            } else if (AI_1Score == 2) {
+                winningHand = "Pair!";
+            } else if (AI_1Score == 3) {
+                winningHand = "Two Pair!";
+            } else if (AI_1Score == 4) {
+                winningHand = "Three of a Kind!";
+            } else if (AI_1Score == 5) {
+                winningHand = "Straight!";
+            } else if (AI_1Score == 6) {
+                winningHand = "Flush!";
+            } else if (AI_1Score == 7) {
+                winningHand = "Full House!";
+            } else if (AI_1Score == 8) {
+                winningHand = "Four of a Kind!";
+            } else if (AI_1Score == 9) {
+                winningHand = "Straight Flush!";
+            } else if (AI_1Score == 10) {
+                winningHand = "Royal Flush!";
+            }
+
+        }
+
+        if ((AI_2Score >= playerScore) && (AI_2Score >= AI_1Score) && (AI_2Score >= AI_3Score)) {
+            gamePlayerThatWon = 2;
+            ai2.setCurrency(ai2.getCurrency() + pot);
+            if (AI_2Score == 1) {
+                winningHand = "High Card!";
+            } else if (AI_2Score == 2) {
+                winningHand = "Pair!";
+            } else if (AI_2Score == 3) {
+                winningHand = "Two Pair!";
+            } else if (AI_2Score == 4) {
+                winningHand = "Three of a Kind!";
+            } else if (AI_2Score == 5) {
+                winningHand = "Straight!";
+            } else if (AI_2Score == 6) {
+                winningHand = "Flush!";
+            } else if (AI_2Score == 7) {
+                winningHand = "Full House!";
+            } else if (AI_2Score == 8) {
+                winningHand = "Four of a Kind!";
+            } else if (AI_2Score == 9) {
+                winningHand = "Straight Flush!";
+            } else if (AI_2Score == 10) {
+                winningHand = "Royal Flush!";
+            }
+
+        }
+
+        if ((AI_3Score >= playerScore) && (AI_3Score >= AI_2Score) && (AI_3Score >= AI_1Score)) {
+            gamePlayerThatWon = 3;
+            ai3.setCurrency(ai3.getCurrency() + pot);
+            if (AI_3Score == 1) {
+                winningHand = "High Card!";
+            } else if (AI_3Score == 2) {
+                winningHand = "Pair!";
+            } else if (AI_3Score == 3) {
+                winningHand = "Two Pair!";
+            } else if (AI_3Score == 4) {
+                winningHand = "Three of a Kind!";
+            } else if (AI_3Score == 5) {
+                winningHand = "Straight!";
+            } else if (AI_3Score == 6) {
+                winningHand = "Flush!";
+            } else if (AI_3Score == 7) {
+                winningHand = "Full House!";
+            } else if (AI_3Score == 8) {
+                winningHand = "Four of a Kind!";
+            } else if (AI_3Score == 9) {
+                winningHand = "Straight Flush!";
+            } else if (AI_3Score == 10) {
+                winningHand = "Royal Flush!";
+            }
+
+        }
+        if ((playerScore >= AI_1Score) && (playerScore >= AI_2Score) && (playerScore >= AI_3Score)) {
+            gamePlayerThatWon = 0;
+            Player.currency = (Player.currency + pot);
+            if (playerScore == 1) {
+                winningHand = "High Card!";
+            } else if (playerScore == 2) {
+                winningHand = "Pair!";
+            } else if (playerScore == 3) {
+                winningHand = "Two Pair!";
+            } else if (playerScore == 4) {
+                winningHand = "Three of a Kind!";
+            } else if (playerScore == 5) {
+                winningHand = "Straight!";
+            } else if (playerScore == 6) {
+                winningHand = "Flush!";
+            } else if (playerScore == 7) {
+                winningHand = "Full House!";
+            } else if (playerScore == 8) {
+                winningHand = "Four of a Kind!";
+            } else if (playerScore == 9) {
+                winningHand = "Straight Flush!";
+            } else if (playerScore == 10) {
+                winningHand = "Royal Flush!";
+            }
         }
 
         // Determine winner based on hand score
@@ -1453,6 +1628,14 @@ public class TexasHoldem extends GameEngine {
         return gamePlayerThatWon;
 
     }
+
+    public Comparator<Card> byValue = (Card left, Card right) -> {
+        if (left.getCardValue() < right.getCardValue()) {
+            return -1;
+        } else {
+            return 1;
+        }
+    };
 
     /**
      * Check for a royal flush
@@ -1547,14 +1730,20 @@ public class TexasHoldem extends GameEngine {
      */
     public boolean isAFullHouse(Vector<Card> checkedHand) {
 
+        Card[] objArray = new Card[checkedHand.size()];
+
+        for (int i = 0; i < checkedHand.size(); i++) {
+            objArray[i] = checkedHand.get(i);
+        }
+
         // Sorts current hand by implementing comparable
-        Collections.sort(checkedHand);
+        Arrays.sort(objArray, byValue);
 
         int noOfRepeats = 1;
         boolean isThreeOfAKind = false;
         boolean isTwoOfAKind = false;
-        for (int i = 0; i < checkedHand.size() - 1; i++) {
-            if (checkedHand.elementAt(i).getCardValue() == checkedHand.elementAt(i + 1).getCardValue()) {
+        for (int i = 0; i < objArray.length - 1; i++) {
+            if (objArray[i].getCardValue() == objArray[i + 1].getCardValue()) {
                 noOfRepeats++;
                 if (noOfRepeats == 3) {
                     isThreeOfAKind = true;
@@ -1613,15 +1802,21 @@ public class TexasHoldem extends GameEngine {
      */
     public boolean isAStraight(Vector<Card> checkedHand) {
 
+        Card[] objArray = new Card[checkedHand.size()];
+
+        for (int i = 0; i < checkedHand.size(); i++) {
+            objArray[i] = checkedHand.get(i);
+        }
+
         // Sorts current hand by implementing comparable
-        Collections.sort(checkedHand);
+        Arrays.sort(objArray, byValue);
 
         // Checks if the cards are in row by comparing elements nex to eachother, if the difference is 1 then it means they're in order
         int noOfCardsInARow = 0;
         int pos = 0;
         boolean isAStraight = false;
-        while (pos < checkedHand.size() - 1 && !isAStraight) {
-            if (checkedHand.elementAt(pos + 1).getCardValue() - checkedHand.elementAt(pos).getCardValue() == 1) {
+        while (pos < objArray.length - 1 && !isAStraight) {
+            if (objArray[pos + 1].getCardValue() - objArray[pos].getCardValue() == 1) {
                 noOfCardsInARow++;
                 if (noOfCardsInARow == 4) {
                     isAStraight = true;
@@ -1736,10 +1931,16 @@ public class TexasHoldem extends GameEngine {
      */
     public int isAHighCard(Vector<Card> checkedHand) {
 
-        // Sorts current hand by implementing comparable
-        Collections.sort(checkedHand);
-        return checkedHand.elementAt(4).getCardValue();
+        Card[] objArray = new Card[checkedHand.size()];
 
+        for (int i = 0; i < checkedHand.size(); i++) {
+            objArray[i] = checkedHand.get(i);
+        }
+
+        // Sorts current hand by implementing comparable
+        Arrays.sort(objArray, byValue);
+
+        return objArray[1].getCardValue();
     }
 
     public void terminateGameSession(Vector<Card> checkedHand) {
