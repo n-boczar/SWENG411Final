@@ -180,9 +180,9 @@ public class TexasHoldem extends GameEngine {
     }
 
     /**
-     * Function to Call/Check add players owed amount to the pot subtract the
-     * owed amount from their currency return 0 which will be set to their new
-     * owed amount
+     * Function: CALL/CHECK add players owed amount to the pot subtract the owed
+     * amount from their currency return 0 which will be set to their new owed
+     * amount
      *
      * @param player
      * @param owedAmt
@@ -201,9 +201,9 @@ public class TexasHoldem extends GameEngine {
     }
 
     /**
-     * Set a new bet and add that amount to the pot before calling this function
-     * call() should be called after this function all owed amounts should be
-     * added to
+     * Function: NEW BET Set a new bet and add that amount to the pot before
+     * calling this function call() should be called after this function all
+     * owed amounts should be added to
      *
      * @param player
      * @param betAmt
@@ -226,8 +226,8 @@ public class TexasHoldem extends GameEngine {
     }
 
     /**
-     * Player folds set them to inactive for the round use fold value to
-     * reactivate folded players at the end of the hand
+     * Function: FOLD Player folds set them to inactive for the round use fold
+     * value to reactivate folded players at the end of the hand
      *
      * @param player
      */
@@ -271,7 +271,12 @@ public class TexasHoldem extends GameEngine {
             switch (playerMoveChoice) {
                 //BET: Don't call bet function because that generate a random number
                 case 1:
-                    playerMove = "User: Bets " + betAmt;
+                    //Determine if ai is betting or raising someone elses bet
+                    if (pOwed == 0) {
+                        playerMove = "User: Bets ";
+                    } else {
+                        playerMove = "User: Raises ";
+                    }
                     //Only add on to amount owed if the player has not folded
                     if (!ai1.fold) {
                         ai1Owed += betAmt;
@@ -495,769 +500,9 @@ public class TexasHoldem extends GameEngine {
     }
 
     /**
-     * ------ROUND 1------- -------------------- Players options include
-     * BET/RAISE (1), CALL/CHECK (2), FOLD (3) If(player.active) checks to make
-     * sure that player is still in the game
-     *
-     * @param playerMoveChoice
-     * @param betAmount
-     * @return
-     */
-    public int startRound1(int playerMoveChoice, int betAmount) {
-
-        System.out.println("Player 1 TempCurr: " + tempCurr1);
-        System.out.println("AI 1 TempCurr: " + tempCurr2);
-        System.out.println("AI 2 TempCurr: " + tempCurr3);
-        System.out.println("AI 3 TempCurr: " + tempCurr4);
-
-        roundNumber = 1;
-
-        System.out.println("Player Currency: " + p.getCurrency());
-        // User places bet, calls, or folds
-        System.out.println("ROUND 1 STARTING");
-        System.out.println("Do you wish to bet, call, or fold? : 1 or 2 or 3");
-
-        //IF statement to ensure the player is still in the game
-        //Do this for each player
-        if (p.active) {
-            switch (playerMoveChoice) {
-
-                case 1: // BET
-
-                    // Check if player needs to clear bets from any other player first
-                    if (totalBetOwedByPlayer != 0) {
-                        // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                        betAmount -= totalBetOwedByPlayer;
-                        // Clears bet owed by player
-                        p.setBet(totalBetOwedByPlayer); // Update player bet variable 
-                        p.setCurrency(p.getCurrency() - totalBetOwedByPlayer); // Update player currency 
-                        pot += totalBetOwedByPlayer; // Update pot
-                        totalBetOwedByPlayer -= totalBetOwedByPlayer; // Update player total bet owed varaible
-                    }
-
-                    p.setBet(betAmount); // Update player bet amount
-                    p.setCurrency(p.getCurrency() - betAmount); // Update player currency 
-                    pot += betAmount; // Add bet amount to pot
-                    // Broadcast bet amount to all other players
-                    totalBetOwedByAI1 += betAmount;
-                    totalBetOwedByAI2 += betAmount;
-                    totalBetOwedByAI3 += betAmount;
-                    break;
-
-                case 2: // CALL
-                    betAmount = totalBetOwedByPlayer;
-                    // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                    betAmount -= totalBetOwedByPlayer;
-                    // Clears bet owed by player
-                    p.setBet(totalBetOwedByPlayer); // Update player bet variable 
-                    p.setCurrency(p.getCurrency() - totalBetOwedByPlayer); // Update player currency 
-                    pot += totalBetOwedByPlayer; // Update pot
-                    totalBetOwedByPlayer -= totalBetOwedByPlayer; // Update player total bet owed varaible
-                    break;
-
-                case 3: // FOLD
-                    p.active = false;
-                    p.fold = true;
-                    break;
-            }
-        }
-
-        // AI_1 turn
-        // Get random input (choice) from AI player
-        AI_MoveChoice = rand.nextInt(3) + 1;
-
-        System.out.println("AI1 Move #:" + AI_MoveChoice);
-        System.out.println("AI1 Currency: " + ai1.getCurrency());
-
-        if (ai1.active) {
-            switch (AI_MoveChoice) {
-
-                case 1: // BET
-                    // Get bet amount input
-                    betAmount = rand.nextInt(ai1.getCurrency() - totalBetOwedByAI1) + totalBetOwedByAI1;
-
-                    while ((betAmount > tempCurr1 && p.active) || (betAmount > tempCurr2 && ai1.active) || (betAmount > tempCurr3 && ai1.active) || (betAmount > tempCurr4 && ai3.active)) {
-                        betAmount = rand.nextInt(ai1.getCurrency() - totalBetOwedByAI1) + totalBetOwedByAI1;
-                    }
-
-//                    // Force CALL action if less than 50 in currency 
-//                    if (ai1.getCurrency() < 50) {
-//                        betAmount = totalBetOwedByAI1;
-//                        // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-//                        betAmount -= totalBetOwedByAI1;
-//                        // Clears bet owed by player
-//                        ai1.setBet(totalBetOwedByAI1); // Update player bet variable 
-//                        ai1.setCurrency(ai1.getCurrency() - totalBetOwedByAI1); // Update player currency 
-//                        pot += totalBetOwedByAI1; // Update pot
-//                        totalBetOwedByAI1 -= totalBetOwedByAI1; // Update player total bet owed varaible
-//                        break;
-//                    }
-                    // Check if player needs to clear bets from any other player first
-                    if (totalBetOwedByAI1 != 0) {
-                        // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                        betAmount -= totalBetOwedByAI1;
-                        // Clears bet owed by player
-                        ai1.setBet(totalBetOwedByAI1); // Update player bet variable 
-                        ai1.setCurrency(ai1.getCurrency() - totalBetOwedByAI1); // Update player currency 
-                        pot += totalBetOwedByAI1; // Update pot
-                        totalBetOwedByAI1 -= totalBetOwedByAI1; // Update player total bet owed varaible
-                    }
-
-                    ai1.setBet(betAmount); // Update player bet amount
-                    ai1.setCurrency(ai1.getCurrency() - betAmount); // Update player currency 
-                    pot += betAmount; // Add bet amount to pot
-                    System.out.println("AI1 Bet Amount: " + betAmount);
-                    // Broadcast bet amount to all other players
-                    totalBetOwedByPlayer += betAmount;
-                    totalBetOwedByAI2 += betAmount;
-                    totalBetOwedByAI3 += betAmount;
-                    break;
-
-                case 2: // CALL
-                    betAmount = totalBetOwedByAI1;
-                    // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                    betAmount -= totalBetOwedByAI1;
-                    // Clears bet owed by player
-                    ai1.setBet(totalBetOwedByPlayer); // Update player bet variable 
-                    ai1.setCurrency(ai1.getCurrency() - totalBetOwedByAI1); // Update player currency 
-                    pot += totalBetOwedByAI1; // Update pot
-                    totalBetOwedByAI1 -= totalBetOwedByAI1; // Update player total bet owed varaible
-                    break;
-
-                case 3: // FOLD
-                    ai1.active = false;
-                    ai1.fold = true;
-                    break;
-            }
-        }
-
-        // AI_2 player bet, or calls 
-        // Get random input (choice) from AI player
-        AI_MoveChoice = rand.nextInt(3) + 1;
-
-        System.out.println("AI2 Move #:" + AI_MoveChoice);
-        System.out.println("AI2 Currency: " + ai2.getCurrency());
-
-        if (ai2.active) {
-            switch (AI_MoveChoice) {
-
-                case 1: // BET  
-
-                    // Get bet amount input
-                    betAmount = rand.nextInt(ai2.getCurrency() - totalBetOwedByAI2) + totalBetOwedByAI2;
-
-                    //While loop ensures bets don't exceed the minimum currency
-                    while ((betAmount > tempCurr1 && p.active) || (betAmount > tempCurr2 && ai1.active) || (betAmount > tempCurr3 && ai1.active) || (betAmount > tempCurr4 && ai3.active)) {
-                        betAmount = rand.nextInt(ai2.getCurrency() - totalBetOwedByAI2) + totalBetOwedByAI2;
-                    }
-
-                    // Check if player needs to clear bets from any other player first
-                    if (totalBetOwedByAI2 != 0) {
-                        // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                        betAmount -= totalBetOwedByAI2;
-                        // Clears bet owed by player
-                        ai2.setBet(totalBetOwedByAI2); // Update player bet variable 
-                        ai2.setCurrency(ai2.getCurrency() - totalBetOwedByAI2); // Update player currency 
-                        pot += totalBetOwedByAI2; // Update pot
-                        totalBetOwedByAI2 -= totalBetOwedByAI2; // Update player total bet owed varaible
-                    }
-
-                    ai2.setBet(betAmount); // Update player bet amount
-                    ai2.setCurrency(ai2.getCurrency() - betAmount); // Update player currency 
-                    pot += betAmount; // Add bet amount to pot
-                    System.out.println("AI2 Bet Amount: " + betAmount);
-                    // Broadcast bet amount to all other players
-                    totalBetOwedByPlayer += betAmount;
-                    totalBetOwedByAI1 += betAmount;
-                    totalBetOwedByAI3 += betAmount;
-                    break;
-
-                case 2: // CALL
-                    betAmount = totalBetOwedByAI2;
-                    // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                    betAmount -= totalBetOwedByAI2;
-                    // Clears bet owed by player
-                    ai2.setBet(totalBetOwedByAI2); // Update player bet variable 
-                    ai2.setCurrency(ai2.getCurrency() - totalBetOwedByAI2); // Update player currency 
-                    pot += totalBetOwedByAI2; // Update pot
-                    totalBetOwedByAI2 -= totalBetOwedByAI2; // Update player total bet owed varaible
-                    break;
-
-                case 3: // FOLD
-                    ai2.active = false;
-                    ai2.fold = true;
-                    break;
-            }
-        }
-
-        /// AI_3 player bet, or calls 
-        // Get random input (choice) from AI player
-        AI_MoveChoice = rand.nextInt(3) + 1;
-
-        System.out.println("AI3 Move #:" + AI_MoveChoice);
-        System.out.println("AI3 Currency: " + ai3.getCurrency());
-
-        if (ai3.active) {
-
-            switch (AI_MoveChoice) {
-
-                case 1: // BET
-
-                    // Get bet amount input
-                    betAmount = rand.nextInt(ai3.getCurrency() - totalBetOwedByAI3) + totalBetOwedByAI3;
-                    System.out.println("AI3 Bet: " + betAmount);
-
-                    //While loop ensures bets don't exceed the minimum currency
-                    while ((betAmount > tempCurr1 && p.active) || (betAmount > tempCurr2 && ai1.active) || (betAmount > tempCurr3 && ai1.active) || (betAmount > tempCurr4 && ai3.active)) {
-                        betAmount = rand.nextInt(ai3.getCurrency() - totalBetOwedByAI3) + totalBetOwedByAI3;
-                    }
-
-                    // Check if player needs to clear bets from any other player first
-                    if (totalBetOwedByAI3 != 0) {
-                        // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                        betAmount -= totalBetOwedByAI3;
-                        // Clears bet owed by player
-                        ai3.setBet(totalBetOwedByAI3); // Update player bet variable 
-                        ai3.setCurrency(ai3.getCurrency() - totalBetOwedByAI3); // Update player currency 
-                        pot += totalBetOwedByAI3; // Update pot
-                        totalBetOwedByAI3 -= totalBetOwedByAI3; // Update player total bet owed varaible
-                    }
-
-                    ai3.setBet(betAmount); // Update player bet amount
-                    ai3.setCurrency(ai3.getCurrency() - betAmount); // Update player currency 
-                    pot += betAmount; // Add bet amount to pot
-                    System.out.println("AI3 Bet Amount: " + betAmount);
-                    // Broadcast bet amount to all other players
-                    totalBetOwedByPlayer += betAmount;
-                    totalBetOwedByAI1 += betAmount;
-                    totalBetOwedByAI2 += betAmount;
-                    break;
-
-                case 2: // CALL
-                    betAmount = totalBetOwedByAI3;
-                    // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                    betAmount -= totalBetOwedByAI3;
-                    // Clears bet owed by player
-                    ai3.setBet(totalBetOwedByAI3); // Update player bet variable 
-                    ai3.setCurrency(ai3.getCurrency() - totalBetOwedByAI3); // Update player currency 
-                    pot += totalBetOwedByAI3; // Update pot
-                    totalBetOwedByAI3 -= totalBetOwedByAI3; // Update player total bet owed varaible
-                    break;
-
-                case 3: // FOLD
-                    ai3.active = false;
-                    ai3.fold = true;
-                    break;
-            }
-        }
-
-        System.out.println("Total Owed: ");
-        System.out.println(totalBetOwedByPlayer);
-        System.out.println(totalBetOwedByAI1);
-        System.out.println(totalBetOwedByAI2);
-        System.out.println(totalBetOwedByAI3);
-
-        universalBetAmountOwed = totalBetOwedByPlayer + totalBetOwedByAI1 + totalBetOwedByAI2 + totalBetOwedByAI3;
-
-        return universalBetAmountOwed;
-    }
-
-    /**
-     * ------ROUND 2------- -------------------- Player Choices include BET (1),
-     * CALL/CHECK (2), FOLD (3)
-     *
-     * @param playerMoveChoice
-     * @param betAmount
-     * @return
-     */
-    public int startRound2(int playerMoveChoice, int betAmount) {
-
-        // User places bet, calls, or folds
-        System.out.println("ROUND 2 STARTING");
-        System.out.println("Do you wish to bet, call, or fold? : 1 or 2 or 3");
-
-        //IF statement to ensure players are still in the game
-        //Do this for each player
-        if (p.active) {
-            switch (playerMoveChoice) {
-
-                case 1: // BET
-
-                    // Check if player needs to clear bets from any other player first
-                    if (totalBetOwedByPlayer != 0) {
-
-                        // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                        betAmount -= totalBetOwedByPlayer;
-                        // Clears bet owed by player
-                        p.setBet(totalBetOwedByPlayer); // Update player bet variable 
-                        p.setCurrency(p.getCurrency() - totalBetOwedByPlayer); // Update player currency 
-                        pot += totalBetOwedByPlayer; // Update pot
-                        totalBetOwedByPlayer -= totalBetOwedByPlayer; // Update player total bet owed varaible
-                    }
-
-                    p.setBet(betAmount); // Update player bet amount
-                    p.setCurrency(p.getCurrency() - betAmount); // Update player currency 
-                    pot += betAmount; // Add bet amount to pot
-                    // Broadcast bet amount to all other players
-                    totalBetOwedByAI1 += betAmount;
-                    totalBetOwedByAI2 += betAmount;
-                    totalBetOwedByAI3 += betAmount;
-                    break;
-
-                case 2: // CALL
-                    betAmount = totalBetOwedByPlayer;
-                    // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                    betAmount -= totalBetOwedByPlayer;
-                    // Clears bet owed by player
-                    p.setBet(totalBetOwedByPlayer); // Update player bet variable 
-                    p.setCurrency(p.getCurrency() - totalBetOwedByPlayer); // Update player currency 
-                    pot += totalBetOwedByPlayer; // Update pot
-                    totalBetOwedByPlayer -= totalBetOwedByPlayer; // Update player total bet owed varaible
-                    break;
-
-                case 3: // FOLD
-                    p.active = false;
-                    p.fold = true;
-                    break;
-            }
-        }
-
-        //------------------------
-        //------AI_1 Turn---------
-        //------------------------
-        // Get random input (choice) from AI player
-        AI_MoveChoice = rand.nextInt(3) + 1;
-
-        System.out.println("AI Move #:" + AI_MoveChoice);
-        System.out.println("AI1 Currency: " + ai1.getCurrency());
-
-        if (ai1.active) {
-            switch (AI_MoveChoice) {
-
-                case 1: // BET
-
-                    // Get bet amount input
-                    betAmount = rand.nextInt(ai1.getCurrency() - totalBetOwedByAI1) + totalBetOwedByAI1;
-                    while ((betAmount > tempCurr1 && p.active) || (betAmount > tempCurr2 && ai1.active) || (betAmount > tempCurr3 && ai1.active) || (betAmount > tempCurr4 && ai3.active)) {
-                        betAmount = rand.nextInt(ai1.getCurrency() - totalBetOwedByAI1) + totalBetOwedByAI1;
-                    }
-
-                    // Check if player needs to clear bets from any other player first
-                    if (totalBetOwedByAI1 != 0) {
-                        // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                        betAmount -= totalBetOwedByAI1;
-                        // Clears bet owed by player
-                        ai1.setBet(totalBetOwedByAI1); // Update player bet variable 
-                        ai1.setCurrency(ai1.getCurrency() - totalBetOwedByAI1); // Update player currency 
-                        pot += totalBetOwedByAI1; // Update pot
-                        totalBetOwedByAI1 -= totalBetOwedByAI1; // Update player total bet owed varaible
-                    }
-
-                    ai1.setBet(betAmount); // Update player bet amount
-                    ai1.setCurrency(ai1.getCurrency() - betAmount); // Update player currency 
-                    pot += betAmount; // Add bet amount to pot
-                    System.out.println("AI1 Bet Amount: " + betAmount);
-                    // Broadcast bet amount to all other players
-                    totalBetOwedByPlayer += betAmount;
-                    totalBetOwedByAI2 += betAmount;
-                    totalBetOwedByAI3 += betAmount;
-                    break;
-
-                case 2: // CALL
-                    betAmount = totalBetOwedByAI1;
-                    // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                    betAmount -= totalBetOwedByAI1;
-                    // Clears bet owed by player
-                    ai1.setBet(totalBetOwedByPlayer); // Update player bet variable 
-                    ai1.setCurrency(ai1.getCurrency() - totalBetOwedByAI1); // Update player currency 
-                    pot += totalBetOwedByAI1; // Update pot
-                    totalBetOwedByAI1 -= totalBetOwedByAI1; // Update player total bet owed varaible
-                    break;
-
-                case 3: // FOLD
-                    ai1.active = false;
-                    ai1.fold = true;
-                    break;
-            }
-        }
-
-        //------------------------
-        //------AI_2 Turn---------
-        //------------------------
-        // Get random input (choice) from AI player
-        AI_MoveChoice = rand.nextInt(3) + 1;
-
-        System.out.println("AI Move #:" + AI_MoveChoice);
-        System.out.println("AI2 Currency: " + ai2.getCurrency());
-        if (ai2.active) {
-            switch (AI_MoveChoice) {
-
-                case 1: // BET  
-                    // Get bet amount input
-                    betAmount = rand.nextInt(ai2.getCurrency() - totalBetOwedByAI2) + totalBetOwedByAI2;
-                    while ((betAmount > tempCurr1 && p.active) || (betAmount > tempCurr2 && ai1.active) || (betAmount > tempCurr3 && ai1.active) || (betAmount > tempCurr4 && ai3.active)) {
-                        betAmount = rand.nextInt(ai2.getCurrency() - totalBetOwedByAI2) + totalBetOwedByAI2;
-                    }
-
-                    // Check if player needs to clear bets from any other player first
-                    if (totalBetOwedByAI2 != 0) {
-                        // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                        betAmount -= totalBetOwedByAI2;
-                        // Clears bet owed by player
-                        ai2.setBet(totalBetOwedByAI2); // Update player bet variable 
-                        ai2.setCurrency(ai2.getCurrency() - totalBetOwedByAI2); // Update player currency 
-                        pot += totalBetOwedByAI2; // Update pot
-                        totalBetOwedByAI2 -= totalBetOwedByAI2; // Update player total bet owed varaible
-                    }
-
-                    ai2.setBet(betAmount); // Update player bet amount
-                    ai2.setCurrency(ai2.getCurrency() - betAmount); // Update player currency 
-                    pot += betAmount; // Add bet amount to pot
-                    System.out.println("AI2 Bet Amount: " + betAmount);
-                    // Broadcast bet amount to all other players
-                    totalBetOwedByPlayer += betAmount;
-                    totalBetOwedByAI1 += betAmount;
-                    totalBetOwedByAI3 += betAmount;
-                    break;
-
-                case 2: // CALL
-                    betAmount = totalBetOwedByAI2;
-                    // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                    betAmount -= totalBetOwedByAI2;
-                    // Clears bet owed by player
-                    ai2.setBet(totalBetOwedByAI2); // Update player bet variable 
-                    ai2.setCurrency(ai2.getCurrency() - totalBetOwedByAI2); // Update player currency 
-                    pot += totalBetOwedByAI2; // Update pot
-                    totalBetOwedByAI2 -= totalBetOwedByAI2; // Update player total bet owed varaible
-                    break;
-
-                case 3: // FOLD
-                    ai2.active = false;
-                    ai2.fold = true;
-                    break;
-            }
-        }
-
-        //------------------------
-        //------AI_3 Turn---------
-        //------------------------
-        // Get random input (choice) from AI player
-        AI_MoveChoice = rand.nextInt(3) + 1;
-
-        System.out.println("AI Move #:" + AI_MoveChoice);
-        System.out.println("AI3 Currency: " + ai3.getCurrency());
-        if (ai3.active) {
-            switch (AI_MoveChoice) {
-
-                case 1: // BET
-
-                    // Get bet amount input
-                    betAmount = rand.nextInt(ai3.getCurrency() - totalBetOwedByAI3) + totalBetOwedByAI3;
-                    while ((betAmount > tempCurr1 && p.active) || (betAmount > tempCurr2 && ai1.active) || (betAmount > tempCurr3 && ai1.active) || (betAmount > tempCurr4 && ai3.active)) {
-                        betAmount = rand.nextInt(ai3.getCurrency() - totalBetOwedByAI3) + totalBetOwedByAI3;
-                    }
-
-                    // Check if player needs to clear bets from any other player first
-                    if (totalBetOwedByAI3 != 0) {
-                        // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                        betAmount -= totalBetOwedByAI3;
-                        // Clears bet owed by player
-                        ai3.setBet(totalBetOwedByAI3); // Update player bet variable 
-                        ai3.setCurrency(ai3.getCurrency() - totalBetOwedByAI3); // Update player currency 
-                        pot += totalBetOwedByAI3; // Update pot
-                        totalBetOwedByAI3 -= totalBetOwedByAI3; // Update player total bet owed varaible
-                    }
-
-                    ai3.setBet(betAmount); // Update player bet amount
-                    ai3.setCurrency(ai3.getCurrency() - betAmount); // Update player currency 
-                    pot += betAmount; // Add bet amount to pot
-                    System.out.println("AI3 Bet Amount: " + betAmount);
-                    // Broadcast bet amount to all other players
-                    totalBetOwedByPlayer += betAmount;
-                    totalBetOwedByAI1 += betAmount;
-                    totalBetOwedByAI2 += betAmount;
-                    break;
-
-                case 2: // CALL
-                    betAmount = totalBetOwedByAI3;
-                    // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                    betAmount -= totalBetOwedByAI3;
-                    // Clears bet owed by player
-                    ai3.setBet(totalBetOwedByAI3); // Update player bet variable 
-                    ai3.setCurrency(ai3.getCurrency() - totalBetOwedByAI3); // Update player currency 
-                    pot += totalBetOwedByAI3; // Update pot
-                    totalBetOwedByAI3 -= totalBetOwedByAI3; // Update player total bet owed varaible
-                    break;
-
-                case 3: // FOLD
-                    ai3.active = false;
-                    ai3.fold = true;
-                    break;
-            }
-        }
-
-        System.out.println("Total Owed: ");
-        System.out.println(totalBetOwedByPlayer);
-        System.out.println(totalBetOwedByAI1);
-        System.out.println(totalBetOwedByAI2);
-        System.out.println(totalBetOwedByAI3);
-
-        universalBetAmountOwed = totalBetOwedByPlayer + totalBetOwedByAI1 + totalBetOwedByAI2 + totalBetOwedByAI3;
-
-        return universalBetAmountOwed;
-
-    }
-
-    /**
-     * ------ROUND 3------- -------------------- Player Choices include BET (1),
-     * CALL/CHECK (2), FOLD (3)
-     *
-     * @param playerMoveChoice
-     * @param betAmount
-     * @return
-     */
-    public int startRound3(int playerMoveChoice, int betAmount) {
-
-        // User places bet, calls, or folds
-        System.out.println("ROUND 3 STARTING");
-        System.out.println("Do you wish to bet, call, or fold? : 1 or 2 or 3");
-
-        //IF statement to ensure players are still in the game
-        //Do this for each player
-        if (p.active) {
-            switch (playerMoveChoice) {
-
-                case 1: // BET
-
-                    // Check if player needs to clear bets from any other player first
-                    if (totalBetOwedByPlayer != 0) {
-
-                        // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                        betAmount -= totalBetOwedByPlayer;
-                        // Clears bet owed by player
-                        p.setBet(totalBetOwedByPlayer); // Update player bet variable 
-                        p.setCurrency(p.getCurrency() - totalBetOwedByPlayer); // Update player currency 
-                        pot += totalBetOwedByPlayer; // Update pot
-                        totalBetOwedByPlayer -= totalBetOwedByPlayer; // Update player total bet owed varaible
-                    }
-
-                    p.setBet(betAmount); // Update player bet amount
-                    p.setCurrency(p.getCurrency() - betAmount); // Update player currency 
-                    pot += betAmount; // Add bet amount to pot
-                    // Broadcast bet amount to all other players
-                    totalBetOwedByAI1 += betAmount;
-                    totalBetOwedByAI2 += betAmount;
-                    totalBetOwedByAI3 += betAmount;
-                    break;
-
-                case 2: // CALL
-                    betAmount = totalBetOwedByPlayer;
-                    // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                    betAmount -= totalBetOwedByPlayer;
-                    // Clears bet owed by player
-                    p.setBet(totalBetOwedByPlayer); // Update player bet variable 
-                    p.setCurrency(p.getCurrency() - totalBetOwedByPlayer); // Update player currency 
-                    pot += totalBetOwedByPlayer; // Update pot
-                    totalBetOwedByPlayer -= totalBetOwedByPlayer; // Update player total bet owed varaible
-                    break;
-
-                case 3: // FOLD
-                    p.active = false;
-                    p.fold = true;
-                    break;
-            }
-        }
-
-        //------------------------
-        //------AI_1 Turn---------
-        //------------------------
-        // Get random input (choice) from AI player
-        AI_MoveChoice = rand.nextInt(3) + 1;
-
-        System.out.println("AI Move #:" + AI_MoveChoice);
-        System.out.println("AI1 Currency: " + ai1.getCurrency());
-
-        if (ai1.active) {
-            switch (AI_MoveChoice) {
-
-                case 1: // BET
-
-                    // Get bet amount input
-                    betAmount = rand.nextInt(ai1.getCurrency() - totalBetOwedByAI1) + totalBetOwedByAI1;
-                    while ((betAmount > tempCurr1 && p.active) || (betAmount > tempCurr2 && ai1.active) || (betAmount > tempCurr3 && ai1.active) || (betAmount > tempCurr4 && ai3.active)) {
-                        betAmount = rand.nextInt(ai1.getCurrency() - totalBetOwedByAI1) + totalBetOwedByAI1;
-                    }
-
-                    // Check if player needs to clear bets from any other player first
-                    if (totalBetOwedByAI1 != 0) {
-                        // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                        betAmount -= totalBetOwedByAI1;
-                        // Clears bet owed by player
-                        ai1.setBet(totalBetOwedByAI1); // Update player bet variable 
-                        ai1.setCurrency(ai1.getCurrency() - totalBetOwedByAI1); // Update player currency 
-                        pot += totalBetOwedByAI1; // Update pot
-                        totalBetOwedByAI1 -= totalBetOwedByAI1; // Update player total bet owed varaible
-                    }
-
-                    ai1.setBet(betAmount); // Update player bet amount
-                    ai1.setCurrency(ai1.getCurrency() - betAmount); // Update player currency 
-                    pot += betAmount; // Add bet amount to pot
-                    System.out.println("AI1 Bet Amount: " + betAmount);
-                    // Broadcast bet amount to all other players
-                    totalBetOwedByPlayer += betAmount;
-                    totalBetOwedByAI2 += betAmount;
-                    totalBetOwedByAI3 += betAmount;
-                    break;
-
-                case 2: // CALL
-                    betAmount = totalBetOwedByAI1;
-                    // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                    betAmount -= totalBetOwedByAI1;
-                    // Clears bet owed by player
-                    ai1.setBet(totalBetOwedByPlayer); // Update player bet variable 
-                    ai1.setCurrency(ai1.getCurrency() - totalBetOwedByAI1); // Update player currency 
-                    pot += totalBetOwedByAI1; // Update pot
-                    totalBetOwedByAI1 -= totalBetOwedByAI1; // Update player total bet owed varaible
-                    break;
-
-                case 3: // FOLD
-                    ai1.active = false;
-                    ai1.fold = true;
-                    break;
-            }
-        }
-
-        //------------------------
-        //------AI_2 Turn---------
-        //------------------------
-        // Get random input (choice) from AI player
-        AI_MoveChoice = rand.nextInt(3) + 1;
-
-        System.out.println("AI Move #:" + AI_MoveChoice);
-        System.out.println("AI2 Currency: " + ai2.getCurrency());
-        if (ai2.active) {
-            switch (AI_MoveChoice) {
-
-                case 1: // BET  
-                    // Get bet amount input
-                    betAmount = rand.nextInt(ai2.getCurrency() - totalBetOwedByAI2) + totalBetOwedByAI2;
-                    while ((betAmount > tempCurr1 && p.active) || (betAmount > tempCurr2 && ai1.active) || (betAmount > tempCurr3 && ai1.active) || (betAmount > tempCurr4 && ai3.active)) {
-                        betAmount = rand.nextInt(ai2.getCurrency() - totalBetOwedByAI2) + totalBetOwedByAI2;
-                    }
-
-                    // Check if player needs to clear bets from any other player first
-                    if (totalBetOwedByAI2 != 0) {
-                        // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                        betAmount -= totalBetOwedByAI2;
-                        // Clears bet owed by player
-                        ai2.setBet(totalBetOwedByAI2); // Update player bet variable 
-                        ai2.setCurrency(ai2.getCurrency() - totalBetOwedByAI2); // Update player currency 
-                        pot += totalBetOwedByAI2; // Update pot
-                        totalBetOwedByAI2 -= totalBetOwedByAI2; // Update player total bet owed varaible
-                    }
-
-                    ai2.setBet(betAmount); // Update player bet amount
-                    ai2.setCurrency(ai2.getCurrency() - betAmount); // Update player currency 
-                    pot += betAmount; // Add bet amount to pot
-                    System.out.println("AI2 Bet Amount: " + betAmount);
-                    // Broadcast bet amount to all other players
-                    totalBetOwedByPlayer += betAmount;
-                    totalBetOwedByAI1 += betAmount;
-                    totalBetOwedByAI3 += betAmount;
-                    break;
-
-                case 2: // CALL
-                    betAmount = totalBetOwedByAI2;
-                    // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                    betAmount -= totalBetOwedByAI2;
-                    // Clears bet owed by player
-                    ai2.setBet(totalBetOwedByAI2); // Update player bet variable 
-                    ai2.setCurrency(ai2.getCurrency() - totalBetOwedByAI2); // Update player currency 
-                    pot += totalBetOwedByAI2; // Update pot
-                    totalBetOwedByAI2 -= totalBetOwedByAI2; // Update player total bet owed varaible
-                    break;
-
-                case 3: // FOLD
-                    ai2.active = false;
-                    ai2.fold = true;
-                    break;
-            }
-        }
-
-        //------------------------
-        //------AI_3 Turn---------
-        //------------------------
-        // Get random input (choice) from AI player
-        AI_MoveChoice = rand.nextInt(3) + 1;
-
-        System.out.println("AI Move #:" + AI_MoveChoice);
-        System.out.println("AI3 Currency: " + ai3.getCurrency());
-        if (ai3.active) {
-            switch (AI_MoveChoice) {
-
-                case 1: // BET
-
-                    // Get bet amount input
-                    betAmount = rand.nextInt(ai3.getCurrency() - totalBetOwedByAI3) + totalBetOwedByAI3;
-                    while ((betAmount > tempCurr1 && p.active) || (betAmount > tempCurr2 && ai1.active) || (betAmount > tempCurr3 && ai1.active) || (betAmount > tempCurr4 && ai3.active)) {
-                        betAmount = rand.nextInt(ai3.getCurrency() - totalBetOwedByAI3) + totalBetOwedByAI3;
-                    }
-
-                    // Check if player needs to clear bets from any other player first
-                    if (totalBetOwedByAI3 != 0) {
-                        // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                        betAmount -= totalBetOwedByAI3;
-                        // Clears bet owed by player
-                        ai3.setBet(totalBetOwedByAI3); // Update player bet variable 
-                        ai3.setCurrency(ai3.getCurrency() - totalBetOwedByAI3); // Update player currency 
-                        pot += totalBetOwedByAI3; // Update pot
-                        totalBetOwedByAI3 -= totalBetOwedByAI3; // Update player total bet owed varaible
-                    }
-
-                    ai3.setBet(betAmount); // Update player bet amount
-                    ai3.setCurrency(ai3.getCurrency() - betAmount); // Update player currency 
-                    pot += betAmount; // Add bet amount to pot
-                    System.out.println("AI3 Bet Amount: " + betAmount);
-                    // Broadcast bet amount to all other players
-                    totalBetOwedByPlayer += betAmount;
-                    totalBetOwedByAI1 += betAmount;
-                    totalBetOwedByAI2 += betAmount;
-                    break;
-
-                case 2: // CALL
-                    betAmount = totalBetOwedByAI3;
-                    // Updates total bet by substracting amount needed to call (totalBetOwed), resulting in the real bet amount
-                    betAmount -= totalBetOwedByAI3;
-                    // Clears bet owed by player
-                    ai3.setBet(totalBetOwedByAI3); // Update player bet variable 
-                    ai3.setCurrency(ai3.getCurrency() - totalBetOwedByAI3); // Update player currency 
-                    pot += totalBetOwedByAI3; // Update pot
-                    totalBetOwedByAI3 -= totalBetOwedByAI3; // Update player total bet owed varaible
-                    break;
-
-                case 3: // FOLD
-                    ai3.active = false;
-                    ai3.fold = true;
-                    break;
-            }
-        }
-
-        System.out.println("Total Owed: ");
-        System.out.println(totalBetOwedByPlayer);
-        System.out.println(totalBetOwedByAI1);
-        System.out.println(totalBetOwedByAI2);
-        System.out.println(totalBetOwedByAI3);
-
-        universalBetAmountOwed = totalBetOwedByPlayer + totalBetOwedByAI1 + totalBetOwedByAI2 + totalBetOwedByAI3;
-
-        return universalBetAmountOwed;
-
-    }
-
-    /**
-     * See if a player folded that round because if they did they should be
-     * active for the next round. Reset fold because if you don't it could cause
-     * problems
+     * Function: RESET See if a player folded that round because if they did
+     * they should be active for the next round. Reset fold because if you don't
+     * it could cause problems
      */
     public void reset() {
         if (p.fold) {
@@ -1282,7 +527,8 @@ public class TexasHoldem extends GameEngine {
     }
 
     /**
-     * Deal the flop to the table Burn one card and turn 3 on the table
+     * Function: FLOP Deal the flop to the table Burn one card and turn 3 on the
+     * table
      *
      * @param boardCards
      * @param burnCards
@@ -1297,8 +543,8 @@ public class TexasHoldem extends GameEngine {
     }
 
     /**
-     * Deal the turn and the river are the same function because they do the
-     * same thing Burn one card and turn 1 on the table
+     * Function:TURN AND RIVER Deal the turn and the river are the same function
+     * because they do the same thing Burn one card and turn 1 on the table
      *
      * @param boardCards
      * @param burnCards
@@ -1311,7 +557,8 @@ public class TexasHoldem extends GameEngine {
     }
 
     /**
-     * Combine each players hand with the board cards for comparison
+     * Function: MERGE HAND Combine each players hand with the board cards for
+     * comparison
      *
      * @param playerCards
      * @param boardCards
@@ -1328,7 +575,8 @@ public class TexasHoldem extends GameEngine {
     //-------MY IMPLEMENTED FUNCTIONS-------------
     //--------------------------------------------
     /**
-     * Compare each players hand and determine the winner of that round
+     * Function: COMPARE HANDS Compare each players hand and determine the
+     * winner of that round
      *
      * @param OrigPlayerHand
      * @param OrigAI_1Hand
@@ -1367,6 +615,8 @@ public class TexasHoldem extends GameEngine {
 
         if (p.active) {
             // ANALYSE PLAYER HAND
+            //Always generate high card score in case more than one person has the same score
+            playerHC = isAHighCard(OrigPlayerHand);
             if (isARoyalFlush(tempPlayerHand)) {
                 playerScore = 10;
             } else if (isAStraightFlush(tempPlayerHand)) {
@@ -1386,7 +636,6 @@ public class TexasHoldem extends GameEngine {
             } else if (isAPair(tempPlayerHand)) {
                 playerScore = 2;
             } else {
-                playerHC = isAHighCard(OrigPlayerHand);
                 playerScore = 1;
             }
         } else {
@@ -1396,6 +645,8 @@ public class TexasHoldem extends GameEngine {
 
         if (ai1.active) {
             // ANALYSE AI_1 HAND
+            //Always generate high card score in case more than one person has the same score
+            AI_1HC = isAHighCard(OrigAI_1Hand);
             if (isARoyalFlush(tempAI_1Hand)) {
                 AI_1Score = 10;
             } else if (isAStraightFlush(tempAI_1Hand)) {
@@ -1415,7 +666,6 @@ public class TexasHoldem extends GameEngine {
             } else if (isAPair(tempAI_1Hand)) {
                 AI_1Score = 2;
             } else {
-                AI_1HC = isAHighCard(OrigAI_1Hand);
                 AI_1Score = 1;
             }
         } else {
@@ -1425,6 +675,8 @@ public class TexasHoldem extends GameEngine {
 
         if (ai2.active) {
             // ANALYSE AI_2 HAND
+            //Always generate high card score in case more than one person has the same score
+            AI_2HC = isAHighCard(OrigAI_2Hand);
             if (isARoyalFlush(tempAI_2Hand)) {
                 AI_2Score = 10;
             } else if (isAStraightFlush(tempAI_2Hand)) {
@@ -1444,7 +696,6 @@ public class TexasHoldem extends GameEngine {
             } else if (isAPair(tempAI_2Hand)) {
                 AI_2Score = 2;
             } else {
-                AI_2HC = isAHighCard(OrigAI_2Hand);
                 AI_2Score = 1;
             }
         } else {
@@ -1454,6 +705,8 @@ public class TexasHoldem extends GameEngine {
 
         if (ai3.active) {
             // ANALYSE AI_3 HAND
+            //Always generate high card score in case more than one person has the same score
+            AI_3HC = isAHighCard(OrigAI_3Hand);
             if (isARoyalFlush(tempAI_3Hand)) {
                 AI_3Score = 10;
             } else if (isAStraightFlush(tempAI_3Hand)) {
@@ -1473,7 +726,6 @@ public class TexasHoldem extends GameEngine {
             } else if (isAPair(tempAI_3Hand)) {
                 AI_3Score = 2;
             } else {
-                AI_3HC = isAHighCard(OrigAI_3Hand);
                 AI_3Score = 1;
             }
         } else {
@@ -1484,7 +736,7 @@ public class TexasHoldem extends GameEngine {
         if ((AI_1Score >= playerScore) && (AI_1Score >= AI_2Score) && (AI_1Score >= AI_3Score)) {
             gamePlayerThatWon = 1;
             ai1.setCurrency(ai1.getCurrency() + pot);
-            Player.currency = 0;
+            pot = 0;
             if (AI_1Score == 1) {
                 winningHand = "High Card!";
             } else if (AI_1Score == 2) {
@@ -1512,6 +764,7 @@ public class TexasHoldem extends GameEngine {
         if ((AI_2Score >= playerScore) && (AI_2Score >= AI_1Score) && (AI_2Score >= AI_3Score)) {
             gamePlayerThatWon = 2;
             ai2.setCurrency(ai2.getCurrency() + pot);
+            pot = 0;
             if (AI_2Score == 1) {
                 winningHand = "High Card!";
             } else if (AI_2Score == 2) {
@@ -1539,6 +792,7 @@ public class TexasHoldem extends GameEngine {
         if ((AI_3Score >= playerScore) && (AI_3Score >= AI_2Score) && (AI_3Score >= AI_1Score)) {
             gamePlayerThatWon = 3;
             ai3.setCurrency(ai3.getCurrency() + pot);
+            pot = 0;
             if (AI_3Score == 1) {
                 winningHand = "High Card!";
             } else if (AI_3Score == 2) {
@@ -1565,6 +819,7 @@ public class TexasHoldem extends GameEngine {
         if ((playerScore >= AI_1Score) && (playerScore >= AI_2Score) && (playerScore >= AI_3Score)) {
             gamePlayerThatWon = 0;
             Player.currency = (Player.currency + pot);
+            pot = 0;
             if (playerScore == 1) {
                 winningHand = "High Card!";
             } else if (playerScore == 2) {
@@ -1586,49 +841,29 @@ public class TexasHoldem extends GameEngine {
             } else if (playerScore == 10) {
                 winningHand = "Royal Flush!";
             }
-        }
 
-        // Determine winner based on hand score
-        //Set pot = 0 in each case so if it doesn't add high card winner too (changing to else if may have fixed this)
-        if ((playerScore > AI_1Score) && (playerScore > AI_2Score) && (playerScore > AI_3Score)) {
-            gamePlayerThatWon = 0;
-            p.setCurrency(p.getCurrency() + pot);
-            pot = 0;
-        } else if ((AI_1Score > playerScore) && (AI_1Score > AI_2Score) && (AI_1Score > AI_3Score)) {
-            gamePlayerThatWon = 1;
-            ai1.setCurrency(ai1.getCurrency() + pot);
-            pot = 0;
-        } else if ((AI_2Score > playerScore) && (AI_2Score > AI_1Score) && (AI_2Score > AI_3Score)) {
-            gamePlayerThatWon = 2;
-            ai2.setCurrency(ai2.getCurrency() + pot);
-            pot = 0;
-        } else if ((AI_3Score > playerScore) && (AI_3Score > AI_2Score) && (AI_3Score > AI_1Score)) {
-            gamePlayerThatWon = 3;
-            ai3.setCurrency(ai3.getCurrency() + pot);
-            pot = 0;
-        } // Special case where every player/AI just has a high card, determine winner based on high card
-        else if ((playerHC > AI_1HC) && (playerHC > AI_2HC) && (playerHC > AI_3HC)) {
-            gamePlayerThatWon = 0;
-            p.setCurrency(p.getCurrency() + pot);
-            pot = 0;
-        } else if ((AI_1HC > playerHC) && (AI_1HC > AI_2HC) && (AI_1HC > AI_3HC)) {
-            gamePlayerThatWon = 1;
-            ai1.setCurrency(ai1.getCurrency() + pot);
-            pot = 0;
-        } else if ((AI_2HC > playerHC) && (AI_2HC > AI_1HC) && (AI_2HC > AI_3HC)) {
-            gamePlayerThatWon = 2;
-            ai2.setCurrency(ai2.getCurrency() + pot);
-            pot = 0;
-        } else if ((AI_3HC > playerHC) && (AI_3HC > AI_2HC) && (AI_3HC > AI_1HC)) {
-            gamePlayerThatWon = 3;
-            ai3.setCurrency(ai3.getCurrency() + pot);
-            pot = 0;
+            // Safety to handle when all players have high card and the user and some other ai have the same one, favor goes to player
+            if ((playerScore == AI_1Score) && (playerScore == AI_2Score) && (playerScore == AI_3Score)) {
+                if (playerHC >= AI_1HC && playerHC >= AI_2HC && playerHC >= AI_3HC) {
+                    gamePlayerThatWon = 0;
+                }
+                if (AI_1HC >= playerHC && AI_1HC >= AI_2HC && AI_1HC >= AI_3HC) {
+                    gamePlayerThatWon = 1;
+                }
+                if (AI_2HC >= playerHC && AI_2HC >= AI_1HC && AI_2HC >= AI_3HC) {
+                    gamePlayerThatWon = 2;
+                }
+                if (AI_3HC >= playerHC && AI_3HC >= AI_1HC && AI_3HC >= AI_2HC) {
+                    gamePlayerThatWon = 3;
+                }
+            }
         }
-
         return gamePlayerThatWon;
-
     }
 
+    /**
+     * Function: COMPARATOR Compare two cards
+     */
     public Comparator<Card> byValue = (Card left, Card right) -> {
         if (left.getCardValue() < right.getCardValue()) {
             return -1;
@@ -1739,25 +974,31 @@ public class TexasHoldem extends GameEngine {
         // Sorts current hand by implementing comparable
         Arrays.sort(objArray, byValue);
 
-        int noOfRepeats = 1;
+        int noOfRepeats = 0;
         boolean isThreeOfAKind = false;
         boolean isTwoOfAKind = false;
         for (int i = 0; i < objArray.length - 1; i++) {
             if (objArray[i].getCardValue() == objArray[i + 1].getCardValue()) {
                 noOfRepeats++;
-                if (noOfRepeats == 3) {
+                if (noOfRepeats == 2) {
                     isThreeOfAKind = true;
-                    noOfRepeats = 1;
-                } else if (noOfRepeats == 2) {
-                    isTwoOfAKind = true;
-                    noOfRepeats = 1;
+                    noOfRepeats = 0;
+                    for (int x = i; x < objArray.length - 1; x++) {
+                        if (objArray[x].getCardValue() == objArray[x + 1].getCardValue()) {
+                            noOfRepeats++;
+                            if (noOfRepeats == 2) {
+                                isTwoOfAKind = true;
+                                noOfRepeats = 0;
+                            }
+                        }
+
+                    }
                 }
-            } else {
-                noOfRepeats = 1;
+            }else{
+                noOfRepeats = 0;
             }
         }
         return (isTwoOfAKind && isThreeOfAKind);
-
     }
 
     /**
