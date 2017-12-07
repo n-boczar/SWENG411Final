@@ -49,6 +49,7 @@ public class TexasHoldem extends GameEngine {
 
     public Random rand;
     public PokerDeck pokerDeck;
+    public PokerDeck tempDeck;
     public Vector<Card> playerHand;
     public Vector<Card> AI_1Hand;
     public Vector<Card> AI_2Hand;
@@ -65,7 +66,7 @@ public class TexasHoldem extends GameEngine {
     int playerMoveChoice;
     int AI_MoveChoice;
     int roundNumber;
-    int lastBet = 0;
+    //int lastBet = 0;
     int pot;
     int totalBetOwedByPlayer = 0;
     int totalBetOwedByAI1 = 0;
@@ -95,11 +96,8 @@ public class TexasHoldem extends GameEngine {
         this.ai1 = ai1;
         this.ai2 = ai2;
         this.ai3 = ai3;
-
+        tempDeck = pokerDeck;
         deal();
-        flop();
-        turnAndRiver();
-        turnAndRiver();
 
         // Set currency for ai's to whatever the user has
         this.ai1.setCurrency(Player.getCurrency());
@@ -119,27 +117,59 @@ public class TexasHoldem extends GameEngine {
      * Start each round by giving each player 2 cards
      */
     public void deal() {
+        //Create a new pokerDeck and shuffle it
+        //Create the new pokerDeck in here because the game needs a new one each round
+        pokerDeck = tempDeck;
         pokerDeck.shuffle();
 
+        //Clear Hand 
+        playerHand.clear();
         // Give player first card
         playerHand.add(pokerDeck.deal());
         // Give player second card
         playerHand.add(pokerDeck.deal());
 
+        //Clear Hand 
+        AI_1Hand.clear();
         // Give player first card
         AI_1Hand.add(pokerDeck.deal());
         // Give player second card
         AI_1Hand.add(pokerDeck.deal());
 
+        //Clear Hand 
+        AI_2Hand.clear();
         // Give player first card
         AI_2Hand.add(pokerDeck.deal());
         // Give player second card
         AI_2Hand.add(pokerDeck.deal());
 
+        //Clear Hand 
+        AI_3Hand.clear();
         // Give player first card
         AI_3Hand.add(pokerDeck.deal());
         // Give player second card
         AI_3Hand.add(pokerDeck.deal());
+
+        //Clear the boardCards and burnCards
+        boardCards.clear();
+        burnCards.clear();
+        //Deal the table cards 
+        flop();
+        turnAndRiver();
+        turnAndRiver();
+
+        System.out.println("AI 1 HAND: ");
+        for (int i = 0; i < AI_1Hand.size(); i++) {
+            System.out.println(AI_1Hand.elementAt(i).getCardSuit() + " of " + AI_1Hand.elementAt(i).getCardFace());
+        }
+        System.out.println("AI 2 HAND: ");
+        for (int i = 0; i < AI_2Hand.size(); i++) {
+            System.out.println(AI_2Hand.elementAt(i).getCardSuit() + " of " + AI_2Hand.elementAt(i).getCardFace());
+        }
+        System.out.println("AI 3 HAND: ");
+        for (int i = 0; i < AI_3Hand.size(); i++) {
+            System.out.println(AI_3Hand.elementAt(i).getCardSuit() + " of " + AI_3Hand.elementAt(i).getCardFace());
+        }
     }
 
     /**
@@ -174,15 +204,17 @@ public class TexasHoldem extends GameEngine {
      */
     public int newBet(AIPlayer player, int betAmt) {
         do {
-            // Get bet amount input
+            // Get bet amount input 
+            // If they have a lot of currency left divide by 4 to slow game down
             if (player.getCurrency() > 100) {
-                betAmt = rand.nextInt(player.getCurrency()/2);
+                betAmt = rand.nextInt(player.getCurrency() / 4);
             } else {
                 betAmt = rand.nextInt(player.getCurrency());
             }
         } while ((betAmt > p.getCurrency() && p.active) || (betAmt > ai1.getCurrency() && ai1.active) || (betAmt > ai2.getCurrency() && ai2.active) || (betAmt > ai3.getCurrency() && ai3.active));
         pot += betAmt;
         player.setCurrency(player.getCurrency() - betAmt);
+        player.didBet = true;
         return betAmt;
     }
 
@@ -219,12 +251,12 @@ public class TexasHoldem extends GameEngine {
         //tempCurr3 = ai2.getCurrency();
         //tempCurr4 = ai3.getCurrency();
 
-        System.out.println("AI 2 Active: " + ai2.active);
-        System.out.println("Player Owes: " + pOwed);
-        System.out.println("AI1 Curr: " + ai1.getCurrency());
+        //System.out.println("AI 2 Active: " + ai2.active);
+        //System.out.println("Player Owes: " + pOwed);
+        //System.out.println("AI1 Curr: " + ai1.getCurrency());
         //if the player is in the hand
         if (p.active) {
-            System.out.println("Players choice: " + playerMoveChoice);
+            //System.out.println("Players choice: " + playerMoveChoice);
             //while (playerMoveChoice == 0) {
             //This endless polling loop might break everything
             //startRound(playerMoveChoice, betAmt);
@@ -265,13 +297,17 @@ public class TexasHoldem extends GameEngine {
             if (AI_MoveChoice == 1 && ai1.didBet == true) {
                 AI_MoveChoice = 2;
             }
+            //If there is no bet on the table don't let the ai fold make it so they at least check
+            if (AI_MoveChoice == 3 && ai1Owed == 0) {
+                AI_MoveChoice = 2;
+            }
             switch (AI_MoveChoice) {
 
                 //BET: Don't call bet function because that generate a random number
                 case 1:
                     ai1Owed = call(ai1, ai1Owed);
                     betAmt = newBet(ai1, betAmt);
-                    System.out.println("AI1 Bet Amount: " + betAmt);
+                    //System.out.println("AI1 Bet Amount: " + betAmt);
 
                     //Only add on to amount owed if the player has not folded
                     if (p.active) {
@@ -284,33 +320,20 @@ public class TexasHoldem extends GameEngine {
                         ai3Owed += betAmt;
                     }
                     pot += betAmt;
-                    ai1.setCurrency(ai1.getCurrency() - betAmt);
                     break;
 
                 case 2:
-                    System.out.println("AI1 Calling: " + ai1Owed);
+                    //System.out.println("AI1 Calling: " + ai1Owed);
 
                     ai1Owed = call(ai1, ai1Owed);
                     break;
 
                 case 3:
-                    System.out.println("AI1 Folding");
-                    if (ai2.fold) {
-                        System.out.println("AI2 Folding");
-                    }
-                    if (ai3.fold) {
-                        System.out.println("AI3 Folding");
-                    }
+                    //System.out.println("AI1 Folding");
 
                     fold(ai1);
                     ai1Owed = 0;
                     break;
-            }
-            if (ai2.active) {
-                System.out.println("AI2 active");
-            }
-            if (ai3.active) {
-                System.out.println("AI3 active");
             }
         }
 
@@ -321,13 +344,17 @@ public class TexasHoldem extends GameEngine {
             if (AI_MoveChoice == 1 && ai2.didBet == true) {
                 AI_MoveChoice = 2;
             }
+            //If there is no bet on the table don't let the ai fold make it so they at least check
+            if (AI_MoveChoice == 3 && ai2Owed == 0) {
+                AI_MoveChoice = 2;
+            }
             switch (AI_MoveChoice) {
 
                 //BET: Don't call bet function because that generate a random number
                 case 1:
                     ai2Owed = call(ai2, ai2Owed);
                     betAmt = newBet(ai2, betAmt);
-                    System.out.println("AI2 Bet Amount: " + betAmt);
+                    //System.out.println("AI2 Bet Amount: " + betAmt);
                     //Only add on to amount owed if the player has not folded
                     if (p.active) {
                         pOwed += betAmt;
@@ -339,17 +366,16 @@ public class TexasHoldem extends GameEngine {
                         ai3Owed += betAmt;
                     }
                     pot += betAmt;
-                    ai2.setCurrency(ai2.getCurrency() - betAmt);
                     break;
 
                 case 2:
                     ai2Owed = call(ai2, ai2Owed);
-                    System.out.println("AI2 Calling: " + ai2Owed);
+                    //System.out.println("AI2 Calling: " + ai2Owed);
                     break;
 
                 case 3:
                     fold(ai2);
-                    System.out.println("AI2 Folding");
+                    //System.out.println("AI2 Folding");
                     ai2Owed = 0;
                     break;
             }
@@ -362,13 +388,17 @@ public class TexasHoldem extends GameEngine {
             if (AI_MoveChoice == 1 && ai3.didBet == true) {
                 AI_MoveChoice = 2;
             }
+            //If there is no bet on the table don't let the ai fold make it so they at least check
+            if (AI_MoveChoice == 3 && ai3Owed == 0) {
+                AI_MoveChoice = 2;
+            }
             switch (AI_MoveChoice) {
 
                 //BET: Don't call bet function because that generate a random number
                 case 1:
                     ai3Owed = call(ai3, ai3Owed);
                     betAmt = newBet(ai3, betAmt);
-                    System.out.println("AI3 Bet Amount: " + betAmt);
+                    //System.out.println("AI3 Bet Amount: " + betAmt);
                     //Only add on to amount owed if the player has not folded
                     if (p.active) {
                         pOwed += betAmt;
@@ -380,22 +410,23 @@ public class TexasHoldem extends GameEngine {
                         ai2Owed += betAmt;
                     }
                     pot += betAmt;
-                    ai3.setCurrency(ai3.getCurrency() - betAmt);
                     break;
 
                 case 2:
                     ai3Owed = call(ai3, ai3Owed);
-                    System.out.println("AI3 Bet Amount: " + ai3Owed);
+                    //System.out.println("AI3 Bet Amount: " + ai3Owed);
                     break;
 
                 case 3:
                     fold(ai3);
-                    System.out.println("AI3 Folding");
+                    //System.out.println("AI3 Folding");
                     ai3Owed = 0;
                     break;
             }
         }
         universalBetAmountOwed = pOwed + ai1Owed + ai2Owed + ai3Owed;
+        System.out.println("Player Owes: " + pOwed);
+
         return universalBetAmountOwed;
         //} while (pOwed != 0 && ai1Owed != 0 && ai2Owed != 0 && ai3Owed != 0);
     }

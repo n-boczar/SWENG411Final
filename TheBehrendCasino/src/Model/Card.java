@@ -44,6 +44,10 @@ public class Card implements Comparable<Card>{
         return suit; 
     }
     
+    public String getCardFace(){
+        return face;
+    }
+    
     public BufferedImage getCardImage()
     {
         return img;
