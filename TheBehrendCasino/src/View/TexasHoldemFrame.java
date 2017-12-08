@@ -9,6 +9,7 @@ import Controller.TexasHoldem;
 import Model.AIPlayer;
 import Model.Player;
 import static View.TexasHoldemFrame.ante;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -114,12 +115,20 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField5 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jTextField6 = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jTextField7 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jTextField4 = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -206,7 +215,8 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
         });
         jPanel2.add(jButton3);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 51));
         jLabel1.setText("Currency:");
         jPanel2.add(jLabel1);
 
@@ -223,6 +233,55 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         jPanel6.setBackground(new java.awt.Color(51, 51, 51));
+
+        jPanel7.setMaximumSize(new java.awt.Dimension(100, 110));
+        jPanel7.setMinimumSize(new java.awt.Dimension(100, 110));
+        jPanel7.setPreferredSize(new java.awt.Dimension(100, 110));
+        jPanel7.setLayout(new java.awt.GridLayout(3, 2));
+
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 51));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("AI1:");
+        jPanel7.add(jLabel4);
+
+        jTextField5.setEditable(false);
+        jTextField5.setBackground(new java.awt.Color(0, 0, 51));
+        jTextField5.setForeground(new java.awt.Color(255, 255, 255));
+        jTextField5.setMaximumSize(new java.awt.Dimension(59, 20));
+        jTextField5.setMinimumSize(new java.awt.Dimension(59, 20));
+        jPanel7.add(jTextField5);
+
+        jLabel5.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 51));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("AI2:");
+        jPanel7.add(jLabel5);
+
+        jTextField6.setEditable(false);
+        jTextField6.setBackground(new java.awt.Color(0, 0, 51));
+        jTextField6.setForeground(new java.awt.Color(255, 255, 255));
+        jTextField6.setMaximumSize(new java.awt.Dimension(59, 20));
+        jTextField6.setMinimumSize(new java.awt.Dimension(59, 20));
+        jPanel7.add(jTextField6);
+
+        jLabel6.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 51));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("AI3:");
+        jPanel7.add(jLabel6);
+
+        jTextField7.setEditable(false);
+        jTextField7.setBackground(new java.awt.Color(0, 0, 51));
+        jTextField7.setForeground(new java.awt.Color(255, 255, 255));
+        jTextField7.setMaximumSize(new java.awt.Dimension(59, 20));
+        jTextField7.setMinimumSize(new java.awt.Dimension(59, 20));
+        jPanel7.add(jTextField7);
+
+        jPanel6.add(jPanel7);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -263,6 +322,20 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTextArea1);
 
         jPanel5.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        jTextField4.setEditable(false);
+        jTextField4.setBackground(new java.awt.Color(0, 0, 51));
+        jTextField4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jTextField4.setForeground(new java.awt.Color(255, 255, 255));
+        jTextField4.setText("Pot = ");
+        jTextField4.setMaximumSize(new java.awt.Dimension(49, 23));
+        jTextField4.setMinimumSize(new java.awt.Dimension(49, 23));
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
+            }
+        });
+        jPanel5.add(jTextField4, java.awt.BorderLayout.PAGE_END);
 
         getContentPane().add(jPanel5, java.awt.BorderLayout.LINE_END);
 
@@ -521,14 +594,20 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
         if (ai1.getCurrency() < 25) {
             ai1.active = false;
             ai1.fold = false;
+            //black out their displayed currency
+            jTextField5.setBackground(Color.white);
         }
         if (ai2.getCurrency() < 25) {
             ai2.active = false;
             ai2.fold = false;
+            //black out their displayed currency
+            jTextField6.setBackground(Color.white);
         }
         if (ai3.getCurrency() < 25) {
             ai3.active = false;
             ai3.fold = false;
+            //black out their displayed currency
+            jTextField7.setBackground(Color.white);
         }
 
         //reset the folded players at the end of each game
@@ -629,6 +708,12 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
         //Clear the display messages and start them over
         jTextArea1.setText(null);
         jTextArea1.append("ROUND 1\n");
+        jTextField4.setText("Pot = " + e.pot);
+        jTextField3.setText("" + e.pOwed);
+        jTextField1.setText(String.valueOf(e.p.getCurrency()));
+        jTextField5.setText(String.valueOf(e.ai1.getCurrency()));
+        jTextField6.setText(String.valueOf(e.ai2.getCurrency()));
+        jTextField7.setText(String.valueOf(e.ai3.getCurrency()));
 
         e.deal();
         // Show the card in their respective panels for the player
@@ -663,6 +748,18 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
      * folded then no more moves will be displayed
      */
     public void display() {
+        //Update the ai's currency
+        jTextField5.setText(String.valueOf(e.ai1.getCurrency()));
+        jTextField6.setText(String.valueOf(e.ai2.getCurrency()));
+        jTextField7.setText(String.valueOf(e.ai3.getCurrency()));
+        
+        //Update the user's owed amount and currency
+        jTextField3.setText(String.valueOf(e.pOwed));
+        jTextField1.setText(String.valueOf(e.p.getCurrency()));
+        
+        //Update the pot 
+        jTextField4.setText("Pot = " + e.pot);
+
         //If the players made a move (they aren't out yet) then display what they did
         if (e.playerMove != null) {
             jTextArea1.append(e.playerMove + "\n");
@@ -712,6 +809,10 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         new HelpScreen().setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -769,6 +870,9 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -781,12 +885,17 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextField7;
     // End of variables declaration//GEN-END:variables
 
 }
