@@ -23,7 +23,7 @@ import static javax.swing.JOptionPane.YES_NO_OPTION;
  * @author Natalie
  */
 public class BlackJackFrame extends javax.swing.JFrame {
-
+    public boolean winnerIsChosen = false;
     public static boolean ante;
     public static int currency;
     BlackJackGameEngine e;
@@ -247,21 +247,29 @@ public class BlackJackFrame extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
             if (jPanel1.getComponentCount() > 4 && playerTot <= 21) {
-                e.determineWinner(1000, 0, userBet);
-                this.dispose();
+                if(!winnerIsChosen){    
+                    e.determineWinner(1000, 0, userBet);
+                    this.dispose();
+                } winnerIsChosen = true;
             }
             if (jPanel2.getComponentCount() > 4 && dealerTot <= 21) {
-                e.determineWinner(0, 1000, userBet);
-                this.dispose();
+                if(!winnerIsChosen) {
+                    e.determineWinner(0, 1000, userBet);
+                    this.dispose();
+                } winnerIsChosen = true;
             }
             int i = getDealerMove();
             if (jPanel1.getComponentCount() > 4 && playerTot <= 21) {
-                e.determineWinner(1000, 0, userBet);
-                this.dispose();
+                if(!winnerIsChosen){    
+                    e.determineWinner(1000, 0, userBet);
+                    this.dispose();
+                } winnerIsChosen = true;
             }
             if (jPanel2.getComponentCount() > 4 && dealerTot <= 21) {
-                e.determineWinner(0, 1000, userBet);
-                this.dispose();
+                if(!winnerIsChosen){
+                    e.determineWinner(0, 1000, userBet);
+                    this.dispose();
+                } winnerIsChosen = true;
             }
             if (i == 0) {
                 jPanel2.remove(dealerCard0);
@@ -272,9 +280,10 @@ public class BlackJackFrame extends javax.swing.JFrame {
                 jButton2.setEnabled(false);
 
                 jTextField2.setText(String.valueOf(dealerTot + dealerHand[0].getCardValue()));
-
-                e.determineWinner(playerTot, dealerTot + dealerHand[0].getCardValue(), userBet);
-                this.dispose();
+                if(!winnerIsChosen){
+                    e.determineWinner(playerTot, dealerTot + dealerHand[0].getCardValue(), userBet);
+                    this.dispose();
+                } winnerIsChosen = true;
             }
         } catch (IOException ex) {
             Logger.getLogger(BlackJackFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -348,6 +357,8 @@ public class BlackJackFrame extends javax.swing.JFrame {
                 if ((playerHand[0].toString().contains("Ace") || playerHand[1].toString().contains("Ace")) && (playerHand[0].getCardValue() == 10 || playerHand[1].getCardValue() == 10)) {
                     //System.out.println("BLACKJACK");
                     jTextField3.setText("21");
+                    
+                    
 
                     //JOptionPane.showMessageDialog(null, "BLACKJACK! YOU WIN!", "BLACKJACK", JOptionPane.OK_OPTION);
                 }
@@ -375,21 +386,33 @@ public class BlackJackFrame extends javax.swing.JFrame {
 //            System.out.println("COMPONENTS IN JPANEL1(player):  "+jPanel1.getComponentCount());
 //            System.out.println("COMPONENTS IN JPANEL2(dealer):  "+jPanel2.getComponentCount());
             if (jPanel1.getComponentCount() > 4 && playerTot <= 21) {
-                e.determineWinner(1000, 0, userBet);
-                this.dispose();
+                if(!winnerIsChosen){
+                    e.determineWinner(1000, 0, userBet);
+                    this.dispose();
+                } winnerIsChosen = true;
             }
             if (jPanel2.getComponentCount() > 4 && dealerTot <= 21) {
-                e.determineWinner(0, 1000, userBet);
-                this.dispose();
+                if(!winnerIsChosen){
+                    e.determineWinner(0, 1000, userBet);
+                    this.dispose();
+                } winnerIsChosen = true;
             }
             getDealerMove();
             if (jPanel1.getComponentCount() > 4 && playerTot <= 21) {
-                e.determineWinner(1000, 0, userBet);
-                this.dispose();
+                if(!winnerIsChosen){
+                    e.determineWinner(1000, 0, userBet);
+                    this.dispose();
+                } winnerIsChosen = true;
             }
             if (jPanel2.getComponentCount() > 4 && dealerTot <= 21) {
-                e.determineWinner(0, 1000, userBet);
-                this.dispose();
+                if(!winnerIsChosen){
+                    jPanel2.remove(dealerCard0);
+                    JLabel dealerCard1 = new JLabel(new ImageIcon(dealerHand[0].getCardImage()));
+                    jPanel2.add(dealerCard1);
+                    jPanel2.doLayout();
+                    e.determineWinner(0, 1000, userBet);
+                    this.dispose();
+                } winnerIsChosen = true;
             }
         } catch (IOException ex) {
             Logger.getLogger(BlackJackFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -410,9 +433,10 @@ public class BlackJackFrame extends javax.swing.JFrame {
                 jPanel2.doLayout();
                 jTextField2.setText(String.valueOf(dealerTot + dealerHand[0].getCardValue()));
                 try {
-                    //JOptionPane.showMessageDialog(null, "BUSTED! You lose.", "Bust", JOptionPane.OK_OPTION);
-                    e.determineWinner(100, 0, userBet);
-                    this.dispose();
+                    if(!winnerIsChosen){
+                        e.determineWinner(100, 0, userBet);
+                        this.dispose();
+                    } winnerIsChosen = true;
                 } catch (IOException ex) {
                     Logger.getLogger(BlackJackFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -426,9 +450,10 @@ public class BlackJackFrame extends javax.swing.JFrame {
             jPanel2.doLayout();
             jTextField2.setText(String.valueOf(dealerTot + dealerHand[0].getCardValue()));
             try {
-                //JOptionPane.showMessageDialog(null, "BUSTED! You lose.", "Bust", JOptionPane.OK_OPTION);
-                e.determineWinner(100, 0, userBet);
-                this.dispose();
+                if(!winnerIsChosen){
+                    e.determineWinner(100, 0, userBet);
+                    this.dispose();
+                } winnerIsChosen = true; 
             } catch (IOException ex) {
                 Logger.getLogger(BlackJackFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -438,6 +463,9 @@ public class BlackJackFrame extends javax.swing.JFrame {
 
         jTextField2.setText(String.valueOf(dealerTot));
         jTextField3.setText(String.valueOf(playerTot));
+        for(int m = 0; m < playerHand.length - 1; m++){
+            try { System.out.println(playerHand[m].toString()); } catch (Exception ex) { System.out.println(playerHand[m-1].toString()); }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -466,9 +494,10 @@ public class BlackJackFrame extends javax.swing.JFrame {
             JLabel dealerCard1 = new JLabel(new ImageIcon(dealerHand[0].getCardImage()));
             jPanel2.add(dealerCard1);
 
-            //JOptionPane.showMessageDialog(null, "Dealer BLACKJACK! You lose.", "Dealer Wins", JOptionPane.OK_OPTION);
-            e.determineWinner(0, 500, userBet);
-            this.dispose();
+            if(!winnerIsChosen){
+                e.determineWinner(0, 500, userBet);
+                this.dispose();
+            } winnerIsChosen = true;
 
             jButton1.setEnabled(false);
             jButton2.setEnabled(false);
@@ -491,9 +520,10 @@ public class BlackJackFrame extends javax.swing.JFrame {
                 JLabel dealerCard1 = new JLabel(new ImageIcon(dealerHand[0].getCardImage()));
                 jPanel2.add(dealerCard1);
                 jPanel2.doLayout();
-                //JOptionPane.showMessageDialog(null, "DEALER BUSTED! You WIN.", "Win!", JOptionPane.OK_OPTION);
-                e.determineWinner(0, 100, userBet);
-                this.dispose();
+                if(!winnerIsChosen){
+                    e.determineWinner(0, 100, userBet);
+                    this.dispose();
+                } winnerIsChosen = true;
                 jButton1.setEnabled(false);
                 jButton2.setEnabled(false);
             }
