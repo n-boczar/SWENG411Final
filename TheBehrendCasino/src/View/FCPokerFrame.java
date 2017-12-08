@@ -328,6 +328,7 @@ public class FCPokerFrame extends javax.swing.JFrame {
                 // Call compareHands function and determine the winner
 
                 playerWon = e.compareHands(e.playerHand, e.AI_1Hand, e.AI_2Hand, e.AI_3Hand);
+                
                 System.out.println("PLAYER WON # : " + playerWon);
                 p.totalAmountOwed = 0;
                 if (playerWon == 0) {
