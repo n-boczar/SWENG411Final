@@ -437,12 +437,15 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
         betAmount = Integer.parseInt(jTextField2.getText());
         playerMoveChoice = 1;
         //make sure the user isn't betting more than what anyone has
-        if (betAmount > Player.getCurrency() || betAmount > ai1.getCurrency() || betAmount > ai2.getCurrency() || betAmount > ai3.getCurrency()) {
+        if (betAmount > Player.getCurrency() || (betAmount > ai1.getCurrency() && ai1.active) || (betAmount > ai2.getCurrency() && ai2.active) || (betAmount > ai3.getCurrency() && ai3.active)) {
             JOptionPane.showMessageDialog(null, "You're betting more than you or another player has, retry!", "Warning", JOptionPane.OK_OPTION);
         } else if (Player.didBet) {
             //players should only be able to bet once per round
             JOptionPane.showMessageDialog(null, "You already bet once this round.", "Warning", JOptionPane.OK_OPTION);
-        } else {
+        } else if (betAmount < e.pOwed){
+            JOptionPane.showMessageDialog(null, "Can't bet less than you owe.", "Warning", JOptionPane.OK_OPTION);
+        } 
+        else {
             //set didBet to true so player can only bet once and start betting
             Player.didBet = true;
             universalBetAmountOwed = e.startRound(playerMoveChoice, betAmount);
@@ -582,7 +585,7 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
         }
 
         //update the users displayed currency
-        jTextField1.setText(String.valueOf(Player.getCurrency()));
+        //jTextField1.setText(String.valueOf(Player.getCurrency()));
 
         //Check if player or AI have enough currencies to go to next round
         if (Player.getCurrency() < 25) {
@@ -643,15 +646,15 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
         if (tableCard3 != null) {
             jPanel4.remove(tableCard3);
         }
-        if (tableCard5 != null) {
-            jPanel4.remove(tableCard5);
-        }
+        //if (tableCard5 != null) {
+            //jPanel4.remove(tableCard5);
+        //}
         if (tableCard4 != null) {
             jPanel4.remove(tableCard4);
         }
-        //if (tableCard5 != null) {
-        //jPanel4.remove(tableCard5);
-        //}
+        if (tableCard5 != null) {
+        jPanel4.remove(tableCard5);
+        }
         if (card_1 != null) {
             jPanel6.remove(card_1);
         }
@@ -705,15 +708,16 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
      * new hands
      */
     public void newHand() {
+        
         //Clear the display messages and start them over
         jTextArea1.setText(null);
         jTextArea1.append("ROUND 1\n");
-        jTextField4.setText("Pot = " + e.pot);
-        jTextField3.setText("" + e.pOwed);
-        jTextField1.setText(String.valueOf(e.p.getCurrency()));
-        jTextField5.setText(String.valueOf(e.ai1.getCurrency()));
-        jTextField6.setText(String.valueOf(e.ai2.getCurrency()));
-        jTextField7.setText(String.valueOf(e.ai3.getCurrency()));
+        //jTextField4.setText("Pot = " + e.pot);
+        //jTextField3.setText("" + e.pOwed);
+        //jTextField1.setText(String.valueOf(e.p.getCurrency()));
+        //jTextField5.setText(String.valueOf(e.ai1.getCurrency()));
+        //jTextField6.setText(String.valueOf(e.ai2.getCurrency()));
+        //jTextField7.setText(String.valueOf(e.ai3.getCurrency()));
 
         e.deal();
         // Show the card in their respective panels for the player
@@ -738,6 +742,9 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
         jPanel4.doLayout();
 
         repaint();
+        
+        //update the display numbers 
+        display();
 
         roundNumber = 1;
         return;
@@ -748,6 +755,10 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
      * folded then no more moves will be displayed
      */
     public void display() {
+        //Reset jslider 
+        jSlider1.setValue(10);
+        jTextField2.setText(String.valueOf(jSlider1.getValue()));
+        
         //Update the ai's currency
         jTextField5.setText(String.valueOf(e.ai1.getCurrency()));
         jTextField6.setText(String.valueOf(e.ai2.getCurrency()));
