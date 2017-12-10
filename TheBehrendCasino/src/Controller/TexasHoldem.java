@@ -598,6 +598,23 @@ public class TexasHoldem extends GameEngine {
         for (int i = 0; i < tempPlayerHand.size(); i++) {
             System.out.println(tempPlayerHand.elementAt(i).getCardSuit() + " of " + tempPlayerHand.elementAt(i).getCardFace());
         }
+        
+        System.out.println("AI1 Compare Hand: ");
+        for (int i = 0; i < tempAI_1Hand.size(); i++) {
+            System.out.println(tempAI_1Hand.elementAt(i).getCardSuit() + " of " + tempAI_1Hand.elementAt(i).getCardFace());
+        }
+        
+        System.out.println("AI1 Compare Hand: ");
+        for (int i = 0; i < tempAI_2Hand.size(); i++) {
+            System.out.println(tempAI_2Hand.elementAt(i).getCardSuit() + " of " + tempAI_2Hand.elementAt(i).getCardFace());
+        }
+        
+        System.out.println("AI1 Compare Hand: ");
+        for (int i = 0; i < tempAI_3Hand.size(); i++) {
+            System.out.println(tempAI_3Hand.elementAt(i).getCardSuit() + " of " + tempAI_3Hand.elementAt(i).getCardFace());
+        }
+        
+        
 
         // Declare variables for each player to hold scores
         int playerScore = 0;
@@ -646,8 +663,6 @@ public class TexasHoldem extends GameEngine {
 
         if (ai1.active) {
             // ANALYSE AI_1 HAND
-            //Always generate high card score in case more than one person has the same score
-            AI_1HC = isAHighCard(OrigAI_1Hand);
             if (isARoyalFlush(tempAI_1Hand)) {
                 AI_1Score = 10;
             } else if (isAStraightFlush(tempAI_1Hand)) {
@@ -668,6 +683,7 @@ public class TexasHoldem extends GameEngine {
                 AI_1Score = 2;
             } else {
                 AI_1Score = 1;
+                AI_1HC = isAHighCard(OrigAI_1Hand);
             }
         } else {
             AI_1HC = 0;
@@ -676,8 +692,6 @@ public class TexasHoldem extends GameEngine {
 
         if (ai2.active) {
             // ANALYSE AI_2 HAND
-            //Always generate high card score in case more than one person has the same score
-            AI_2HC = isAHighCard(OrigAI_2Hand);
             if (isARoyalFlush(tempAI_2Hand)) {
                 AI_2Score = 10;
             } else if (isAStraightFlush(tempAI_2Hand)) {
@@ -698,6 +712,7 @@ public class TexasHoldem extends GameEngine {
                 AI_2Score = 2;
             } else {
                 AI_2Score = 1;
+                AI_2HC = isAHighCard(OrigAI_2Hand);
             }
         } else {
             AI_2HC = 0;
@@ -706,8 +721,6 @@ public class TexasHoldem extends GameEngine {
 
         if (ai3.active) {
             // ANALYSE AI_3 HAND
-            //Always generate high card score in case more than one person has the same score
-            AI_3HC = isAHighCard(OrigAI_3Hand);
             if (isARoyalFlush(tempAI_3Hand)) {
                 AI_3Score = 10;
             } else if (isAStraightFlush(tempAI_3Hand)) {
@@ -728,10 +741,28 @@ public class TexasHoldem extends GameEngine {
                 AI_3Score = 2;
             } else {
                 AI_3Score = 1;
+                AI_3HC = isAHighCard(OrigAI_3Hand);
             }
         } else {
             AI_3HC = 0;
             AI_3Score = 0;
+        }
+
+        // Safety to handle when all players have high card and the user and some other ai have the same one, favor goes to player
+        //if ((playerScore == AI_1Score) && (playerScore == AI_2Score) && (playerScore == AI_3Score)) {
+        if (playerScore == 1 && AI_1Score == 1 && AI_2Score == 1 && AI_3Score == 1) {
+            if (playerHC >= AI_1HC && playerHC >= AI_2HC && playerHC >= AI_3HC) {
+                gamePlayerThatWon = 0;
+            }
+            if (AI_1HC >= playerHC && AI_1HC >= AI_2HC && AI_1HC >= AI_3HC) {
+                gamePlayerThatWon = 1;
+            }
+            if (AI_2HC >= playerHC && AI_2HC >= AI_1HC && AI_2HC >= AI_3HC) {
+                gamePlayerThatWon = 2;
+            }
+            if (AI_3HC >= playerHC && AI_3HC >= AI_1HC && AI_3HC >= AI_2HC) {
+                gamePlayerThatWon = 3;
+            }
         }
 
         if ((AI_1Score >= playerScore) && (AI_1Score >= AI_2Score) && (AI_1Score >= AI_3Score)) {
@@ -841,22 +872,6 @@ public class TexasHoldem extends GameEngine {
                 winningHand = "Straight Flush!";
             } else if (playerScore == 10) {
                 winningHand = "Royal Flush!";
-            }
-
-            // Safety to handle when all players have high card and the user and some other ai have the same one, favor goes to player
-            if ((playerScore == AI_1Score) && (playerScore == AI_2Score) && (playerScore == AI_3Score)) {
-                if (playerHC >= AI_1HC && playerHC >= AI_2HC && playerHC >= AI_3HC) {
-                    gamePlayerThatWon = 0;
-                }
-                if (AI_1HC >= playerHC && AI_1HC >= AI_2HC && AI_1HC >= AI_3HC) {
-                    gamePlayerThatWon = 1;
-                }
-                if (AI_2HC >= playerHC && AI_2HC >= AI_1HC && AI_2HC >= AI_3HC) {
-                    gamePlayerThatWon = 2;
-                }
-                if (AI_3HC >= playerHC && AI_3HC >= AI_1HC && AI_3HC >= AI_2HC) {
-                    gamePlayerThatWon = 3;
-                }
             }
         }
         return gamePlayerThatWon;
@@ -995,9 +1010,30 @@ public class TexasHoldem extends GameEngine {
 
                     }
                 }
-            }else{
+            } else {
                 noOfRepeats = 0;
-            }
+            }            
+        }
+        for (int i = objArray.length-1; objArray.length != 0; i++) {
+            if (objArray[i].getCardValue() == objArray[i + 1].getCardValue()) {
+                noOfRepeats++;
+                if (noOfRepeats == 2) {
+                    isThreeOfAKind = true;
+                    noOfRepeats = 0;
+                    for (int x = i; x < objArray.length - 1; x++) {
+                        if (objArray[x].getCardValue() == objArray[x + 1].getCardValue()) {
+                            noOfRepeats++;
+                            if (noOfRepeats == 2) {
+                                isTwoOfAKind = true;
+                                noOfRepeats = 0;
+                            }
+                        }
+
+                    }
+                }
+            } else {
+                noOfRepeats = 0;
+            }            
         }
         return (isTwoOfAKind && isThreeOfAKind);
     }
@@ -1133,6 +1169,7 @@ public class TexasHoldem extends GameEngine {
                 k++;
             }
             i++;
+            k=0;
         }
         return isTwoPair;
     }
@@ -1198,4 +1235,3 @@ public class TexasHoldem extends GameEngine {
     }
 
 }
-

@@ -590,7 +590,7 @@ public class TexasHoldemFrame extends javax.swing.JFrame {
     }
 
     /**
-     * Function: CHECK Check to see who won the game and if all players are
+     * Function: CHECK Check to see who won the game and if fall players are
      * still in the game if they have less than 25 they should be set to
      * inactive
      */
