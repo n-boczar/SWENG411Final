@@ -296,7 +296,7 @@ public class TexasHoldem extends GameEngine {
                     if (pOwed == 0) {
                         playerMove = "User: Checks";
                     } else {
-                        playerMove = "User: Calls " + pOwed;
+                        playerMove = "User: Calls " + ai1Owed;
                     }
                     pOwed = call(p, pOwed);
                     break;

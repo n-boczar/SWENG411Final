@@ -77,6 +77,7 @@ public class FiveCardPokerEngine extends GameEngine {
     int tempCurr3;
     int tempCurr4;
     public String winningHand = "";
+    public boolean twoPairFlag = false; 
 
     public FiveCardPokerEngine(AIPlayer ai1, AIPlayer ai2, AIPlayer ai3) throws IOException {
 
@@ -1117,7 +1118,7 @@ public Comparator<Card> byValue = (Card left, Card right) -> {
     public boolean isAFullHouse(Vector<Card> checkedHand) {
 
         Card[] objArray = new Card[checkedHand.size()];
-        
+
         for (int i = 0; i < checkedHand.size(); i++) {
             objArray[i] = checkedHand.get(i);
         }
@@ -1125,21 +1126,28 @@ public Comparator<Card> byValue = (Card left, Card right) -> {
         // Sorts current hand by implementing comparable
         Arrays.sort(objArray, byValue);
 
-        int noOfRepeats = 1;
+        int noOfRepeats = 0;
         boolean isThreeOfAKind = false;
         boolean isTwoOfAKind = false;
         for (int i = 0; i < objArray.length - 1; i++) {
             if (objArray[i].getCardValue() == objArray[i + 1].getCardValue()) {
                 noOfRepeats++;
-                if (noOfRepeats == 3) {
+                if (noOfRepeats == 2) {
                     isThreeOfAKind = true;
-                    noOfRepeats = 1;
-                } else if (noOfRepeats == 2) {
-                    isTwoOfAKind = true;
-                    noOfRepeats = 1;
+                    noOfRepeats = 0;
+                    for (int x = i; x < objArray.length - 1; x++) {
+                        if (objArray[x].getCardValue() == objArray[x + 1].getCardValue()) {
+                            noOfRepeats++;
+                            if (noOfRepeats == 2) {
+                                isTwoOfAKind = true;
+                                noOfRepeats = 0;
+                            }
+                        }
+
+                    }
                 }
-            } else {
-                noOfRepeats = 1;
+            }else{
+                noOfRepeats = 0;
             }
         }
         return (isTwoOfAKind && isThreeOfAKind);
@@ -1234,6 +1242,7 @@ public Comparator<Card> byValue = (Card left, Card right) -> {
     // 8) Check for Two Pair
     public boolean isATwoPair(Vector<Card> checkedHand) {
 
+        System.out.println("IN TWO PAIR");
         int cardRepeats = 1;
         int noOfCardRepeats = 0;
         boolean isTwoPair = false;
@@ -1257,7 +1266,10 @@ public Comparator<Card> byValue = (Card left, Card right) -> {
                 k++;
             }
             i++;
+            k = 0;
         }
+        
+        System.out.println("Two pair boolean: " + isTwoPair);
         return isTwoPair;
     }
 
