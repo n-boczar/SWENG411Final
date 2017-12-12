@@ -5,9 +5,8 @@
  */
 package View;
 
-import Model.Player;
-import static View.CAssignFrameNew.f;
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -29,7 +28,7 @@ public class TitleFrameNew extends javax.swing.JFrame {
     /**
      * Creates new form TitleFrameNew
      */
-    public TitleFrameNew() {
+    private TitleFrameNew() {
         initComponents();
     }
     
@@ -106,7 +105,7 @@ public class TitleFrameNew extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        Object[] options = {"View Rules"};
+        Object[] options = {"View System Documentation","View Rules"};
         int n = JOptionPane.showOptionDialog(null,
         "Select an option:",
         "Settings",
@@ -116,6 +115,19 @@ public class TitleFrameNew extends javax.swing.JFrame {
         options,
         options[0]);
         if(n == 0){
+            //Use the code below to try to open the directions file
+            if (Desktop.isDesktopSupported()) {
+                try {
+                    File myFile1 = new File("Specs1.pdf");
+                    File myFile2 = new File("Specs2.pdf");
+                    Desktop.getDesktop().open(myFile1);
+                    Desktop.getDesktop().open(myFile2);
+                } catch (IOException ex) {
+                    System.out.println("Sorry, we couldn't open the files.");
+                }
+            }
+        }
+        else if(n == 1){
             //HelpScreen help = new HelpScreen();
             HelpScreen.main(null);
         }
