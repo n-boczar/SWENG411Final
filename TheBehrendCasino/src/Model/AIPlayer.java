@@ -23,6 +23,9 @@ public class AIPlayer{
     //boolean statement to know if a player folded
     public boolean fold = false;
     
+    //Did the player already bet once?
+    public boolean didBet = false;
+    
     //player's bet 
     private int bet;
 

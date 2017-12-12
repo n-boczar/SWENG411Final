@@ -223,7 +223,7 @@ public class FCPokerFrame extends javax.swing.JFrame {
             System.out.println("PLAYER WON # : " + playerWon);
             p.totalAmountOwed = 0;
             if (playerWon == 0) {
-                JOptionPane.showMessageDialog(null, "User player won the game!", "Winner", JOptionPane.OK_OPTION);
+                JOptionPane.showMessageDialog(null, "User player has a: " + e.winningHand, "Winner", JOptionPane.OK_OPTION);
                 Player.currency = Player.getCurrency() + 25;
                 if (!(Player.currency < 25)) {
                     startIt(player, true);
@@ -235,7 +235,7 @@ public class FCPokerFrame extends javax.swing.JFrame {
                 }
             }
             if (playerWon == 1) {
-                JOptionPane.showMessageDialog(null, "AI player 1 won the game!", "Winner", JOptionPane.OK_OPTION);
+                JOptionPane.showMessageDialog(null, "AI player 1 has a: " + e.winningHand, "Winner", JOptionPane.OK_OPTION);
                 if (!(Player.currency < 25)) {
                     startIt(player, true);
                     this.dispose();
@@ -246,7 +246,7 @@ public class FCPokerFrame extends javax.swing.JFrame {
                 }
             }
             if (playerWon == 2) {
-                JOptionPane.showMessageDialog(null, "AI player 2 won the game!", "Winner", JOptionPane.OK_OPTION);
+                JOptionPane.showMessageDialog(null, "AI player 2 has a: " + e.winningHand, "Winner", JOptionPane.OK_OPTION);
                 if (!(Player.currency < 25)) {
                     startIt(player, true);
                     this.dispose();
@@ -257,7 +257,7 @@ public class FCPokerFrame extends javax.swing.JFrame {
                 }
             }
             if (playerWon == 3) {
-                JOptionPane.showMessageDialog(null, "AI player 3 won the game!", "Winner", JOptionPane.OK_OPTION);
+                JOptionPane.showMessageDialog(null, "AI player 3 has a: " + e.winningHand, "Winner", JOptionPane.OK_OPTION);
                 if (!(Player.currency < 25)) {
                     startIt(player, true);
                     this.dispose();
@@ -328,10 +328,11 @@ public class FCPokerFrame extends javax.swing.JFrame {
                 // Call compareHands function and determine the winner
 
                 playerWon = e.compareHands(e.playerHand, e.AI_1Hand, e.AI_2Hand, e.AI_3Hand);
+                
                 System.out.println("PLAYER WON # : " + playerWon);
                 p.totalAmountOwed = 0;
                 if (playerWon == 0) {
-                    JOptionPane.showMessageDialog(null, "User player won the game!", "Winner", JOptionPane.OK_OPTION);
+                    JOptionPane.showMessageDialog(null, "User player has a: " + e.winningHand, "Winner", JOptionPane.OK_OPTION);
                     Player.currency = Player.getCurrency() + 25;
                     if (!(Player.currency < 25)) {
                         startIt(player, true);
@@ -343,7 +344,7 @@ public class FCPokerFrame extends javax.swing.JFrame {
                     }
                 }
                 if (playerWon == 1) {
-                    JOptionPane.showMessageDialog(null, "AI player 1 won the game!", "Winner", JOptionPane.OK_OPTION);
+                    JOptionPane.showMessageDialog(null, "AI player 1 has a: " + e.winningHand, "Winner", JOptionPane.OK_OPTION);
                     if (!(Player.currency < 25)) {
                         startIt(player, true);
                         this.dispose();
@@ -354,7 +355,7 @@ public class FCPokerFrame extends javax.swing.JFrame {
                     }
                 }
                 if (playerWon == 2) {
-                    JOptionPane.showMessageDialog(null, "AI player 2 won the game!", "Winner", JOptionPane.OK_OPTION);
+                    JOptionPane.showMessageDialog(null, "AI player 2 has a: " + e.winningHand, "Winner", JOptionPane.OK_OPTION);
                     if (!(Player.currency < 25)) {
                         startIt(player, true);
                         this.dispose();
@@ -365,7 +366,7 @@ public class FCPokerFrame extends javax.swing.JFrame {
                     }
                 }
                 if (playerWon == 3) {
-                    JOptionPane.showMessageDialog(null, "AI player 3 won the game!", "Winner", JOptionPane.OK_OPTION);
+                    JOptionPane.showMessageDialog(null, "AI player 3 has a: " + e.winningHand, "Winner", JOptionPane.OK_OPTION);
                     if (!(Player.currency < 25)) {
                         startIt(player, true);
                         this.dispose();
