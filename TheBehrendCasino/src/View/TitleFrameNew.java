@@ -28,7 +28,7 @@ public class TitleFrameNew extends javax.swing.JFrame {
     /**
      * Creates new form TitleFrameNew
      */
-    public TitleFrameNew() {
+    private TitleFrameNew() {
         initComponents();
     }
     
