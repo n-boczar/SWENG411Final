@@ -1267,6 +1267,7 @@ public Comparator<Card> byValue = (Card left, Card right) -> {
             }
             i++;
             k = 0;
+            
         }
         
         System.out.println("Two pair boolean: " + isTwoPair);
