@@ -784,7 +784,7 @@ public class FCPokerFrame extends javax.swing.JFrame {
 
         jMenu2.setText("Help");
 
-        jMenuItem3.setText("jMenuItem3");
+        jMenuItem3.setText("Game Rules");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
