@@ -313,8 +313,11 @@ public class RoulletteWheel extends javax.swing.JFrame {
         int y = evt.getYOnScreen(); //Chip Y Coordinate
         int x2 = x + 5; //Inner Circle Coordinate
         int y2 = y + 5; //Inner Circle Coordinate
-        
+        int x3 = x + 18;//Precise Chip Location
+        int y3 = y + 18;
 
+        
+        
      if ( Player.currency >5)
      {
         g.setColor(Color.CYAN);
@@ -322,11 +325,14 @@ public class RoulletteWheel extends javax.swing.JFrame {
         g.setColor(Color.WHITE);
         g.fillOval(x2,y2,30,30);
      
-         int userBet = 5;
+        int userBet = 5;
         Player.currency = Player.currency - userBet;
         String displayCurrency = Integer.toString(Player.currency);
         jTextField1.setText(displayCurrency);
-     
+        
+       
+        int chip5Location[][] = {{x3},{y3}};
+        compare5(chip5Location);
      }  
      else if( Player.currency < 5) 
              {
@@ -334,7 +340,15 @@ public class RoulletteWheel extends javax.swing.JFrame {
              }
         
     }//GEN-LAST:event_jButton9MouseReleased
-
+public static void compare5(int a[][])
+{
+    for(int i = 0;i<a.length;i++)
+        {
+            for(int j = 0;j<a.length;j++)
+                System.out.println(a[i][j]);
+        }
+    System.out.println();
+}
     private void jButton9MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton9MouseDragged
         // TODO add your handling code here:
         
@@ -347,50 +361,100 @@ public class RoulletteWheel extends javax.swing.JFrame {
         int y = evt.getYOnScreen();
         int x2 = x + 5; //Inner Circle Coordinate
         int y2 = y + 5; //Inner Circle Coordinate
+        int x3 = x + 18;
+        int y3 = y + 18;
+        
+        
+       if ( Player.currency > 10)
+       {
         g.setColor(Color.BLUE);
         g.fillOval(x,y,40,40);
-        
-       
         g.setColor(Color.WHITE);
         g.fillOval(x2,y2,30,30);
+        
         
         int userBet = 10;
         Player.currency = Player.currency - userBet;
         String displayCurrency = Integer.toString(Player.currency);
         jTextField1.setText(displayCurrency);
+        
+        int chip10Location[][] = {{x3},{y3}};
+        compare10(chip10Location);
+       }
+       
+       else if( Player.currency < 10) 
+             {
+                 JOptionPane.showMessageDialog(null, "Insufficient Funds", " ", JOptionPane.OK_OPTION);
+             }
     }//GEN-LAST:event_jButton10MouseReleased
-
+public static void compare10(int a[][])
+{
+    for(int i = 0;i<a.length;i++)
+        {
+            for(int j = 0;j<a.length;j++)
+                System.out.println(a[i][j]);
+        }
+    System.out.println();
+}
+//20 value chip
     private void jButton12MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton12MouseReleased
         // TODO add your handling code here:
         Graphics g = this.getGraphics();
         int x = evt.getXOnScreen();
         int y = evt.getYOnScreen();
-        
-        g.setColor(Color.RED);
-        g.fillOval(x,y,40,40);
-        
         int x2 = x + 5; //Inner Circle Coordinate
         int y2 = y + 5; //Inner Circle Coordinate
+        int x3 = x + 18;
+        int y3 = y + 18;
+        
+        if (Player.currency > 20)
+        {
+        g.setColor(Color.RED);
+        g.fillOval(x,y,40,40);
         g.setColor(Color.WHITE);
         g.fillOval(x2,y2,30,30);
+        g.setColor(Color.WHITE); //Chip location 
+        
         
         int userBet = 20;
         Player.currency = Player.currency - userBet;
         String displayCurrency = Integer.toString(Player.currency);
         jTextField1.setText(displayCurrency);
+        
+        int chip20Location[][] = {{x3},{y3}};
+        compare20(chip20Location);
+        }
+        
+        else if( Player.currency < 20) 
+             {
+                 JOptionPane.showMessageDialog(null, "Insufficient Funds", " ", JOptionPane.OK_OPTION);
+             }
     }//GEN-LAST:event_jButton12MouseReleased
+public static void compare20(int a[][])
+{
+    for(int i = 0;i<a.length;i++)
+        {
+            for(int j = 0;j<a.length;j++)
+                System.out.println(a[i][j]);
+        }
+    System.out.println();
+}
 
+//50 Value Chip
     private void jButton11MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton11MouseReleased
         // TODO add your handling code here:
         Graphics g = this.getGraphics();
         int x = evt.getXOnScreen();
         int y = evt.getYOnScreen();
-        
-        g.setColor(Color.ORANGE);
-        g.fillOval(x,y,40,40);
-        
         int x2 = x + 5; //Inner Circle Coordinate
         int y2 = y + 5; //Inner Circle Coordinate
+        int x3 = x + 18;
+        int y3 = y + 18;
+        
+        if (Player.currency > 50)
+        {
+        g.setColor(Color.ORANGE);
+        g.fillOval(x,y,40,40);
         g.setColor(Color.WHITE);
         g.fillOval(x2,y2,30,30);
         
@@ -398,33 +462,74 @@ public class RoulletteWheel extends javax.swing.JFrame {
         Player.currency = Player.currency - userBet;
         String displayCurrency = Integer.toString(Player.currency);
         jTextField1.setText(displayCurrency);
+        
+        int chip50Location[][] = {{x3},{y3}};
+        compare50(chip50Location);
     }//GEN-LAST:event_jButton11MouseReleased
+ else if( Player.currency < 50) 
+             {
+                 JOptionPane.showMessageDialog(null, "Insufficient Funds", " ", JOptionPane.OK_OPTION);
+             }
+    }
+    
 
+    public static void compare50(int a[][])
+      {
+    for(int i = 0;i<a.length;i++)
+        {
+            for(int j = 0;j<a.length;j++)
+                System.out.println(a[i][j]);
+        }
+    System.out.println();
+       }
     private void jButton14MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton14MouseReleased
         // TODO add your handling code here:
         Graphics g = this.getGraphics();
         int x = evt.getXOnScreen();
         int y = evt.getYOnScreen();
-        
-        g.setColor(Color.BLACK);
-        g.fillOval(x,y,40,40);
-        
         int x2 = x + 5; //Inner Circle Coordinate
         int y2 = y + 5; //Inner Circle Coordinate
+        int x3 = x + 18;
+        int y3 = y + 18;
+        
+       if (Player.currency > 100)
+       {
+        g.setColor(Color.BLACK);
+        g.fillOval(x,y,40,40);
         g.setColor(Color.WHITE);
         g.fillOval(x2,y2,30,30);
-        
+       
         int userBet = 100;
         Player.currency = Player.currency - userBet;
         String displayCurrency = Integer.toString(Player.currency);
         jTextField1.setText(displayCurrency);
+        
+        int chip100Location[][] = {{x3},{y3}};
+        compare100(chip100Location);
+       }
+     
+       else if( Player.currency < 100) 
+             {
+                 JOptionPane.showMessageDialog(null, "Insufficient Funds", " ", JOptionPane.OK_OPTION);
+             } 
+     
     }//GEN-LAST:event_jButton14MouseReleased
+public static void compare100(int a[][])
+      {
+    for(int i = 0;i<a.length;i++)
+        {
+            for(int j = 0;j<a.length;j++)
+                System.out.println(a[i][j]);
+        }
+    System.out.println();
+       }
+
+
 //Wheel Spin
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         Random wheelSpin = new Random();
         int winNum = wheelSpin.nextInt(37); //Winning Number
-        //0 is 00, 1 is 0, 37
         System.out.println(winNum);
         String winNum2 = Integer.toString(winNum); //String sent to text field
         jTextField2.setText(winNum2);
