@@ -534,11 +534,166 @@ public static void compare100(int a[][])
 //Wheel Spin
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        int colorVal; // 0 is Red, 1 is Black, 2 is Green(No Color)
+        int EvenOrOdd; // 0 is Even, 1 is Odd
+        int ThirdVal;// 0 is 1-12, 1 is 13-24 , 2 is 25-36
+        
         Random wheelSpin = new Random();
         int winNum = wheelSpin.nextInt(37); //Winning Number
         System.out.println(winNum);
         String winNum2 = Integer.toString(winNum); //String sent to text field
         jTextField2.setText(winNum2);
+        
+        switch ( winNum)
+        {
+        case 0: colorVal = 2;
+            break;
+        case 1: colorVal = 0; //red
+                EvenOrOdd = 1; //odd
+                ThirdVal = 0; //first third
+            break;
+        case 2: colorVal = 1;
+                EvenOrOdd = 0;
+                ThirdVal = 0;
+            break;
+        case 3: colorVal = 0;
+                EvenOrOdd = 1;
+                ThirdVal = 0;
+            break;
+        case 4: colorVal = 1;
+                EvenOrOdd = 0;
+                ThirdVal = 0;
+            break;
+        case 5: colorVal = 0;
+                EvenOrOdd = 1;
+                ThirdVal = 0;
+            break;
+        case 6: colorVal = 1;
+                EvenOrOdd = 0;
+                ThirdVal = 0;
+            break;
+        case 7: colorVal = 0;
+                EvenOrOdd = 1;
+                ThirdVal = 0;
+            break;
+        case 8: colorVal = 1;
+                EvenOrOdd = 0;
+                ThirdVal = 0;
+            break;   
+        case 9: colorVal = 0;
+                EvenOrOdd = 1;
+                ThirdVal = 0;
+            break;
+         case 10:colorVal = 0;
+                EvenOrOdd = 1;
+                ThirdVal = 0;
+            break;
+         case 11: colorVal = 1;
+                EvenOrOdd = 1;
+                ThirdVal = 0;
+            break;
+         case 12: colorVal = 0;
+                EvenOrOdd = 0;
+                ThirdVal = 0;
+            break;
+         case 13: colorVal = 1;
+                EvenOrOdd = 1;
+                ThirdVal = 1;
+            break;
+         case 14: colorVal = 0;
+                EvenOrOdd = 0;
+                ThirdVal = 1;
+            break;
+         case 15: colorVal = 1;
+                EvenOrOdd = 1;
+                ThirdVal = 1;
+            break;
+         case 16: colorVal = 0;
+                EvenOrOdd = 0;
+                ThirdVal = 1;
+            break;
+         case 17: colorVal = 1;
+                EvenOrOdd = 1;
+                ThirdVal = 1;
+            break;
+         case 18: colorVal = 0;
+                EvenOrOdd = 0;
+                ThirdVal = 1;
+            break;
+         case 19: colorVal = 0;
+                EvenOrOdd = 1;
+                ThirdVal = 1;
+            break;
+         case 20: colorVal = 1;
+                EvenOrOdd = 0;
+                ThirdVal = 1;
+            break;
+         case 21: colorVal = 0;
+                EvenOrOdd = 1;
+                ThirdVal = 1;
+            break;
+         case 22: colorVal = 1;
+                EvenOrOdd = 0;
+                ThirdVal = 1;
+             break;
+         case 23: colorVal = 0;
+                EvenOrOdd = 1;
+                ThirdVal = 1;
+            break;
+         case 24: colorVal = 1;
+                EvenOrOdd = 0;
+                ThirdVal = 1;
+            break;
+         case 25: colorVal = 0;
+                  EvenOrOdd = 1;
+                  ThirdVal = 2;
+            break;
+         case 26: colorVal = 1;
+                  EvenOrOdd = 0;
+                  ThirdVal = 2;
+            break;
+         case 27: colorVal = 0;
+                  EvenOrOdd = 1;
+                  ThirdVal = 2;
+            break;
+        case 28: colorVal = 1;
+                  EvenOrOdd = 0;
+                  ThirdVal = 2;
+            break;
+         case 29: colorVal = 1;
+                  EvenOrOdd = 1;
+                  ThirdVal = 2;
+            break;
+         case 30: colorVal = 0;
+                  EvenOrOdd = 0;
+                  ThirdVal = 2;
+            break;
+         case 31: colorVal = 1;
+                  EvenOrOdd = 1;
+                  ThirdVal = 2;
+            break;
+         case 32: colorVal = 0;
+                  EvenOrOdd = 0;
+                  ThirdVal = 2;
+            break;
+         case 33: colorVal = 1;
+                  EvenOrOdd = 1;
+                  ThirdVal = 2;
+            break;
+         case 34: colorVal = 0;
+                  EvenOrOdd = 0;
+                  ThirdVal = 2;
+            break;
+         case 35: colorVal = 1;
+                  EvenOrOdd = 1;
+                  ThirdVal = 2;
+            break;
+         case 36: colorVal = 0;
+                  EvenOrOdd = 0;
+                  ThirdVal = 2;
+            break;
+        }
+        System.out.println(colorVal);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
@@ -574,7 +729,6 @@ public static void compare100(int a[][])
 
         /* Create and display the form */
        
-         int Balance = 10000;
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
