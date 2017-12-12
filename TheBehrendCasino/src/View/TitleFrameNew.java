@@ -123,7 +123,7 @@ public class TitleFrameNew extends javax.swing.JFrame {
                     Desktop.getDesktop().open(myFile1);
                     Desktop.getDesktop().open(myFile2);
                 } catch (IOException ex) {
-                    Logger.getLogger(TitleFrameNew.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("Sorry, we couldn't open the files.");
                 }
             }
         }
