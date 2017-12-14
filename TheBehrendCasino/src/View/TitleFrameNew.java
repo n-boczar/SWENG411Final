@@ -44,8 +44,7 @@ public class TitleFrameNew extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(GameSelectionFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        ImageIcon i = new ImageIcon(new File("AceIcon.png"));
-        //JLabel aceImg = new JLabel(new File("AceIcon.png"));
+       
     }
 
     /**
@@ -128,7 +127,7 @@ public class TitleFrameNew extends javax.swing.JFrame {
             }
         }
         else if(n == 1){
-            //HelpScreen help = new HelpScreen();
+            
             HelpScreen.main(null);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
