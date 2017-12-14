@@ -25,6 +25,7 @@ public class Card implements Comparable<Card>{
     private int value;
     private BufferedImage img;
     
+    //Card constructor, to take in all basic card identity features, including IMAGE
     public Card(String face, String suit, int value, BufferedImage img){
         this.face = face;
         this.suit = suit;
@@ -62,6 +63,7 @@ public class Card implements Comparable<Card>{
         return value - other.getCardValue();
    } 
     
+    //This returns a "face-down" card image, to use when you want to conceal card identity
     public static BufferedImage getFlippedCardImage() throws IOException{
         final int width = 79;
         final int height = 123;

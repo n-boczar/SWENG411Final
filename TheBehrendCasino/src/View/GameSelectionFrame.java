@@ -24,11 +24,10 @@ import javax.swing.JLabel;
  */
 public class GameSelectionFrame extends javax.swing.JFrame {
     
-    static Player player;
+    static Player player;   //Player object
     
     public static void startIt(Player p) {
         player = p;
-        //System.out.println(Player.getCurrency());
         GameSelectionFrame.main(null);
     }
     /**
@@ -38,6 +37,7 @@ public class GameSelectionFrame extends javax.swing.JFrame {
         initComponents();
     }
 
+    //Paint the graphics, making sure to add the Ace image and display the user's currency
     public void paint(Graphics g){
         super.paint(g);
         BufferedImage bi = null;
@@ -50,8 +50,6 @@ public class GameSelectionFrame extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(GameSelectionFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        ImageIcon i = new ImageIcon(new File("AceIcon.png"));
-        //JLabel aceImg = new JLabel(new File("AceIcon.png"));
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -175,7 +173,7 @@ public class GameSelectionFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
+        //If user chooses blackjack, run blackjack start method
         try {
             BlackJackFrame.startIt(player, true);
         } catch (IOException ex) {
@@ -186,18 +184,20 @@ public class GameSelectionFrame extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        //If user choose 5 card, run 5card start method
        FCPokerFrame.startIt(player, true);
        this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        //If user chooses texas, run texas start method
         TexasHoldemFrame.startIt(player, true);
         this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         try {
-            // TODO add your handling code here:
+            // If user chooses roulette, run roulette start method
             RouletteFrame.startIt(player, true);
         } catch (IOException ex) {
             Logger.getLogger(GameSelectionFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -205,9 +205,7 @@ public class GameSelectionFrame extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton6ActionPerformed
 
-//    public static void setCurrency(String s){
-//        System.out.println(s);
-//    }
+
     /**
      * @param args the command line arguments
      */

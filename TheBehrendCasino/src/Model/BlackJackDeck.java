@@ -25,26 +25,33 @@ public class BlackJackDeck extends Deck {
     private Card[] deck;
     private int cardNow;    //upcoming card in deck
     
+    //Constructor
     public BlackJackDeck() throws IOException{
-        String[] cards = {"Ace","2","3","4","5","6","7","8","9","10","Jack","Queen","King"};
-        String[] suits = {"Clubs","Diamonds","Hearts","Spades"};
+        String[] cards = {"Ace","2","3","4","5","6","7","8","9","10","Jack","Queen","King"};    //All card ranks
+        String[] suits = {"Clubs","Diamonds","Hearts","Spades"};    //All card suits
         
-        deck = new Card[52];
-        cardNow = 0;
+        deck = new Card[52];    //The deck is an array of 52 cards
+        cardNow = 0;    //Start on the zero'th card
         
+        //WIDTH and HEIGHT below are concrete/final dimensions of the actual pixel image
         final int width = 79;
         final int height = 123;
+        //In the master image, CardSet.png, there are 4 rows and 13 columns
         final int rows = 4;
         final int cols = 13;
         
+        //Read in master image (This image has all cards -- we take subimage from this to get each card face).
         BufferedImage master = ImageIO.read(new File("CardSet.png"));
         BufferedImage temp;
         
+        //Extract card image by row and column
         for(int i = 0; i < 4; i++){ 
             for(int j = 0; j < 13; j++){
                 //extract
                 temp = master.getSubimage(j*width, i*height, width, height);
                 deck[j + i*13] = new Card(suits[i], cards[j], j+1, temp);
+                //The statement below is checking for if the card is a face card
+                //Since in BlackJack, face cards are worth 10, we must be sure to set this
                 if(deck[j+ i*13].toString().contains("Jack") || deck[j+ i*13].toString().contains("Queen") || deck[j+ i*13].toString().contains("King"))
                 {
                     deck[j + i*13] = new Card(cards[j], suits[i], 10, temp);
@@ -56,6 +63,8 @@ public class BlackJackDeck extends Deck {
         }
     }
     
+    //This method prints the entire deck
+    //This is mainly used for testing
     public void showDeck(){
         for(Card card : deck){
             System.out.println(card);
@@ -94,6 +103,7 @@ public class BlackJackDeck extends Deck {
         }
     }
     
+    //Returns a single card (ideally, this method should be called after shuffling)
     public Card deal(){
         if(cardNow < deck.length){
             return deck[cardNow++];
