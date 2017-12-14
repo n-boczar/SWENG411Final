@@ -29,10 +29,8 @@ import javax.swing.JPanel;
  * @author Natalie
  */
 public class CAssignFrameNew extends JPanel{
-    //The new assignment frame
     private static int currency;
     static boolean s = false;
-    //static int clickCount = 0;
     static JFrame f;
     
     Player p = new Player();
@@ -40,14 +38,12 @@ public class CAssignFrameNew extends JPanel{
     public static void main(String[] args){
 
         f = new JFrame();
-        //f.setBackground(Color.white);
         f.setResizable(false);
         f.setSize(600,500);
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         CAssignFrameNew spinWheel = new CAssignFrameNew();
-        //spinWheel.setBackground(Color.white);
         spinWheel.setLocation(0, 0);
         spinWheel.setSize(f.getWidth(), f.getHeight() - 80);
         
@@ -57,7 +53,7 @@ public class CAssignFrameNew extends JPanel{
         buttonBar.setSize(f.getWidth(), 100);
         
         JButton jb = new JButton("SPIN!");
-        jb.setLocation(buttonBar.getWidth()/2, buttonBar.getHeight()/2);
+        jb.setLocation(buttonBar.getWidth()/2, buttonBar.getHeight()/2); //Sets Spin Button in middle of Frame;
         
         buttonBar.add(jb);
         f.add(buttonBar);
@@ -77,16 +73,16 @@ public class CAssignFrameNew extends JPanel{
    int i = 0;
    Random r = new Random();
    
-   int spinUntil = 300 + r.nextInt(600);
+   int spinUntil = 300 + r.nextInt(600); //Base currency is 300, random amount is added between 0-600
    boolean startSpin = false;
     public void paint(Graphics g){
         BufferedImage wheel = loadImg("GrayWheel.png");
         Graphics2D g2d = (Graphics2D) g;
-        AffineTransform atNorm = AffineTransform.getTranslateInstance(300 - wheel.getWidth()/2, 100);
+        AffineTransform atNorm = AffineTransform.getTranslateInstance(300 - wheel.getWidth()/2, 100); 
         g2d.drawImage(wheel, atNorm, null);
         
         if(s == true){
-        AffineTransform at = AffineTransform.getTranslateInstance(300 - wheel.getWidth()/2, 100);
+        AffineTransform at = AffineTransform.getTranslateInstance(300 - wheel.getWidth()/2, 100);//Rotates the wheel
         at.rotate(Math.toRadians(i++), wheel.getWidth()/2, wheel.getHeight()/2);
 
         g2d.drawImage(wheel, at, null);
@@ -95,14 +91,14 @@ public class CAssignFrameNew extends JPanel{
             repaint();
         }
         if(i == spinUntil){
-            setCurrency(i);
+            setCurrency(i); 
         }
     }
 
-    public void setCurrency(int c){
-        currency = c;
+    public void setCurrency(int c){ //c is total from spinUntil + r.nextInt
+        currency = c;//Currency is now set.
         
-        Object[] options = {"Accept"};
+        Object[] options = {"Accept"}; 
         int n = JOptionPane.showOptionDialog(null,
         "You have " + currency + " chips to start",
         "Currency Assigned",
@@ -112,9 +108,8 @@ public class CAssignFrameNew extends JPanel{
         options,
         options[0]);
             f.dispose();
-            Player.setCurrency(currency);
+            Player.setCurrency(currency); //Currencey is now apart of the player class
             GameSelectionFrame.startIt(p);
-            //GameSelectionFrame.main(s);
     }
     
     public static int getCurrency(){

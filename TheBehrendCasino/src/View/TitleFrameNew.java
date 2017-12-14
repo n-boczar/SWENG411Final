@@ -120,8 +120,8 @@ public class TitleFrameNew extends javax.swing.JFrame {
                 try {
                     File myFile1 = new File("Specs1.pdf");
                     File myFile2 = new File("Specs2.pdf");
-                    Desktop.getDesktop().open(myFile1);
-                    Desktop.getDesktop().open(myFile2);
+                    Desktop.getDesktop().open(myFile1); //Opens myFile1
+                    Desktop.getDesktop().open(myFile2); //Opens myFile2
                 } catch (IOException ex) {
                     System.out.println("Sorry, we couldn't open the files.");
                 }
@@ -135,7 +135,7 @@ public class TitleFrameNew extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        CAssignFrameNew.main(null);
+        CAssignFrameNew.main(null); //Launches Coin Assingment Wheel
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

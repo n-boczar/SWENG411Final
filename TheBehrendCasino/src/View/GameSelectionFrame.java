@@ -5,6 +5,7 @@
  */
 package View;
 
+import finalproject.RoulletteWheel;
 import Model.Player;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
