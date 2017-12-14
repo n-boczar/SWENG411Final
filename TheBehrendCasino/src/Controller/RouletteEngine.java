@@ -14,8 +14,10 @@ import java.util.Vector;
  */
 public class RouletteEngine extends GameEngine {
 
-    int userWinnings = 0;
+    int userWinnings = 0;   //Initialize the user's winnings to be zero
     
+    //The method below checks every userPlacements element.  If it finds that the userPlacements element matches the winning pocket,
+    //then the userWinnings integer var will increase by the amount bet on that placement
     public int getWinner(Vector<Integer> userPlacements, Vector<Integer> userBets, int winningPocket){
         for(int i = 0; i < userPlacements.size(); i++){
             if(userPlacements.elementAt(i).equals((Integer) winningPocket)){
@@ -23,6 +25,6 @@ public class RouletteEngine extends GameEngine {
             }
         }
         
-        return userWinnings;
+        return userWinnings;    //Return to be displayed in frame
     }
 }

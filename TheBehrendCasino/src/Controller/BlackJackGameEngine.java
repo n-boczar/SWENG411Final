@@ -290,11 +290,11 @@ public class BlackJackGameEngine extends GameEngine {
         int playerAmount = 0;
         int dealerAmount = 0;
 
-        do {
+     //   do {
             // Add in dealt cards to hand vector
-            ge.dealInitialCards();
+       //     ge.dealInitialCards();
 
-            System.out.println("Player hand: ");
+        //    System.out.println("Player hand: ");
             //for (int i = 0; i < getPlayerHand.size(); i++) {
                 //System.out.println(playerHand.elementAt(i));
            // }
@@ -382,7 +382,7 @@ public class BlackJackGameEngine extends GameEngine {
             } else {
                 break;
             }*/
-        } while (gameChoice != 0);
+       // } while (gameChoice != 0);
         
         }
     }

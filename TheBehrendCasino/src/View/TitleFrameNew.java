@@ -32,19 +32,22 @@ public class TitleFrameNew extends javax.swing.JFrame {
         initComponents();
     }
     
+    //This paint() method will add the main title logo, stored as BCLogo.png
     public void paint(Graphics g){
-        super.paint(g);
-        BufferedImage bi = null;
+        super.paint(g); //Paint frame
+        BufferedImage bi = null;    //New BufferedImage
         try {
             bi = ImageIO.read(new File("BCLogo.png"));
             Icon i = new ImageIcon(bi);
             JLabel titleLogo = new JLabel("" , i , JLabel.CENTER);
             jPanel2.add(titleLogo, BorderLayout.CENTER);
-            //System.out.println("Showing Behrend Logo");
         } catch (IOException ex) {
             Logger.getLogger(GameSelectionFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+<<<<<<< HEAD
        
+=======
+>>>>>>> 7bf935668701207f24470a28eb1692d03f42f223
     }
 
     /**
@@ -102,6 +105,7 @@ public class TitleFrameNew extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //The method below handles the "Settings" button click event
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         Object[] options = {"View System Documentation","View Rules"};
@@ -127,19 +131,22 @@ public class TitleFrameNew extends javax.swing.JFrame {
             }
         }
         else if(n == 1){
+<<<<<<< HEAD
             
+=======
+>>>>>>> 7bf935668701207f24470a28eb1692d03f42f223
             HelpScreen.main(null);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        CAssignFrameNew.main(null); //Launches Coin Assingment Wheel
+        CAssignFrameNew.main(null); //Launches Chip Assignment Wheel
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+        System.exit(0);     //Exit game
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

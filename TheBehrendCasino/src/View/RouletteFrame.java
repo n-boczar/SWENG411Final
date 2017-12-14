@@ -21,19 +21,20 @@ import javax.swing.JOptionPane;
  */
 public class RouletteFrame extends javax.swing.JFrame {
 
+    //Variable to store the incoming Player obj, p
     public static Player p;
     
     /**
      * Creates new form RouletteFrame
      */
     public RouletteFrame() {
-        initComponents();
-        jLabel2.setText(String.valueOf(Player.currency));
+        initComponents();   //Configure all components of frame
+        jLabel2.setText(String.valueOf(Player.currency));   //Set the currency label to show the player's currency
     }
     
     public static void startIt(Player player, boolean x) throws IOException {
-        RouletteFrame.main(null);
-        p = player;
+        RouletteFrame.main(null);   //Run the main method
+        p = player; //Store in variable p
     }
 
     /**
@@ -658,14 +659,14 @@ public class RouletteFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_textField1ActionPerformed
     
-    int userValue;
-    int totalWager = 0;
-    Vector<Integer> userBets = new Vector<Integer>();
-    Vector<Integer> userPlacements = new Vector<Integer>();
+    int userValue;  //The value selected as bet amount
+    int totalWager = 0; //The total amount the user has wagered this round (on all pockets together)
+    Vector<Integer> userBets = new Vector<Integer>();   //Vector to store every user bet made
+    Vector<Integer> userPlacements = new Vector<Integer>(); //Vector to store every user pocket selection
     
     private void button17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button17ActionPerformed
         // TODO add your handling code here:
-        userValue = 5;
+        userValue = 5;  //User clicked 5 button, so set value to 5
     }//GEN-LAST:event_button17ActionPerformed
 
     private void button16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button16ActionPerformed
@@ -688,6 +689,14 @@ public class RouletteFrame extends javax.swing.JFrame {
         userValue = 100;
     }//GEN-LAST:event_button19ActionPerformed
 
+    /*  In each buttonXActionPerformed() method below,
+        the system first checks that the user has selected a bet amount (userValue).
+        Then, it checks that the user's currency exceeds the smallest possible bet amount (ensuring they can play).
+        If both conditions are met, then the system adds the pocket choice and bet to respective vectors.
+        The totalWager variable is incremented by the userValue bet amount
+        The currency label is updated to reflect the bet.
+        Finally the pocket clicked is grayed out to signal that it has already been selected.
+    */
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
         // TODO add your handling code here:
         if(userValue > 0){
@@ -1352,24 +1361,25 @@ public class RouletteFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_button69ActionPerformed
 
-    int winningPocket;
-    int userWinnings = 0;
+    int winningPocket;  //To hold the randomly-generated winning value
+    int userWinnings = 0;   //The amount the user wins (0 for now)
     private void button15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button15ActionPerformed
         // TODO add your handling code here:
-        Player.currency -= totalWager;
-        SecureRandom r = new SecureRandom();
-        winningPocket = r.nextInt(37);
-        textField1.setText(String.valueOf(winningPocket));
-        RouletteEngine re = new RouletteEngine();
-        userWinnings = re.getWinner(userPlacements, userBets, winningPocket);
-        Player.currency += userWinnings;
-        if(userWinnings > 0){
+        Player.currency -= totalWager;  //Subtract the total wager from the player's currency
+        SecureRandom r = new SecureRandom();    //New random object
+        winningPocket = r.nextInt(37);  //Generate new random integer from 0 to 36; assign to winningPocket
+        textField1.setText(String.valueOf(winningPocket));  //Update textbox to show winningPocket
+        RouletteEngine re = new RouletteEngine();   //Instantiate new RouletteEngine
+        userWinnings = re.getWinner(userPlacements, userBets, winningPocket);   //Utilize getWinner() method and return the win amount
+        Player.currency += userWinnings;    //Add the won amount to player's static currency
+        if(userWinnings > 0){   //If the user won, notify a win.  If lost, notify a loss
             JOptionPane.showMessageDialog(null, "You won!");
         } else {
             JOptionPane.showMessageDialog(null, "Sorry, you lost.");
         }
-        textField1.setText("");
+        textField1.setText(""); //Clear winning number field
         
+        //Reset all buttons to original background colors
         button1.setBackground(new Color(0,102,0));
         button2.setBackground(new Color(255,0,0));
         button3.setBackground(new Color(0,0,0));
@@ -1411,6 +1421,10 @@ public class RouletteFrame extends javax.swing.JFrame {
         button67.setBackground(new Color(0,0,0));
         button68.setBackground(new Color(0,0,0));
         button69.setBackground(new Color(255,0,0));
+        
+        //Clear both vectors for next round to ensue
+        userPlacements.clear();
+        userBets.clear();
     }//GEN-LAST:event_button15ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed

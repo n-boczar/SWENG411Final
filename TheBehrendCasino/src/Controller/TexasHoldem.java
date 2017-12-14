@@ -751,21 +751,21 @@ public class TexasHoldem extends GameEngine {
         // Safety to handle when all players have high card and the user and some other ai have the same one, favor goes to player
         //if ((playerScore == AI_1Score) && (playerScore == AI_2Score) && (playerScore == AI_3Score)) {
         if (playerScore == 1 && AI_1Score == 1 && AI_2Score == 1 && AI_3Score == 1) {
-            if (playerHC >= AI_1HC && playerHC >= AI_2HC && playerHC >= AI_3HC) {
+            if (playerHC >= AI_1HC && playerHC >= AI_2HC && playerHC >= AI_3HC && p.active) {
                 gamePlayerThatWon = 0;
             }
-            if (AI_1HC >= playerHC && AI_1HC >= AI_2HC && AI_1HC >= AI_3HC) {
+            if (AI_1HC >= playerHC && AI_1HC >= AI_2HC && AI_1HC >= AI_3HC && ai1.active) {
                 gamePlayerThatWon = 1;
             }
-            if (AI_2HC >= playerHC && AI_2HC >= AI_1HC && AI_2HC >= AI_3HC) {
+            if (AI_2HC >= playerHC && AI_2HC >= AI_1HC && AI_2HC >= AI_3HC && ai2.active) {
                 gamePlayerThatWon = 2;
             }
-            if (AI_3HC >= playerHC && AI_3HC >= AI_1HC && AI_3HC >= AI_2HC) {
+            if (AI_3HC >= playerHC && AI_3HC >= AI_1HC && AI_3HC >= AI_2HC && ai3.active) {
                 gamePlayerThatWon = 3;
             }
         }
 
-        if ((AI_1Score >= playerScore) && (AI_1Score >= AI_2Score) && (AI_1Score >= AI_3Score)) {
+        if ((AI_1Score >= playerScore) && (AI_1Score >= AI_2Score) && (AI_1Score >= AI_3Score)&& ai1.active) {
             gamePlayerThatWon = 1;
             ai1.setCurrency(ai1.getCurrency() + pot);
             pot = 0;
@@ -793,7 +793,7 @@ public class TexasHoldem extends GameEngine {
 
         }
 
-        if ((AI_2Score >= playerScore) && (AI_2Score >= AI_1Score) && (AI_2Score >= AI_3Score)) {
+        if ((AI_2Score >= playerScore) && (AI_2Score >= AI_1Score) && (AI_2Score >= AI_3Score)&& ai2.active) {
             gamePlayerThatWon = 2;
             ai2.setCurrency(ai2.getCurrency() + pot);
             pot = 0;
@@ -821,7 +821,7 @@ public class TexasHoldem extends GameEngine {
 
         }
 
-        if ((AI_3Score >= playerScore) && (AI_3Score >= AI_2Score) && (AI_3Score >= AI_1Score)) {
+        if ((AI_3Score >= playerScore) && (AI_3Score >= AI_2Score) && (AI_3Score >= AI_1Score)&& ai3.active) {
             gamePlayerThatWon = 3;
             ai3.setCurrency(ai3.getCurrency() + pot);
             pot = 0;
@@ -848,7 +848,7 @@ public class TexasHoldem extends GameEngine {
             }
 
         }
-        if ((playerScore >= AI_1Score) && (playerScore >= AI_2Score) && (playerScore >= AI_3Score)) {
+        if ((playerScore >= AI_1Score) && (playerScore >= AI_2Score) && (playerScore >= AI_3Score)&& p.active) {
             gamePlayerThatWon = 0;
             Player.currency = (Player.currency + pot);
             pot = 0;
@@ -988,6 +988,7 @@ public class TexasHoldem extends GameEngine {
         }
 
         // Sorts current hand by implementing comparable
+        //Trying to Push
         Arrays.sort(objArray, byValue);
 
         int noOfRepeats = 0;
@@ -1010,32 +1011,12 @@ public class TexasHoldem extends GameEngine {
 
                     }
                 }
-            } else {
+            }else{
                 noOfRepeats = 0;
-            }            
-        }
-        for (int i = objArray.length-1; objArray.length != 0; i++) {
-            if (objArray[i].getCardValue() == objArray[i + 1].getCardValue()) {
-                noOfRepeats++;
-                if (noOfRepeats == 2) {
-                    isThreeOfAKind = true;
-                    noOfRepeats = 0;
-                    for (int x = i; x < objArray.length - 1; x++) {
-                        if (objArray[x].getCardValue() == objArray[x + 1].getCardValue()) {
-                            noOfRepeats++;
-                            if (noOfRepeats == 2) {
-                                isTwoOfAKind = true;
-                                noOfRepeats = 0;
-                            }
-                        }
-
-                    }
-                }
-            } else {
-                noOfRepeats = 0;
-            }            
+            }
         }
         return (isTwoOfAKind && isThreeOfAKind);
+
     }
 
     /**
@@ -1145,34 +1126,42 @@ public class TexasHoldem extends GameEngine {
      * @return
      */
     public boolean isATwoPair(Vector<Card> checkedHand) {
-
-        int cardRepeats = 1;
-        int noOfCardRepeats = 0;
+        //int cardRepeats = 1;
+        //int noOfCardRepeats = 0;
         boolean isTwoPair = false;
-        int i = 0;
-        int k = i + 1;
+        //int i;
+        //int k;
+        
+        //for(i = 0; i < checkedHand.size() && )
+        /*
         while (i < checkedHand.size() && !isTwoPair) {
             cardRepeats = 1;
+            // k = i + 1;
             while (k < checkedHand.size() && !isTwoPair) {
-                if (checkedHand.elementAt(i).getCardValue() == checkedHand.elementAt(k).getCardValue()) {
-                    cardRepeats++;
-                    if (cardRepeats == 2) {
-                        cardRepeats = 1;
-                        noOfCardRepeats++;
-                        if (noOfCardRepeats == 2) {
-                            isTwoPair = true;
+                if(i!=k){
+                    if (checkedHand.elementAt(i).getCardValue() == checkedHand.elementAt(k).getCardValue()) {
+                        cardRepeats++;
+                        if (cardRepeats == 2) {
+                            cardRepeats = 1;
+                            noOfCardRepeats++;
+                            if (noOfCardRepeats == 2) {
+                                isTwoPair = true;
 
+                            }
                         }
-                    }
 
+                    }
                 }
-                k++;
+            k++;
             }
             i++;
-            k=0;
-        }
+            k = 0;
+            
+        }    
+        */
         return isTwoPair;
     }
+    
 
     /**
      * Check for one pair

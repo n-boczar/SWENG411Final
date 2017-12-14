@@ -29,14 +29,16 @@ import javax.swing.JPanel;
  * @author Natalie
  */
 public class CAssignFrameNew extends JPanel{
+    //Static variables for use throughout class
     private static int currency;
     static boolean s = false;
     static JFrame f;
     
-    Player p = new Player();
+    Player p = new Player();    //Instantiate new player object
     
     public static void main(String[] args){
 
+        //Manually create a new JFrame and various components within it/
         f = new JFrame();
         f.setResizable(false);
         f.setSize(600,500);
@@ -61,6 +63,7 @@ public class CAssignFrameNew extends JPanel{
         
         f.setSize(f.getWidth()+1, f.getHeight()+1);
    
+        //If spin button is clicked...
         jb.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
                 s = true;
@@ -116,6 +119,7 @@ public class CAssignFrameNew extends JPanel{
         return currency;
     }
     
+    //Load image method used to take in the image file
     public BufferedImage loadImg(String fileName){
         BufferedImage img = null;
         
