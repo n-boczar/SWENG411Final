@@ -44,10 +44,7 @@ public class TitleFrameNew extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(GameSelectionFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-<<<<<<< HEAD
-       
-=======
->>>>>>> 7bf935668701207f24470a28eb1692d03f42f223
+
     }
 
     /**
@@ -131,11 +128,7 @@ public class TitleFrameNew extends javax.swing.JFrame {
             }
         }
         else if(n == 1){
-<<<<<<< HEAD
-            
-=======
->>>>>>> 7bf935668701207f24470a28eb1692d03f42f223
-            HelpScreen.main(null);
+
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 

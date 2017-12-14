@@ -749,23 +749,6 @@ public class TexasHoldem extends GameEngine {
             AI_3Score = 0;
         }
 
-        // Safety to handle when all players have high card and the user and some other ai have the same one, favor goes to player
-        //if ((playerScore == AI_1Score) && (playerScore == AI_2Score) && (playerScore == AI_3Score)) {
-        if (playerScore == 1 && AI_1Score == 1 && AI_2Score == 1 && AI_3Score == 1) {
-            if (playerHC >= AI_1HC && playerHC >= AI_2HC && playerHC >= AI_3HC && p.active) {
-                gamePlayerThatWon = 0;
-            }
-            if (AI_1HC >= playerHC && AI_1HC >= AI_2HC && AI_1HC >= AI_3HC && ai1.active) {
-                gamePlayerThatWon = 1;
-            }
-            if (AI_2HC >= playerHC && AI_2HC >= AI_1HC && AI_2HC >= AI_3HC && ai2.active) {
-                gamePlayerThatWon = 2;
-            }
-            if (AI_3HC >= playerHC && AI_3HC >= AI_1HC && AI_3HC >= AI_2HC && ai3.active) {
-                gamePlayerThatWon = 3;
-            }
-        }
-
         if ((playerScore >= AI_1Score) && (playerScore >= AI_2Score) && (playerScore >= AI_3Score) && p.active) {
             gamePlayerThatWon = 0;
             Player.currency = (Player.currency + pot);
@@ -876,9 +859,27 @@ public class TexasHoldem extends GameEngine {
             }
 
         }
+        
+        // Safety to handle when all players have high card and the user and some other ai have the same one, favor goes to player
+        //if ((playerScore == AI_1Score) && (playerScore == AI_2Score) && (playerScore == AI_3Score)) {
+        if (playerScore == 1 && AI_1Score == 1 && AI_2Score == 1 && AI_3Score == 1) {
+            if (playerHC >= AI_1HC && playerHC >= AI_2HC && playerHC >= AI_3HC && p.active) {
+                gamePlayerThatWon = 0;
+            }
+            if (AI_1HC >= playerHC && AI_1HC >= AI_2HC && AI_1HC >= AI_3HC && ai1.active) {
+                gamePlayerThatWon = 1;
+            }
+            if (AI_2HC >= playerHC && AI_2HC >= AI_1HC && AI_2HC >= AI_3HC && ai2.active) {
+                gamePlayerThatWon = 2;
+            }
+            if (AI_3HC >= playerHC && AI_3HC >= AI_1HC && AI_3HC >= AI_2HC && ai3.active) {
+                gamePlayerThatWon = 3;
+            }
+        }
 
         return gamePlayerThatWon;
     }
+    
 
     /**
      * Function: COMPARATOR Compare two cards
