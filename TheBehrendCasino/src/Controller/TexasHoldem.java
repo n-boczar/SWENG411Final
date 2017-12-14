@@ -598,23 +598,21 @@ public class TexasHoldem extends GameEngine {
         for (int i = 0; i < tempPlayerHand.size(); i++) {
             System.out.println(tempPlayerHand.elementAt(i).getCardSuit() + " of " + tempPlayerHand.elementAt(i).getCardFace());
         }
-        
+
         System.out.println("AI1 Compare Hand: ");
         for (int i = 0; i < tempAI_1Hand.size(); i++) {
             System.out.println(tempAI_1Hand.elementAt(i).getCardSuit() + " of " + tempAI_1Hand.elementAt(i).getCardFace());
         }
-        
+
         System.out.println("AI1 Compare Hand: ");
         for (int i = 0; i < tempAI_2Hand.size(); i++) {
             System.out.println(tempAI_2Hand.elementAt(i).getCardSuit() + " of " + tempAI_2Hand.elementAt(i).getCardFace());
         }
-        
+
         System.out.println("AI1 Compare Hand: ");
         for (int i = 0; i < tempAI_3Hand.size(); i++) {
             System.out.println(tempAI_3Hand.elementAt(i).getCardSuit() + " of " + tempAI_3Hand.elementAt(i).getCardFace());
         }
-        
-        
 
         // Declare variables for each player to hold scores
         int playerScore = 0;
@@ -662,6 +660,7 @@ public class TexasHoldem extends GameEngine {
         }
 
         if (ai1.active) {
+            AI_1HC = isAHighCard(OrigAI_1Hand);
             // ANALYSE AI_1 HAND
             if (isARoyalFlush(tempAI_1Hand)) {
                 AI_1Score = 10;
@@ -691,6 +690,7 @@ public class TexasHoldem extends GameEngine {
         }
 
         if (ai2.active) {
+            AI_2HC = isAHighCard(OrigAI_2Hand);
             // ANALYSE AI_2 HAND
             if (isARoyalFlush(tempAI_2Hand)) {
                 AI_2Score = 10;
@@ -721,6 +721,7 @@ public class TexasHoldem extends GameEngine {
 
         if (ai3.active) {
             // ANALYSE AI_3 HAND
+            AI_3HC = isAHighCard(OrigAI_3Hand);
             if (isARoyalFlush(tempAI_3Hand)) {
                 AI_3Score = 10;
             } else if (isAStraightFlush(tempAI_3Hand)) {
@@ -765,7 +766,34 @@ public class TexasHoldem extends GameEngine {
             }
         }
 
-        if ((AI_1Score >= playerScore) && (AI_1Score >= AI_2Score) && (AI_1Score >= AI_3Score)&& ai1.active) {
+        if ((playerScore >= AI_1Score) && (playerScore >= AI_2Score) && (playerScore >= AI_3Score) && p.active) {
+            gamePlayerThatWon = 0;
+            Player.currency = (Player.currency + pot);
+            pot = 0;
+            if (playerScore == 1) {
+                winningHand = "High Card!";
+            } else if (playerScore == 2) {
+                winningHand = "Pair!";
+            } else if (playerScore == 3) {
+                winningHand = "Two Pair!";
+            } else if (playerScore == 4) {
+                winningHand = "Three of a Kind!";
+            } else if (playerScore == 5) {
+                winningHand = "Straight!";
+            } else if (playerScore == 6) {
+                winningHand = "Flush!";
+            } else if (playerScore == 7) {
+                winningHand = "Full House!";
+            } else if (playerScore == 8) {
+                winningHand = "Four of a Kind!";
+            } else if (playerScore == 9) {
+                winningHand = "Straight Flush!";
+            } else if (playerScore == 10) {
+                winningHand = "Royal Flush!";
+            }
+        }
+
+        if ((AI_1Score > playerScore) && (AI_1Score > AI_2Score) && (AI_1Score > AI_3Score) && ai1.active) {
             gamePlayerThatWon = 1;
             ai1.setCurrency(ai1.getCurrency() + pot);
             pot = 0;
@@ -793,7 +821,7 @@ public class TexasHoldem extends GameEngine {
 
         }
 
-        if ((AI_2Score >= playerScore) && (AI_2Score >= AI_1Score) && (AI_2Score >= AI_3Score)&& ai2.active) {
+        if ((AI_2Score > playerScore) && (AI_2Score >= AI_1Score) && (AI_2Score > AI_3Score) && ai2.active) {
             gamePlayerThatWon = 2;
             ai2.setCurrency(ai2.getCurrency() + pot);
             pot = 0;
@@ -821,7 +849,7 @@ public class TexasHoldem extends GameEngine {
 
         }
 
-        if ((AI_3Score >= playerScore) && (AI_3Score >= AI_2Score) && (AI_3Score >= AI_1Score)&& ai3.active) {
+        if ((AI_3Score > playerScore) && (AI_3Score >= AI_2Score) && (AI_3Score > AI_1Score) && ai3.active) {
             gamePlayerThatWon = 3;
             ai3.setCurrency(ai3.getCurrency() + pot);
             pot = 0;
@@ -848,32 +876,7 @@ public class TexasHoldem extends GameEngine {
             }
 
         }
-        if ((playerScore >= AI_1Score) && (playerScore >= AI_2Score) && (playerScore >= AI_3Score)&& p.active) {
-            gamePlayerThatWon = 0;
-            Player.currency = (Player.currency + pot);
-            pot = 0;
-            if (playerScore == 1) {
-                winningHand = "High Card!";
-            } else if (playerScore == 2) {
-                winningHand = "Pair!";
-            } else if (playerScore == 3) {
-                winningHand = "Two Pair!";
-            } else if (playerScore == 4) {
-                winningHand = "Three of a Kind!";
-            } else if (playerScore == 5) {
-                winningHand = "Straight!";
-            } else if (playerScore == 6) {
-                winningHand = "Flush!";
-            } else if (playerScore == 7) {
-                winningHand = "Full House!";
-            } else if (playerScore == 8) {
-                winningHand = "Four of a Kind!";
-            } else if (playerScore == 9) {
-                winningHand = "Straight Flush!";
-            } else if (playerScore == 10) {
-                winningHand = "Royal Flush!";
-            }
-        }
+
         return gamePlayerThatWon;
     }
 
@@ -1011,7 +1014,7 @@ public class TexasHoldem extends GameEngine {
 
                     }
                 }
-            }else{
+            } else {
                 noOfRepeats = 0;
             }
         }
@@ -1131,7 +1134,7 @@ public class TexasHoldem extends GameEngine {
         boolean isTwoPair = false;
         //int i;
         //int k;
-        
+
         //for(i = 0; i < checkedHand.size() && )
         /*
         while (i < checkedHand.size() && !isTwoPair) {
@@ -1158,10 +1161,9 @@ public class TexasHoldem extends GameEngine {
             k = 0;
             
         }    
-        */
+         */
         return isTwoPair;
     }
-    
 
     /**
      * Check for one pair
