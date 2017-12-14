@@ -1241,7 +1241,7 @@ public Comparator<Card> byValue = (Card left, Card right) -> {
 
     // 8) Check for Two Pair
     public boolean isATwoPair(Vector<Card> checkedHand) {
-
+/*
         System.out.println("IN TWO PAIR");
         int cardRepeats = 1;
         int noOfCardRepeats = 0;
@@ -1271,6 +1271,9 @@ public Comparator<Card> byValue = (Card left, Card right) -> {
         }
         
         System.out.println("Two pair boolean: " + isTwoPair);
+        */
+        boolean isTwoPair = false;
+
         return isTwoPair;
     }
 
