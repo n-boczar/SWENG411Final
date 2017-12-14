@@ -1010,32 +1010,12 @@ public class TexasHoldem extends GameEngine {
 
                     }
                 }
-            } else {
+            }else{
                 noOfRepeats = 0;
-            }            
-        }
-        for (int i = objArray.length-1; objArray.length != 0; i++) {
-            if (objArray[i].getCardValue() == objArray[i + 1].getCardValue()) {
-                noOfRepeats++;
-                if (noOfRepeats == 2) {
-                    isThreeOfAKind = true;
-                    noOfRepeats = 0;
-                    for (int x = i; x < objArray.length - 1; x++) {
-                        if (objArray[x].getCardValue() == objArray[x + 1].getCardValue()) {
-                            noOfRepeats++;
-                            if (noOfRepeats == 2) {
-                                isTwoOfAKind = true;
-                                noOfRepeats = 0;
-                            }
-                        }
-
-                    }
-                }
-            } else {
-                noOfRepeats = 0;
-            }            
+            }
         }
         return (isTwoOfAKind && isThreeOfAKind);
+
     }
 
     /**
