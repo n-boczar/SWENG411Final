@@ -196,8 +196,12 @@ public class GameSelectionFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-        RoulletteWheel.startIt(player, true);
+        try {
+            // TODO add your handling code here:
+            RouletteFrame.startIt(player, true);
+        } catch (IOException ex) {
+            Logger.getLogger(GameSelectionFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.dispose();
     }//GEN-LAST:event_jButton6ActionPerformed
 
